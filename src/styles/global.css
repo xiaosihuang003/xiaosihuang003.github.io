@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 @layer base {
-  html { font-size: 19px; }
-  body { @apply leading-relaxed antialiased; }
-}
-
+    /* 用 clamp 让根字号随屏宽微调，既不会过大也不会过小 */
+    html { font-size: clamp(16px, 0.9vw + 14px, 18px); }
+    body { @apply leading-relaxed antialiased; }
+  }
+  
 /* ——— 语言字体栈（只在 <body> 上设置，避免覆盖冲突） ——— */
 
 /* 英文/芬兰/瑞典：拉丁字体 */
