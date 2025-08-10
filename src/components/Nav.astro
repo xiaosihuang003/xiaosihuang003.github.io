@@ -1,0 +1,41 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+const p = Astro.url.pathname || '/';
+const currentLang =
+  p.startsWith('/fi') ? 'fi' :
+  p.startsWith('/sv') ? 'sv' :
+  p.startsWith('/zh') ? 'zh' :
+  p.startsWith('/yue') ? 'yue' : 'en';
+const langHref = (code) => (code === 'en' ? '/' : `/${code}`);
+---
+
+<header class="sticky top-0 z-40 backdrop-blur bg-white/70 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800">
+  <div class="mx-auto max-w-screen-2xl px-8 h-16 flex items-center gap-6">
+    <!-- 左：品牌 -->
+    <a href="/" class="font-semibold tracking-tight text-lg">Xiaosi Huang</a>
+
+    <!-- 中：主导航 -->
+    <nav class="flex items-center gap-8 text-base">
+      {links.map((l) => <a class="hover:underline" href={l.href}>{l.label}</a>)}
+    </nav>
+
+    <!-- 右：语言切换（始终贴最右） -->
+    <div class="ml-auto flex items-center gap-2 text-base">
+      <a href={langHref('en')}  class={currentLang === 'en' ? 'font-semibold' : 'opacity-70 hover:opacity-100'}>🇬🇧 English</a>
+      <span class="opacity-50">/</span>
+      <a href={langHref('fi')}  class={currentLang === 'fi' ? 'font-semibold' : 'opacity-70 hover:opacity-100'}>🇫🇮 Suomi</a>
+      <span class="opacity-50">/</span>
+      <a href={langHref('sv')}  class={currentLang === 'sv' ? 'font-semibold' : 'opacity-70 hover:opacity-100'}>🇸🇪 Svenska</a>
+      <span class="opacity-50">/</span>
+      <a href={langHref('zh')}  class={currentLang === 'zh' ? 'font-semibold' : 'opacity-70 hover:opacity-100'}>🇨🇳 中文</a>
+      <span class="opacity-50">/</span>
+      <a href={langHref('yue')} class={currentLang === 'yue'? 'font-semibold' : 'opacity-70 hover:opacity-100'}>🇭🇰 Cantonese</a>
+    </div>
+  </div>
+</header>

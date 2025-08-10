@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://xiaosihuang003.github.io/sitemap-index.xml

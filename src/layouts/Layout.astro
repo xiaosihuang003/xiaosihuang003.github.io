@@ -1,22 +1,90 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import "../styles/global.css";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+const { title = "Xiaosi Huang · Portfolio", lang = "en" } = Astro.props;
+
+const p = Astro.url.pathname || "/";
+const currentLang =
+  p.startsWith("/fi")  ? "fi"  :
+  p.startsWith("/sv")  ? "sv"  :
+  p.startsWith("/zh")  ? "zh"  :
+  p.startsWith("/yue") ? "yue" : "en";
+
+const langHref = (code) => (code === "en" ? "/" : `/${code}`);
+
+const links = [
+  { href: "/",         label: "Home" },
+  { href: "/blog",     label: "Blog" },
+  { href: "/projects", label: "Projects" },
+  { href: "/about",    label: "About" },
+];
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <title>{title}</title>
+	<link rel="canonical" href={Astro.url.origin + Astro.url.pathname} />
+	<meta name="description" content="Tableau 可视化、仪表板设计、数据叙事与业务分析。精选项目、方法与笔记。" />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content="Tableau 可视化、仪表板设计、数据叙事与业务分析。" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content={Astro.url.origin + Astro.url.pathname} />
+	<meta property="og:image" content="/og-cover.png" />
+	<meta name="twitter:card" content="summary_large_image" />
+
+  </head>
+
+  <body class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
+    <header class="sticky top-0 z-40 backdrop-blur bg-white/70 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800">
+      <div class="mx-auto max-w-screen-2xl px-8 h-16 flex items-center gap-6">
+        <!-- EDIT: LOGO 左移/间距/字号 -->
+        <a
+          href="/"
+          class="-ml-3 sm:-ml-6 md:-ml-10 lg:-ml-[180px] mr-[24px] md:mr-[28px] lg:mr-[32px] font-extrabold tracking-tight text-2xl"
+        >
+          Xiaosi Huang
+        </a>
+
+        <!-- EDIT: 导航字号/整体左移 -->
+        <nav class="flex items-center gap-10 text-lg md:text-xl font-semibold -ml-[6px] md:-ml-[10px]">
+          {links.map((l) => (
+            <a href={l.href} class="opacity-80 hover:opacity-100 hover:underline underline-offset-4">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <!-- EDIT: 语言整体右移 贴得非常靠右，就把 lg:-mr-24 再加大到 -mr-28 / -mr-32-->
+        <div class="ml-auto -mr-[12px] sm:-mr-[16px] md:-mr-[24px] lg:-mr-[60px] xl:-mr-[64px] 2xl:-mr-[80px] flex items-center gap-2 text-[15px] md:text-base">
+          <a href={langHref("en")}  class={currentLang === "en"  ? "font-semibold" : "opacity-70 hover:opacity-100"}>🇬🇧 English</a>
+          <span class="opacity-40">/</span>
+          <a href={langHref("fi")}  class={currentLang === "fi"  ? "font-semibold" : "opacity-70 hover:opacity-100"}>🇫🇮 Suomi</a>
+          <span class="opacity-40">/</span>
+          <a href={langHref("sv")}  class={currentLang === "sv"  ? "font-semibold" : "opacity-70 hover:opacity-100"}>🇸🇪 Svenska</a>
+          <span class="opacity-40">/</span>
+          <a href={langHref("zh")}  class={currentLang === "zh"  ? "font-semibold" : "opacity-70 hover:opacity-100"}>🇨🇳 中文</a>
+          <span class="opacity-40">/</span>
+          <a href={langHref("yue")} class={currentLang === "yue" ? "font-semibold" : "opacity-70 hover:opacity-100"}>🇭🇰 Cantonese</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-screen-2xl px-8 py-12">
+      <slot />
+    </main>
+
+    <footer class="border-t border-zinc-200 dark:border-zinc-800 py-10">
+      <div class="mx-auto max-w-screen-2xl px-8 text-sm opacity-70">
+        © {new Date().getFullYear()} Xiaosi Huang. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>

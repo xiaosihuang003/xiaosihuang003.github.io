@@ -1,0 +1,8 @@
+---
+const { href = "#", variant = "primary" } = Astro.props;
+const base = "px-5 py-3 rounded-xl font-medium transition";
+const styles = variant === "primary"
+  ? "bg-sky-600 text-white hover:bg-sky-700"
+  : "border border-zinc-300 hover:bg-zinc-50";
+---
+<a href={href} class={`${base} ${styles}`}><slot /></a>
