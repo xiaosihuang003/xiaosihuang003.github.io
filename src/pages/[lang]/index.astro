@@ -1,0 +1,53 @@
+---
+// src/pages/[lang]/index.astro
+import Layout from "../../layouts/Layout.astro";
+import { dict, normalizeLang, languages } from "../../i18n";
+
+export const prerender = true;
+export function getStaticPaths() {
+  return languages.map((lang) => ({ params: { lang } }));
+}
+
+const lang = normalizeLang(Astro.params.lang as string);
+const t = dict[lang];
+---
+
+<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.home}`}>
+  <section class="pt-12 pb-20 md:pt-18 md:pb-24">
+    <div class="mx-auto max-w-screen-2xl px-8">
+      <p class="text-sm md:text-base uppercase tracking-widest text-zinc-500">DATA PORTFOLIO</p>
+
+      <h1 class="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight">
+        {t.home.titleA}<span class="text-sky-600">{t.home.titleB}</span>
+      </h1>
+
+      <p class="mt-6 max-w-2xl text-lg md:text-xl text-zinc-600">
+        {t.home.desc}
+      </p>
+
+      <div class="mt-8 flex gap-4">
+        <a href={lang === 'en' ? '/projects' : `/${lang}/projects`} class="px-5 py-3 rounded-xl bg-sky-600 text-white font-medium hover:bg-sky-700 transition">
+          {t.home.ctas.viewProjects}
+        </a>
+        <a href={lang === 'en' ? '/about' : `/${lang}/about`} class="px-5 py-3 rounded-xl border border-zinc-300 dark:border-zinc-700 font-medium hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">
+          {t.home.ctas.aboutMe}
+        </a>
+      </div>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
+          <h3 class="font-semibold">{t.home.cards.dashboards.title}</h3>
+          <p class="mt-2 text-sm opacity-70">{t.home.cards.dashboards.sub}</p>
+        </div>
+        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
+          <h3 class="font-semibold">{t.home.cards.storytelling.title}</h3>
+          <p class="mt-2 text-sm opacity-70">{t.home.cards.storytelling.sub}</p>
+        </div>
+        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
+          <h3 class="font-semibold">{t.home.cards.methods.title}</h3>
+          <p class="mt-2 text-sm opacity-70">{t.home.cards.methods.sub}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

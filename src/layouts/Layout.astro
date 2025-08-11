@@ -4,6 +4,24 @@ import "../styles/global.css";
 import Nav from "../components/Nav.astro";
 
 const { title = "Xiaosi Huang · Portfolio", lang = "en" } = Astro.props;
+
+// 当前路径 & 语言
+const path = Astro.url.pathname || "/";
+// 去掉语言前缀，得到“同一页面”的规范路径（例如 /fi/projects -> /projects）
+const normalized = (path.replace(/^\/(fi|sv|zh|yue)(?=\/|$)/, "") || "/") as string;
+
+// 站点语言
+const langs = ["en", "fi", "sv", "zh", "yue"] as const;
+
+// 生成各语言的同页 URL（英文无前缀，其他语言加 /code 前缀）
+const altUrl = (code: typeof langs[number]) =>
+  `${Astro.url.origin}${code === "en" ? "" : `/${code}`}${normalized === "/" ? "" : normalized}`;
+
+// hreflang 值（Cantonese 用 zh-HK 更符合搜索引擎习惯）
+const hreflang = (code: typeof langs[number]) => (code === "yue" ? "zh-HK" : code);
+
+// 当前页 canonical
+const canonical = `${Astro.url.origin}${path}`;
 ---
 
 <!doctype html>
@@ -15,19 +33,39 @@ const { title = "Xiaosi Huang · Portfolio", lang = "en" } = Astro.props;
     <!-- 字体（可按需保留/删除） -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <title>{title}</title>
 
+    <!-- Canonical -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- hreflang：同一页面的其它语言版本 -->
+    {
+      langs.map((code) => (
+        <link rel="alternate" hreflang={hreflang(code)} href={altUrl(code)} />
+      ))
+    }
+    <!-- x-default 指向英文 -->
+    <link rel="alternate" hreflang="x-default" href={altUrl("en")} />
+
     <!-- 基础 SEO -->
-    <link rel="canonical" href={Astro.url.origin + Astro.url.pathname} />
-    <meta name="description" content="Tableau 可视化、仪表板设计、数据叙事与业务分析。精选项目、方法与笔记。" />
+    <meta
+      name="description"
+      content="Tableau 可视化、仪表板设计、数据叙事与业务分析。精选项目、方法与笔记。"
+    />
 
     <!-- Open Graph / Twitter -->
     <meta property="og:title" content={title} />
-    <meta property="og:description" content="Tableau 可视化、仪表板设计、数据叙事与业务分析。" />
+    <meta
+      property="og:description"
+      content="Tableau 可视化、仪表板设计、数据叙事与业务分析。"
+    />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url.origin + Astro.url.pathname} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:image" content="/og-cover.png" />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
