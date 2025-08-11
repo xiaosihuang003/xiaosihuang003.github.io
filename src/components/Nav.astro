@@ -1,67 +1,41 @@
 ---
-// src/components/Nav.astro
+import { dict, normalizeLang, languages, langMeta } from "../i18n";
+
+const path = Astro.url.pathname || "/";
+const seg = path.split("/").filter(Boolean)[0] ?? "en";
+const currentLang = normalizeLang(seg);
+
+const t = dict[currentLang];
 
 const links = [
-  { href: '/',         label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/blog',     label: 'Blog' },
-  { href: '/about',    label: 'About' },
+  { href: `/${currentLang}`,           label: t.nav.home },
+  { href: `/${currentLang}/projects`,  label: t.nav.projects },
+  { href: `/${currentLang}/blog`,      label: t.nav.blog },
+  { href: `/${currentLang}/about`,     label: t.nav.about },
 ];
 
-// 识别当前路径与当前语言
-const path = Astro.url.pathname || '/';
-const SUPPORTED = new Set(['fi', 'sv', 'zh', 'yue']);
-
-const firstSeg = path.split('/')[1] || '';
-const currentLang = SUPPORTED.has(firstSeg) ? firstSeg : 'en';
-
-// 根据当前语言，为站内链接自动加前缀
-const withLang = (p: string) =>
-  currentLang === 'en' ? p : `/${currentLang}${p}`;
-
-// 高亮当前导航
-const isActive = (href: string) => {
-  const full = withLang(href);
-  return full === path || (full !== '/' && path.startsWith(full));
-};
-
-// 语言切换时，保留当前页面路径，只替换语言前缀
-const switchTo = (code: string) => {
-  if (code === currentLang) return path;
-  if (code === 'en') {
-    // 去掉现有的语言前缀
-    return SUPPORTED.has(firstSeg) ? path.replace(/^\/(fi|sv|zh|yue)(?=\/|$)/, '') || '/' : path;
-  }
-  // 其它语言：如果当前是 EN，加上前缀；否则替换前缀
-  if (currentLang === 'en') return `/${code}${path === '/' ? '' : path}`;
-  return path.replace(/^\/(fi|sv|zh|yue)(?=\/|$)/, `/${code}`);
-};
-
-const langShort = (code: string) =>
-  code === 'en' ? 'EN' : code === 'fi' ? 'FI' : code === 'sv' ? 'SV' : code === 'zh' ? '中文' : '粵語';
+const isActive = (href: string) => (path === href) || (href !== `/${currentLang}` && path.startsWith(href));
+const go = (code: string) => `/${code}`;
 ---
 
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-zinc-200 dark:bg-zinc-900/80 dark:border-zinc-800">
   <div class="mx-auto max-w-7xl h-16 px-4 md:px-8 flex items-center gap-4">
-    <!-- 品牌 -->
-    <a href={withLang('/')} class="shrink-0 font-extrabold tracking-tight text-[20px] md:text-[22px]">
+    <a href={`/${currentLang}`} class="shrink-0 font-extrabold tracking-tight text-[20px] md:text-[22px]">
       Xiaosi Huang
     </a>
 
-    <!-- 分隔线 -->
     <div class="hidden sm:block h-5 w-px bg-zinc-200 dark:bg-zinc-800"></div>
 
-    <!-- 主导航（桌面） -->
     <nav class="hidden sm:flex items-center gap-2 text-[15px] md:text-[16px] font-medium">
       {links.map((l) => (
         <a
-          href={withLang(l.href)}
-          aria-current={isActive(l.href) ? 'page' : undefined}
+          href={l.href}
+          aria-current={isActive(l.href) ? "page" : undefined}
           class={
             (isActive(l.href)
-              ? 'text-zinc-900 dark:text-zinc-100 bg-zinc-100/80 dark:bg-zinc-800'
-              : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white hover:bg-zinc-100/60 dark:hover:bg-zinc-800/70'
-            ) + ' px-3 py-1.5 rounded-lg transition'
+              ? "text-zinc-900 dark:text-zinc-100 bg-zinc-100/80 dark:bg-zinc-800"
+              : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white hover:bg-zinc-100/60 dark:hover:bg-zinc-800/70"
+            ) + " px-3 py-1.5 rounded-lg transition"
           }
         >
           {l.label}
@@ -69,53 +43,42 @@ const langShort = (code: string) =>
       ))}
     </nav>
 
-    <!-- 右侧占位，把语言推到最右 -->
     <div class="ml-auto"></div>
 
-    <!-- 语言：桌面下拉 -->
+    <!-- 语言下拉（桌面） -->
     <details class="relative hidden sm:block">
-      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-2 py-1.5 text-[14px] flex items-center gap-1">
-        🌐 {langShort(currentLang)}
+      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-3 py-1.5 text-[14px] flex items-center gap-2">
+        <span>{langMeta[currentLang].flag}</span>
+        <span class="font-medium">{langMeta[currentLang].badge}</span>
       </summary>
-      <ul class="absolute right-0 mt-2 w-44 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 space-y-1 z-50">
-        <li><a href={switchTo('en')}  class="block rounded-md px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇬🇧 English</a></li>
-        <li><a href={switchTo('fi')}  class="block rounded-md px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇫🇮 Suomi</a></li>
-        <li><a href={switchTo('sv')}  class="block rounded-md px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇸🇪 Svenska</a></li>
-        <li><a href={switchTo('zh')}  class="block rounded-md px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇨🇳 中文</a></li>
-        <li><a href={switchTo('yue')} class="block rounded-md px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇭🇰 Cantonese</a></li>
+      <ul class="absolute right-0 mt-2 w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 space-y-1 z-50">
+        {languages.map((code) => (
+          <li>
+            <a href={go(code)} class="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+              <span class="text-lg">{langMeta[code].flag}</span>
+              <span class="text-[15px]">{langMeta[code].label}</span>
+            </a>
+          </li>
+        ))}
       </ul>
     </details>
 
-    <!-- 移动端：合并菜单+语言 -->
+    <!-- 移动端简洁菜单（语言） -->
     <details class="relative sm:hidden">
-      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-2 py-1.5 text-[14px]">
-        Menu
+      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-3 py-1.5 text-[14px] flex items-center gap-2">
+        <span>{langMeta[currentLang].flag}</span>
+        <span class="font-medium">{langMeta[currentLang].badge}</span>
       </summary>
-      <div class="absolute right-0 mt-2 w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 z-50">
-        <div class="px-2 pb-2 text-[12px] uppercase tracking-wide opacity-60">Navigate</div>
-        <nav class="flex flex-col gap-1 mb-2">
-          {links.map((l) => (
-            <a
-              href={withLang(l.href)}
-              class={(isActive(l.href)
-                ? 'bg-zinc-100/80 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100'
-                : 'hover:bg-zinc-100/60 dark:hover:bg-zinc-800/70 text-zinc-700 dark:text-zinc-300')
-                + ' rounded-md px-3 py-2'}
-            >
-              {l.label}
+      <ul class="absolute right-0 mt-2 w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 space-y-1 z-50">
+        {languages.map((code) => (
+          <li>
+            <a href={go(code)} class="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+              <span class="text-lg">{langMeta[code].flag}</span>
+              <span class="text-[15px]">{langMeta[code].label}</span>
             </a>
-          ))}
-        </nav>
-
-        <div class="px-2 pt-1 pb-2 text-[12px] uppercase tracking-wide opacity-60">Language</div>
-        <ul class="space-y-1">
-          <li><a href={switchTo('en')}  class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇬🇧 English</a></li>
-          <li><a href={switchTo('fi')}  class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇫🇮 Suomi</a></li>
-          <li><a href={switchTo('sv')}  class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇸🇪 Svenska</a></li>
-          <li><a href={switchTo('zh')}  class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇨🇳 中文</a></li>
-          <li><a href={switchTo('yue')} class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">🇭🇰 Cantonese</a></li>
-        </ul>
-      </div>
+          </li>
+        ))}
+      </ul>
     </details>
   </div>
 </header>

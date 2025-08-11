@@ -1,5 +1,4 @@
 ---
-// src/pages/[lang]/index.astro
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 
@@ -13,41 +12,37 @@ const t = dict[lang];
 ---
 
 <Layout lang={lang} title={`Xiaosi Huang · ${t.nav.home}`}>
-  <section class="pt-12 pb-20 md:pt-18 md:pb-24">
-    <div class="mx-auto max-w-screen-2xl px-8">
-      <p class="text-sm md:text-base uppercase tracking-widest text-zinc-500">DATA PORTFOLIO</p>
+  <section class="mx-auto max-w-5xl">
+    <p class="uppercase tracking-[0.25em] text-sm md:text-[13px] opacity-60 mb-6">DATA PORTFOLIO</p>
 
-      <h1 class="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight">
-        {t.home.titleA}<span class="text-sky-600">{t.home.titleB}</span>
-      </h1>
+    <h1 class="text-balance font-extrabold leading-tight tracking-tight text-[clamp(28px,5.6vw,56px)]">
+      <span class="text-zinc-900 dark:text-zinc-100">{t.home.line1}</span>
+      <span class="text-blue-600 dark:text-blue-400"> {t.home.line2}</span>
+    </h1>
 
-      <p class="mt-6 max-w-2xl text-lg md:text-xl text-zinc-600">
-        {t.home.desc}
-      </p>
+    {t.home.lead1 && (
+      <p class="mt-6 text-pretty text-[17px] md:text-[19px] opacity-80">{t.home.lead1}</p>
+    )}
+    {t.home.lead2 && (
+      <p class="mt-2 text-pretty text-[17px] md:text-[19px] opacity-80">{t.home.lead2}</p>
+    )}
 
-      <div class="mt-8 flex gap-4">
-        <a href={lang === 'en' ? '/projects' : `/${lang}/projects`} class="px-5 py-3 rounded-xl bg-sky-600 text-white font-medium hover:bg-sky-700 transition">
-          {t.home.ctas.viewProjects}
-        </a>
-        <a href={lang === 'en' ? '/about' : `/${lang}/about`} class="px-5 py-3 rounded-xl border border-zinc-300 dark:border-zinc-700 font-medium hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">
-          {t.home.ctas.aboutMe}
-        </a>
-      </div>
+    <div class="mt-8 flex gap-3">
+      <a href={`/${lang}/projects`} class="inline-flex items-center justify-center rounded-xl px-6 py-3 text-white bg-blue-600 hover:bg-blue-700">
+        {t.home.btnProjects}
+      </a>
+      <a href={`/${lang}/about`} class="inline-flex items-center justify-center rounded-xl px-5 py-3 border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800/60">
+        {t.home.btnAbout}
+      </a>
+    </div>
 
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-          <h3 class="font-semibold">{t.home.cards.dashboards.title}</h3>
-          <p class="mt-2 text-sm opacity-70">{t.home.cards.dashboards.sub}</p>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {t.home.cards.map((c) => (
+        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm">
+          <div class="font-semibold mb-1">{c.title}</div>
+          <div class="opacity-75 text-[15px]">{c.desc}</div>
         </div>
-        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-          <h3 class="font-semibold">{t.home.cards.storytelling.title}</h3>
-          <p class="mt-2 text-sm opacity-70">{t.home.cards.storytelling.sub}</p>
-        </div>
-        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-          <h3 class="font-semibold">{t.home.cards.methods.title}</h3>
-          <p class="mt-2 text-sm opacity-70">{t.home.cards.methods.sub}</p>
-        </div>
-      </div>
+      ))}
     </div>
   </section>
 </Layout>

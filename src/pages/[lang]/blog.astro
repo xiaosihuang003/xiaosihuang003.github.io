@@ -1,5 +1,4 @@
 ---
-// src/pages/[lang]/blog.astro
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 
@@ -12,15 +11,12 @@ const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 ---
 
-<Layout lang={lang} title={`Xiaosi Huang · ${t.blog.title}`}>
-  <section class="py-12">
-    <div class="mx-auto max-w-screen-2xl px-8">
-      <h1 class="text-3xl font-bold mb-3">{t.blog.title}</h1>
-      <p class="opacity-70 mb-10">{t.blog.desc}</p>
-
-      <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-        <p class="opacity-60">Blog list coming next…</p>
-      </div>
+<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.blog}`}>
+  <section class="mx-auto max-w-5xl">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">{t.blog.title}</h1>
+    <p class="opacity-70 mb-6">{t.blog.subtitle}</p>
+    <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 opacity-70">
+      Blog list coming next…
     </div>
   </section>
 </Layout>

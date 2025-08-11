@@ -1,5 +1,4 @@
 ---
-// src/pages/[lang]/about.astro
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 
@@ -13,8 +12,9 @@ const t = dict[lang];
 ---
 
 <Layout lang={lang} title={`Xiaosi Huang · ${t.nav.about}`}>
-  <div class="mx-auto max-w-3xl px-8 py-12">
-    <h1 class="text-3xl font-bold mb-4">{t.nav.about}</h1>
-    <p class="opacity-70">This is the {lang} About page (dynamic route).</p>
-  </div>
+  <section class="mx-auto max-w-5xl">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">{t.about.title}</h1>
+    <p class="opacity-70">{t.about.subtitle}</p>
+    <div class="mt-8 opacity-50 text-sm">More about me… (coming soon)</div>
+  </section>
 </Layout>

@@ -1,5 +1,4 @@
 ---
-// src/pages/[lang]/projects.astro
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 
@@ -12,16 +11,10 @@ const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 ---
 
-<Layout lang={lang} title={`Xiaosi Huang · ${t.projects.title}`}>
-  <section class="py-12">
-    <div class="mx-auto max-w-screen-2xl px-8">
-      <h1 class="text-3xl font-bold mb-3">{t.projects.title}</h1>
-      <p class="opacity-70 mb-10">{t.projects.desc}</p>
-
-      <!-- 你已有 ProjectCard 组件的话可以在这里循环渲染 -->
-      <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-        <p class="opacity-60">Projects content coming next…</p>
-      </div>
-    </div>
+<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.projects}`}>
+  <section class="mx-auto max-w-5xl">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">{t.projects.title}</h1>
+    <p class="opacity-70">{t.projects.subtitle}</p>
+    <div class="mt-8 opacity-50 text-sm">Project list coming soon…</div>
   </section>
 </Layout>
