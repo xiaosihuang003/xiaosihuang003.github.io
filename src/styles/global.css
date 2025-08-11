@@ -1,75 +1,53 @@
 /* src/styles/global.css */
+@import "tailwindcss";
 
-/* Tailwind 注入点（保留且只出现一次） */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* ---- 基础排版 ---- */
+/* 基础：根字号随屏宽微调；body 行高 & 抗锯齿 */
 @layer base {
-  /* 用 clamp 让根字号随屏宽微调，既不会过大也不会过小 */
   html { font-size: clamp(16px, 0.9vw + 14px, 18px); }
-  body { @apply leading-relaxed antialiased; }
+
+  /* 等价于 leading-relaxed + antialiased（避免 @apply 触发 CI 问题） */
+  body {
+    line-height: 1.625;               /* leading-relaxed */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
-/* ---- 语言字体栈（只在 <body> 上设置，避免覆盖冲突） ---- */
-
-/* 英文 / 芬兰 / 瑞典：拉丁字体 */
+/* —— 语言字体栈 —— */
+/* 拉丁（en/fi/sv） */
 html:lang(en) body,
 html:lang(fi) body,
 html:lang(sv) body {
-  font-family:
-    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji", sans-serif;
-  line-height: 1.6;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji", sans-serif;
 }
 
 /* 简体中文 */
 html:lang(zh) body {
-  font-family:
-    "PingFang SC","Noto Sans SC","Microsoft YaHei",
-    "Hiragino Sans GB","Source Han Sans SC",
-    system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  line-height: 1.6;
-  /* 关闭会影响标点位置的特性 */
+  font-family: "PingFang SC","Noto Sans SC","Microsoft YaHei",
+               "Hiragino Sans GB","Source Han Sans SC",
+               system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   font-variant-east-asian: normal;
   font-feature-settings: "palt" 0, "halt" 0, "vert" 0;
 }
 
-/* 繁体（yue / zh-HK） */
+/* 繁体（粤语） */
 html:lang(yue) body,
 html:lang(zh-HK) body {
-  font-family:
-    "PingFang HK","PingFang TC","Noto Sans TC",
-    "Microsoft JhengHei","Source Han Sans TC",
-    system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  line-height: 1.6;
+  font-family: "PingFang HK","PingFang TC","Noto Sans TC",
+               "Microsoft JhengHei","Source Han Sans TC",
+               system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   font-variant-east-asian: normal;
   font-feature-settings: "palt" 0, "halt" 0, "vert" 0;
 }
 
-/* （可选）项目里若有用到这些变量可保留，否则可以删掉 */
-:root {
-  --font-latin:
-    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --font-cjk:
-    "PingFang SC","Noto Sans SC","Microsoft YaHei","Hiragino Sans GB",
-    "PingFang HK","PingFang TC","Noto Sans TC","Microsoft JhengHei","Source Han Sans TC",
-    system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-}
-
-/* ---- 细节优化 ---- */
-
-/* 让标题更自然换行 */
+/* 让标题更自然换行；段落更好读 */
 h1, h2 { text-wrap: balance; }
-
-/* 段落优化换行（在需要的容器上加 class="text-pretty"） */
 .text-pretty { text-wrap: pretty; }
 
-/* 按钮/卡片圆角 */
-.rounded-xl  { border-radius: 0.75rem; }
+/* 柔和圆角 */
+.rounded-xl { border-radius: 0.75rem; }
 .rounded-2xl { border-radius: 1rem; }
 
-/* 注意：不要在这里再写一个全局 body { font-family: ... }
-   否则会把上面的按语言字体栈覆盖掉。*/
+/* ❗注意：Tailwind v4 不需要、也不要再添加
+   @tailwind base/components/utilities 这三行 */
