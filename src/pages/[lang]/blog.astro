@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
-import { getCollection } from "astro:content";
 
 export const prerender = true;
 export function getStaticPaths() {
@@ -10,28 +9,11 @@ export function getStaticPaths() {
 
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
-
-const all = await getCollection('blog', ({ data }) => data.lang === lang && !data.draft);
-const posts = all.sort((a,b) => +b.data.date - +a.data.date);
 ---
 
-<Layout lang={lang} title={`Xiaosi Huang · ${t.blog.title}`}>
-  <section class="mx-auto max-w-3xl px-4 md:px-8 py-12">
-    <h1 class="text-3xl md:text-4xl font-bold mb-2">{t.blog.title}</h1>
-    <p class="opacity-70 mb-8">{t.blog.subtitle}</p>
-
-    {posts.length === 0 ? (
-      <p class="opacity-60">({t.blog.subtitle})</p>
-    ) : (
-      <ul class="space-y-6">
-        {posts.map(p => (
-          <li class="rounded-xl border border-zinc-200/80 dark:border-zinc-800 p-4">
-            <h3 class="text-lg font-semibold">{p.data.title}</h3>
-            {p.data.summary && <p class="opacity-70 text-sm mt-1">{p.data.summary}</p>}
-            <time class="opacity-50 text-xs">{p.data.date.toISOString().slice(0,10)}</time>
-          </li>
-        ))}
-      </ul>
-    )}
+<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.blog}`}>
+  <section class="mx-auto max-w-5xl px-4 md:px-8 py-12">
+    <h1 class="text-3xl font-bold mb-4">{t.blog.title}</h1>
+    <p class="opacity-70">{t.blog.subtitle}</p>
   </section>
 </Layout>

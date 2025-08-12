@@ -1,4 +1,9 @@
 ---
 export const prerender = true;
-return Astro.redirect('/en/blog');
+const to = '/en/blog';
 ---
+<!doctype html><html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="refresh" content={`0;url=${to}`} />
+  <script>location.replace({to: to});</script>
+</head><body></body></html>

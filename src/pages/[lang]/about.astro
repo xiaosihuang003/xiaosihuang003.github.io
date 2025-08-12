@@ -12,27 +12,8 @@ const t = dict[lang];
 ---
 
 <Layout lang={lang} title={`Xiaosi Huang · ${t.nav.about}`}>
-  <section class="mx-auto max-w-3xl px-4 md:px-8 py-12 space-y-6">
-    <h1 class="text-3xl md:text-4xl font-bold">{t.about.title}</h1>
-    <p class="opacity-80">{t.about.subtitle}</p>
-
-    <div class="grid sm:grid-cols-2 gap-4">
-      <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-        <h2 class="font-semibold mb-2">Skills</h2>
-        <ul class="list-disc pl-5 opacity-80 text-sm space-y-1">
-          <li>Tableau (viz, calc, LOD)</li>
-          <li>SQL / Analytics</li>
-          <li>Dashboard UX</li>
-        </ul>
-      </div>
-      <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
-        <h2 class="font-semibold mb-2">Tools</h2>
-        <ul class="list-disc pl-5 opacity-80 text-sm space-y-1">
-          <li>Tableau, Figma</li>
-          <li>Python (pandas) / Excel</li>
-          <li>Astro (site)</li>
-        </ul>
-      </div>
-    </div>
+  <section class="mx-auto max-w-3xl px-4 md:px-8 py-12">
+    <h1 class="text-3xl font-bold mb-4">{t.about.title}</h1>
+    <p class="opacity-70">{t.about.subtitle}</p>
   </section>
 </Layout>
