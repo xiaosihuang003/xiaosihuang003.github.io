@@ -1,29 +1,25 @@
-// src/content.config.ts
+// src/content/config.ts
 import { defineCollection, z } from "astro:content";
 
+const languages = z.enum(["en", "fi", "sv", "yue", "zh"]);
+
 const blog = defineCollection({
+  type: "content",
   schema: z.object({
     title: z.string(),
-    summary: z.string().optional(),
-    date: z.coerce.date(),              // ✅ 关键：自动把字符串/Date 转成 Date
-    lang: z.enum(["en","fi","sv","zh","yue"]),
+    subtitle: z.string().optional(),
+    date: z.date(),                 // 前言里写 "YYYY-MM-DD"
+    lang: languages,
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
+    excerpt: z.string().max(280).optional(),
     tags: z.array(z.string()).default([]),
-    vizUrl: z.string().url().optional(),
-    cover: z.string().optional(),
-    draft: z.boolean().optional(),
+    draft: z.boolean().default(false),
+    canonical: z.string().url().optional(),
   }),
 });
 
-const projects = defineCollection({
-  schema: z.object({
-    title: z.string(),
-    summary: z.string().optional(),
-    year: z.number(),                   // 这行是你之前缺的字段
-    lang: z.enum(["en","fi","sv","zh","yue"]),
-    tech: z.array(z.string()).default([]),
-    cover: z.string().optional(),
-    url: z.string().url().optional(),
-  }),
-});
-
-export const collections = { blog, projects };
+export const collections = {
+  blog,
+  // ...如果你还有别的 collections 也放这里
+};

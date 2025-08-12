@@ -1,4 +1,3 @@
-// src/i18n/index.ts
 export const languages = ['en', 'fi', 'sv', 'zh', 'yue'] as const;
 export type Lang = typeof languages[number];
 
@@ -13,7 +12,7 @@ export const langMeta: Record<Lang, { flag: string; label: string; badge: string
   fi:  { flag: '🇫🇮', label: 'Suomi',    badge: 'FI' },
   sv:  { flag: '🇸🇪', label: 'Svenska',  badge: 'SV' },
   zh:  { flag: '🇨🇳', label: '简体',      badge: '简体' },
-  yue: { flag: '🇨🇳', label: '繁体',      badge: '繁体' }, // 繁体也用中国旗
+  yue: { flag: '🇨🇳', label: '繁体',      badge: '繁体' },
 };
 
 type Card = { title: string; desc: string };
@@ -25,13 +24,16 @@ type Copy = {
     btnProjects: string; btnAbout: string;
     cards: Card[];
   };
-  blog: { title: string; subtitle: string };
+  blog: { 
+    title: string; 
+    subtitle: string;
+    empty: string; // 新增：无文章时的提示
+  };
   projects: { title: string; subtitle: string };
   about: { title: string; subtitle: string };
 };
 
 export const dict: Record<Lang, Copy> = {
-  /* English */
   en: {
     nav: { home: 'Home', projects: 'Projects', blog: 'Blog', about: 'About' },
     home: {
@@ -42,17 +44,19 @@ export const dict: Record<Lang, Copy> = {
       btnProjects: 'View Projects',
       btnAbout: 'About Me',
       cards: [
-        { title: 'Dashboards',        desc: 'Growth, operations, and marketing KPIs' },
+        { title: 'Dashboards', desc: 'Growth, operations, and marketing KPIs' },
         { title: 'Data Storytelling', desc: 'From KPIs to narratives that drive decisions' },
         { title: 'Methods & Reviews', desc: 'Structured thinking templates and best practices' },
       ],
     },
-    blog:     { title: 'Blog',     subtitle: 'Notes on methods, reviews and practice.' },
+    blog: { 
+      title: 'Blog', 
+      subtitle: 'Notes on methods, reviews and practice.',
+      empty: 'No posts yet.' 
+    },
     projects: { title: 'Projects', subtitle: 'Selected visualization & analytics work.' },
-    about:    { title: 'About',    subtitle: 'Background, focus and contact.' },
+    about: { title: 'About', subtitle: 'Background, focus and contact.' },
   },
-
-  /* Finnish */
   fi: {
     nav: { home: 'Koti', projects: 'Projektit', blog: 'Blogi', about: 'Tietoa' },
     home: {
@@ -63,17 +67,19 @@ export const dict: Record<Lang, Copy> = {
       btnProjects: 'Katso projektit',
       btnAbout: 'Tietoa minusta',
       cards: [
-        { title: 'Kojelaudat',            desc: 'Kasvun, operaatioiden ja markkinoinnin KPI:t' },
+        { title: 'Kojelaudat', desc: 'Kasvun, operaatioiden ja markkinoinnin KPI:t' },
         { title: 'Datan tarinankerronta', desc: 'KPI:stä kertomuksiin, jotka ohjaavat päätöksiä' },
         { title: 'Menetelmät ja katsaukset', desc: 'Jäsennellyt ajattelumallit ja parhaat käytännöt' },
       ],
     },
-    blog:     { title: 'Blogi',     subtitle: 'Muistiinpanoja menetelmistä, katsauksista ja käytännöistä.' },
+    blog: { 
+      title: 'Blogi', 
+      subtitle: 'Muistiinpanoja menetelmistä, katsauksista ja käytännöistä.',
+      empty: 'Ei vielä artikkeleita.' 
+    },
     projects: { title: 'Projektit', subtitle: 'Valikoidut visualisointi- ja analyysityöt.' },
-    about:    { title: 'Tietoa',    subtitle: 'Tausta, painopiste ja yhteystiedot.' },
+    about: { title: 'Tietoa', subtitle: 'Tausta, painopiste ja yhteystiedot.' },
   },
-
-  /* Swedish */
   sv: {
     nav: { home: 'Hem', projects: 'Projekt', blog: 'Blogg', about: 'Om' },
     home: {
@@ -84,17 +90,19 @@ export const dict: Record<Lang, Copy> = {
       btnProjects: 'Visa projekt',
       btnAbout: 'Om mig',
       cards: [
-        { title: 'Instrumentpaneler',   desc: 'Tillväxt, drift och marknadsförings-KPI:er' },
-        { title: 'Databerättande',      desc: 'Från KPI:er till berättelser som driver beslut' },
+        { title: 'Instrumentpaneler', desc: 'Tillväxt, drift och marknadsförings-KPI:er' },
+        { title: 'Databerättande', desc: 'Från KPI:er till berättelser som driver beslut' },
         { title: 'Metoder & recensioner', desc: 'Strukturerade tänkemallar och bästa praxis' },
       ],
     },
-    blog:     { title: 'Blogg',    subtitle: 'Anteckningar om metoder, recensioner och praktik.' },
-    projects: { title: 'Projekt',  subtitle: 'Utvalda visualiserings- och analysarbeten.' },
-    about:    { title: 'Om',       subtitle: 'Bakgrund, fokus och kontakt.' },
+    blog: { 
+      title: 'Blogg', 
+      subtitle: 'Anteckningar om metoder, recensioner och praktik.',
+      empty: 'Inga inlägg ännu.' 
+    },
+    projects: { title: 'Projekt', subtitle: 'Utvalda visualiserings- och analysarbeten.' },
+    about: { title: 'Om', subtitle: 'Bakgrund, fokus och kontakt.' },
   },
-
-  /* 简体中文 */
   zh: {
     nav: { home: '首页', projects: '项目', blog: '博客', about: '关于' },
     home: {
@@ -106,16 +114,18 @@ export const dict: Record<Lang, Copy> = {
       btnAbout: '关于我',
       cards: [
         { title: '可视化仪表板', desc: '增长、运营与市场关键指标' },
-        { title: '数据叙事',     desc: '由 KPI 连接叙事，驱动业务决策' },
-        { title: '方法与复盘',   desc: '结构化思考模板与最佳实践' },
+        { title: '数据叙事', desc: '由 KPI 连接叙事，驱动业务决策' },
+        { title: '方法与复盘', desc: '结构化思考模板与最佳实践' },
       ],
     },
-    blog:     { title: '博客', subtitle: '记录方法论、复盘与实践笔记。' },
+    blog: { 
+      title: '博客', 
+      subtitle: '记录方法论、复盘与实践笔记。',
+      empty: '暂无文章' 
+    },
     projects: { title: '项目', subtitle: '精选可视化与分析作品。' },
-    about:    { title: '关于', subtitle: '个人背景、关注方向与联系方式。' },
+    about: { title: '关于', subtitle: '个人背景、关注方向与联系方式。' },
   },
-
-  /* 繁体中文（路径 yue，展示“繁体”） */
   yue: {
     nav: { home: '首頁', projects: '項目', blog: '博客', about: '關於' },
     home: {
@@ -127,16 +137,20 @@ export const dict: Record<Lang, Copy> = {
       btnAbout: '關於我',
       cards: [
         { title: '視覺化儀表板', desc: '成長、營運與行銷關鍵指標' },
-        { title: '數據敘事',     desc: '由 KPI 連結敘事，驅動業務決策' },
-        { title: '方法與評析',   desc: '結構化思考模板與最佳實踐' },
+        { title: '數據敘事', desc: '由 KPI 連結敘事，驅動業務決策' },
+        { title: '方法與評析', desc: '結構化思考模板與最佳實踐' },
       ],
     },
-    blog:     { title: '博客', subtitle: '記錄方法論、復盤與實踐筆記。' },
+    blog: { 
+      title: '博客', 
+      subtitle: '記錄方法論、復盤與實踐筆記。',
+      empty: '暫無文章' 
+    },
     projects: { title: '項目', subtitle: '精選視覺化與分析作品。' },
-    about:    { title: '關於', subtitle: '個人背景、關注方向與聯絡方式。' },
-  },
-} as any;
+    about: { title: '關於', subtitle: '個人背景、關注方向與聯絡方式。' },
+  }
+};
 
-/* 兜底：只有在缺失时才回落，不会覆盖上面的翻译 */
+// 兜底翻译
 dict.fi = dict.fi ?? dict.en;
 dict.sv = dict.sv ?? dict.en;
