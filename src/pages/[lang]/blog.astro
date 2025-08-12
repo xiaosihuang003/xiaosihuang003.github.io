@@ -11,8 +11,8 @@ export function getStaticPaths() {
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 
-const allPosts = await getCollection('blog', ({ data }) => data.lang === lang && !data.draft);
-const posts = allPosts.sort((a,b) => +b.data.date - +a.data.date);
+const all = await getCollection('blog', ({ data }) => data.lang === lang && !data.draft);
+const posts = all.sort((a,b) => +b.data.date - +a.data.date);
 ---
 
 <Layout lang={lang} title={`Xiaosi Huang · ${t.blog.title}`}>
@@ -25,12 +25,10 @@ const posts = allPosts.sort((a,b) => +b.data.date - +a.data.date);
     ) : (
       <ul class="space-y-6">
         {posts.map(p => (
-          <li>
-            <a href={p.slug} class="block group">
-              <h3 class="text-lg font-semibold group-hover:underline">{p.data.title}</h3>
-              {p.data.summary && <p class="opacity-70 text-sm">{p.data.summary}</p>}
-              <time class="opacity-50 text-xs">{p.data.date.toISOString().slice(0,10)}</time>
-            </a>
+          <li class="rounded-xl border border-zinc-200/80 dark:border-zinc-800 p-4">
+            <h3 class="text-lg font-semibold">{p.data.title}</h3>
+            {p.data.summary && <p class="opacity-70 text-sm mt-1">{p.data.summary}</p>}
+            <time class="opacity-50 text-xs">{p.data.date.toISOString().slice(0,10)}</time>
           </li>
         ))}
       </ul>

@@ -10,8 +10,6 @@ export function getStaticPaths() {
 
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
-
-// 简单的回落：title[lang] || title.en
 const $t = (obj) => obj?.[lang] ?? obj?.en;
 ---
 
@@ -23,19 +21,27 @@ const $t = (obj) => obj?.[lang] ?? obj?.en;
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {projects.map(p => (
         <article class="rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden">
-          {p.cover && <img src={p.cover} alt={$t(p.title)} class="w-full h-40 object-cover" loading="lazy" decoding="async" />}
+          {p.cover && (
+            <img src={p.cover} alt={$t(p.title)} class="w-full h-40 object-cover"
+                 loading="lazy" decoding="async" />
+          )}
           <div class="p-4">
             <h3 class="font-semibold text-lg mb-1">{$t(p.title)}</h3>
             {p.subtitle && <p class="opacity-70 text-sm mb-3">{$t(p.subtitle)}</p>}
+
             {p.tags?.length && (
               <div class="flex flex-wrap gap-2 text-xs opacity-70 mb-3">
-                {p.tags.map(tag => <span class="px-2 py-1 rounded-full border border-zinc-200 dark:border-zinc-700">{tag}</span>)}
+                {p.tags.map(tag => (
+                  <span class="px-2 py-1 rounded-full border border-zinc-200 dark:border-zinc-700">{tag}</span>
+                ))}
               </div>
             )}
+
             {p.links?.length && (
               <div class="flex gap-2">
                 {p.links.map(l => (
-                  <a href={l.href} target="_blank" rel="noopener" class="text-blue-600 hover:underline">{l.label}</a>
+                  <a href={l.href} target="_blank" rel="noopener"
+                     class="text-blue-600 hover:underline">{l.label}</a>
                 ))}
               </div>
             )}

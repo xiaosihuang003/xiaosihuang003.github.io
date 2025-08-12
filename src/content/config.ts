@@ -6,7 +6,7 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     lang: z.enum(['en','fi','sv','zh','yue']),
-    date: z.string().transform((v) => new Date(v)),
+    date: z.coerce.date(),            // ✅ 接受 "2025-03-02" 或真正的 Date
     summary: z.string().optional(),
     cover: z.string().optional(),
     draft: z.boolean().optional(),

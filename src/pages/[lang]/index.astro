@@ -1,56 +1,25 @@
 ---
-// src/pages/[lang]/index.astro
-import Layout from "../../layouts/Layout.astro";
-import { dict, normalizeLang, languages } from "../../i18n";
-
-export const prerender = true;
-export function getStaticPaths() {
-  return languages.map((lang) => ({ params: { lang } }));
-}
-
-const lang = normalizeLang(Astro.params.lang as string);
-const t = dict[lang];
+// src/pages/index.astro
+const target = '/en/';
 ---
-
-<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.home}`}>
-  <section class="mx-auto max-w-7xl px-4 md:px-8 py-12">
-    <p class="uppercase tracking-[0.25em] text-zinc-500 mb-6">DATA PORTFOLIO</p>
-
-    <h1 class="text-pretty font-extrabold tracking-tight leading-tight
-               text-[34px] sm:text-[40px] md:text-5xl lg:text-6xl">
-      {t.home.line1} <span class="text-blue-600">{t.home.line2}</span>
-    </h1>
-
-    <p class="mt-6 max-w-2xl text-pretty opacity-70
-              text-[15px] sm:text-base md:text-lg">
-      {t.home.lead1}
-      <br class="hidden sm:block" />
-      {t.home.lead2}
-    </p>
-
-    <div class="mt-8 flex flex-col sm:flex-row gap-3">
-      <!-- 我们的规范是所有语言都带前缀：/en,/fi,/sv,/zh,/yue -->
-      <a href={`/${lang}/projects`}
-         class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl
-                px-5 py-3 font-semibold bg-blue-600 text-white hover:bg-blue-700">
-        {t.home.btnProjects}
-      </a>
-      <a href={`/${lang}/about`}
-         class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl
-                px-5 py-3 font-semibold border border-zinc-300
-                hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800">
-        {t.home.btnAbout}
-      </a>
-    </div>
-
-    <!-- 手机 1 列，>=md 3 列 -->
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-      {t.home.cards.map((c) => (
-        <div class="rounded-2xl border border-zinc-200/80 dark:border-zinc-800 p-5">
-          <div class="font-semibold mb-1">{c.title}</div>
-          <div class="opacity-70 text-[15px]">{c.desc}</div>
-        </div>
-      ))}
-    </div>
-  </section>
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
+    <link rel="canonical" href="/en/" />
+    <title>Redirecting…</title>
+    <script>
+      // 立即、无历史记录地跳转，避免“闪屏”
+      window.location.replace('/en/');
+    </script>
+    <style>
+      /* 隐藏回退文字，防止短暂可见 */
+      .sr { position: absolute; left: -9999px; top: -9999px; }
+      html,body{margin:0}
+    </style>
+  </head>
+  <body>
+    <a class="sr" href="/en/">Continue</a>
+  </body>
+</html>
