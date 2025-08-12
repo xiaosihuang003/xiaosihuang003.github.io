@@ -1,20 +1,39 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { dict, normalizeLang, languages } from "../../i18n";
+import { getCollection } from "astro:content";
+import { normalizeLang, dict } from "../../i18n";
 
 export const prerender = true;
 export function getStaticPaths() {
-  return languages.map((lang) => ({ params: { lang } }));
+  return ["en","fi","sv","zh","yue"].map((lang) => ({ params: { lang } }));
 }
 
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
+
+const items = (await getCollection("projects"))
+  .filter((p) => p.data.lang === lang)
+  .sort((a,b) => b.data.date.localeCompare(a.data.date));
 ---
 
-<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.projects}`}>
-  <section class="mx-auto max-w-5xl">
-    <h1 class="text-3xl md:text-4xl font-bold mb-4">{t.projects.title}</h1>
-    <p class="opacity-70">{t.projects.subtitle}</p>
-    <div class="mt-8 opacity-50 text-sm">Project list coming soon…</div>
-  </section>
+<Layout lang={lang} title={`Xiaosi Huang · ${t.projects.title}`}>
+  <div class="mx-auto max-w-4xl px-6 py-10">
+    <h1 class="text-3xl font-bold mb-2">{t.projects.title}</h1>
+    <p class="opacity-70 mb-8">{t.projects.subtitle}</p>
+
+    <ul class="grid gap-6 sm:grid-cols-2">
+      {items.map(({ id, data }) => (
+        <li class="rounded-xl border p-4 hover:shadow-sm">
+          {data.cover && <img src={data.cover} alt={data.title} class="mb-3 rounded-lg" />}
+          <h3 class="font-semibold mb-2">{data.title}</h3>
+          <p class="text-sm opacity-70 mb-3">{data.summary}</p>
+          <div class="text-sm flex gap-3 opacity-80">
+            {data.links?.live && <a href={data.links.live} target="_blank" rel="noreferrer">Live ↗</a>}
+            {data.links?.repo && <a href={data.links.repo} target="_blank" rel="noreferrer">Code ↗</a>}
+            {data.links?.tableau && <a href={data.links.tableau} target="_blank" rel="noreferrer">Tableau ↗</a>}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
 </Layout>

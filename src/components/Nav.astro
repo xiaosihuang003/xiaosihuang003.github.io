@@ -1,42 +1,53 @@
 ---
+// src/components/Nav.astro
 import { dict, normalizeLang, languages, langMeta } from "../i18n";
 
-const path = Astro.url.pathname || "/";
-const seg = path.split("/").filter(Boolean)[0] ?? "en";
-const currentLang = normalizeLang(seg);
+// 1) 识别当前语言：优先 props，其次从路径第 1 段拿（/zh/...）
+const pathname = Astro.url?.pathname ?? "/";
+const fromProps = (Astro.props as any)?.lang as string | undefined;
+const seg = pathname.split("/")[1] || "";
+const lang = normalizeLang(fromProps || seg);
 
-const t = dict[currentLang];
+// 2) 文案 & 前缀
+const t = dict[lang];
+const base = lang === "en" ? "" : `/${lang}`;
 
+// 3) 导航链接（文案来自字典）
 const links = [
-  { href: `/${currentLang}`,           label: t.nav.home },
-  { href: `/${currentLang}/projects`,  label: t.nav.projects },
-  { href: `/${currentLang}/blog`,      label: t.nav.blog },
-  { href: `/${currentLang}/about`,     label: t.nav.about },
+  { href: `${base}/`,         label: t.nav.home },
+  { href: `${base}/projects`, label: t.nav.projects },
+  { href: `${base}/blog`,     label: t.nav.blog },
+  { href: `${base}/about`,    label: t.nav.about },
 ];
 
-const isActive = (href: string) => (path === href) || (href !== `/${currentLang}` && path.startsWith(href));
-const go = (code: string) => `/${code}`;
----
+// 4) 当前高亮
+const normalize = (u: string) => u.replace(/\/+$/, "") || "/";
+const isActive = (href: string) => normalize(pathname) === normalize(href);
 
+// 5) 语言下拉
+const meta = langMeta[lang];
+const langHref = (code: string) => (code === "en" ? "/" : `/${code}`);
+const badge = meta.badge;
+---
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-zinc-200 dark:bg-zinc-900/80 dark:border-zinc-800">
   <div class="mx-auto max-w-7xl h-16 px-4 md:px-8 flex items-center gap-4">
-    <a href={`/${currentLang}`} class="shrink-0 font-extrabold tracking-tight text-[20px] md:text-[22px]">
+    <!-- 品牌 -->
+    <a href={base || "/"} class="shrink-0 font-extrabold tracking-tight text-[20px] md:text-[22px]">
       Xiaosi Huang
     </a>
 
     <div class="hidden sm:block h-5 w-px bg-zinc-200 dark:bg-zinc-800"></div>
 
+    <!-- 主导航 -->
     <nav class="hidden sm:flex items-center gap-2 text-[15px] md:text-[16px] font-medium">
       {links.map((l) => (
         <a
           href={l.href}
           aria-current={isActive(l.href) ? "page" : undefined}
-          class={
-            (isActive(l.href)
+          class={(isActive(l.href)
               ? "text-zinc-900 dark:text-zinc-100 bg-zinc-100/80 dark:bg-zinc-800"
               : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white hover:bg-zinc-100/60 dark:hover:bg-zinc-800/70"
-            ) + " px-3 py-1.5 rounded-lg transition"
-          }
+            ) + " px-3 py-1.5 rounded-lg transition"}
         >
           {l.label}
         </a>
@@ -47,38 +58,53 @@ const go = (code: string) => `/${code}`;
 
     <!-- 语言下拉（桌面） -->
     <details class="relative hidden sm:block">
-      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-3 py-1.5 text-[14px] flex items-center gap-2">
-        <span>{langMeta[currentLang].flag}</span>
-        <span class="font-medium">{langMeta[currentLang].badge}</span>
+      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-2 py-1.5 text-[14px] flex items-center gap-1">
+        {langMeta[lang].flag} {badge}
       </summary>
-      <ul class="absolute right-0 mt-2 w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 space-y-1 z-50">
-        {languages.map((code) => (
+      <ul class="absolute right-0 mt-2 w-48 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 space-y-1 z-50">
+        {languages.map(code => (
           <li>
-            <a href={go(code)} class="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">
-              <span class="text-lg">{langMeta[code].flag}</span>
-              <span class="text-[15px]">{langMeta[code].label}</span>
+            <a href={langHref(code)}
+               class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center gap-2">
+              <span>{langMeta[code].flag}</span>
+              <span>{langMeta[code].label}</span>
             </a>
           </li>
         ))}
       </ul>
     </details>
 
-    <!-- 移动端简洁菜单（语言） -->
+    <!-- 移动端合并菜单 -->
     <details class="relative sm:hidden">
-      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-3 py-1.5 text-[14px] flex items-center gap-2">
-        <span>{langMeta[currentLang].flag}</span>
-        <span class="font-medium">{langMeta[currentLang].badge}</span>
+      <summary class="list-none cursor-pointer select-none rounded-md border border-zinc-300/70 dark:border-zinc-700 px-2 py-1.5 text-[14px]">
+        Menu
       </summary>
-      <ul class="absolute right-0 mt-2 w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 space-y-1 z-50">
-        {languages.map((code) => (
-          <li>
-            <a href={go(code)} class="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800">
-              <span class="text-lg">{langMeta[code].flag}</span>
-              <span class="text-[15px]">{langMeta[code].label}</span>
+      <div class="absolute right-0 mt-2 w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 z-50">
+        <div class="px-2 pb-2 text-[12px] uppercase tracking-wide opacity-60">Navigate</div>
+        <nav class="flex flex-col gap-1 mb-2">
+          {links.map((l) => (
+            <a href={l.href}
+               class={(isActive(l.href)
+                 ? "bg-zinc-100/80 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                 : "hover:bg-zinc-100/60 dark:hover:bg-zinc-800/70 text-zinc-700 dark:text-zinc-300"
+               ) + " rounded-md px-3 py-2"}>
+              {l.label}
             </a>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </nav>
+        <div class="px-2 pt-1 pb-2 text-[12px] uppercase tracking-wide opacity-60">Language</div>
+        <ul class="space-y-1">
+          {languages.map(code => (
+            <li>
+              <a href={langHref(code)}
+                 class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center gap-2">
+                <span>{langMeta[code].flag}</span>
+                <span>{langMeta[code].label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </details>
   </div>
 </header>

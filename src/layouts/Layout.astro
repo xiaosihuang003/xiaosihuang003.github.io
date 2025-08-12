@@ -1,8 +1,30 @@
 ---
+// src/layouts/Layout.astro
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
+import { languages } from "../i18n";
 
 const { title = "Xiaosi Huang · Portfolio", lang = "en" } = Astro.props;
+
+// 去掉语言前缀，得到同一路径（/en,/fi,/sv,/zh,/yue）
+const raw = Astro.url.pathname || "/";
+const logicalPath = raw.replace(/^\/(en|fi|sv|zh|yue)(?=\/|$)/, "");
+
+// hreflang 映射
+const hreflangMap: Record<string, string> = {
+  en: "en",
+  fi: "fi",
+  sv: "sv",
+  zh: "zh-Hans",
+  yue: "zh-Hant",
+};
+
+// 生成某语言下的完整 URL
+const urlFor = (code: string) =>
+  new URL(
+    `${code === "en" ? "/en" : `/${code}`}${logicalPath || "/"}`,
+    Astro.url.origin
+  ).toString();
 ---
 
 <!doctype html>
@@ -23,6 +45,16 @@ const { title = "Xiaosi Huang · Portfolio", lang = "en" } = Astro.props;
     <meta property="og:url" content={Astro.url.origin + Astro.url.pathname} />
     <meta property="og:image" content="/og-cover.png" />
     <meta name="twitter:card" content="summary_large_image" />
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+	<link rel="manifest" href="/site.webmanifest" />
+	<meta name="theme-color" content="#ffffff" />
+
+
+    {/* hreflang 多语言 alternate */}
+    {languages.map((code) => (
+      <link rel="alternate" hrefLang={hreflangMap[code]} href={urlFor(code)} />
+    ))}
+    <link rel="alternate" hrefLang="x-default" href={urlFor("en")} />
   </head>
 
   <body class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">

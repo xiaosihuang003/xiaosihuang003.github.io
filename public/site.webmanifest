@@ -1,0 +1,13 @@
+{
+  "name": "Xiaosi Huang · Portfolio",
+  "short_name": "XH Portfolio",
+  "start_url": "/en/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "lang": "en"
+}
