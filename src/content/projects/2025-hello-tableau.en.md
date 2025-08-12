@@ -1,13 +1,11 @@
 ---
-title: "Hello Tableau"
-summary: "A compact dashboard showing growth KPIs."
-date: "2025-08-12"
-lang: "en"
-tags: ["tableau","dashboard"]
-links:
-  live: "https://public.tableau.com/…"
-  repo: "https://github.com/…"
-cover: "/assets/hello-tableau.png"
+title: "Hello Tableau"         # 项目标题（英文）
+summary: "Demo project entry"  # 简短描述
+year: 2025                     # 必填：年份（数字）
+lang: "en"                     # 语言：en
+tech: ["Tableau"]              # 使用技术（数组）
+cover: "/images/placeholder.jpg"  # 可删；没有图片就先删掉这一行
+url: "https://public.tableau.com/" # 可删；没有外链就删掉这一行
 ---
 
-Short intro paragraph. Add 1–2 key screenshots.
+Short description of the project. You can expand later.
