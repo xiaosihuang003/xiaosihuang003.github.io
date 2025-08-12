@@ -1,20 +1,17 @@
 /* src/styles/global.css */
 @import "tailwindcss";
 
-/* 基础：根字号随屏宽微调；body 行高 & 抗锯齿 */
+/* 根字号随屏宽微调；行高 & 抗锯齿 */
 @layer base {
   html { font-size: clamp(16px, 0.9vw + 14px, 18px); }
-
-  /* 等价于 leading-relaxed + antialiased（避免 @apply 触发 CI 问题） */
   body {
-    line-height: 1.625;               /* leading-relaxed */
+    line-height: 1.625;                 /* ≈ leading-relaxed */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* —— 语言字体栈 —— */
-/* 拉丁（en/fi/sv） */
+/* 英文/芬兰/瑞典：拉丁字体 */
 html:lang(en) body,
 html:lang(fi) body,
 html:lang(sv) body {
@@ -41,13 +38,17 @@ html:lang(zh-HK) body {
   font-feature-settings: "palt" 0, "halt" 0, "vert" 0;
 }
 
-/* 让标题更自然换行；段落更好读 */
+/* 更自然的换行 */
 h1, h2 { text-wrap: balance; }
 .text-pretty { text-wrap: pretty; }
 
-/* 柔和圆角 */
+/* 圆角 */
 .rounded-xl { border-radius: 0.75rem; }
 .rounded-2xl { border-radius: 1rem; }
 
-/* ❗注意：Tailwind v4 不需要、也不要再添加
-   @tailwind base/components/utilities 这三行 */
+/* 安全区（可选） */
+.safe-x {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+.safe-t { padding-top: env(safe-area-inset-top); }

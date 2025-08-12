@@ -1,4 +1,5 @@
 ---
+// src/pages/[lang]/index.astro
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 
@@ -12,35 +13,42 @@ const t = dict[lang];
 ---
 
 <Layout lang={lang} title={`Xiaosi Huang · ${t.nav.home}`}>
-  <section class="mx-auto max-w-5xl">
-    <p class="uppercase tracking-[0.25em] text-sm md:text-[13px] opacity-60 mb-6">DATA PORTFOLIO</p>
+  <section class="mx-auto max-w-7xl px-4 md:px-8 py-12">
+    <p class="uppercase tracking-[0.25em] text-zinc-500 mb-6">DATA PORTFOLIO</p>
 
-    <h1 class="text-balance font-extrabold leading-tight tracking-tight text-[clamp(28px,5.6vw,56px)]">
-      <span class="text-zinc-900 dark:text-zinc-100">{t.home.line1}</span>
-      <span class="text-blue-600 dark:text-blue-400"> {t.home.line2}</span>
+    <h1 class="text-pretty font-extrabold tracking-tight leading-tight
+               text-[34px] sm:text-[40px] md:text-5xl lg:text-6xl">
+      {t.home.line1} <span class="text-blue-600">{t.home.line2}</span>
     </h1>
 
-    {t.home.lead1 && (
-      <p class="mt-6 text-pretty text-[17px] md:text-[19px] opacity-80">{t.home.lead1}</p>
-    )}
-    {t.home.lead2 && (
-      <p class="mt-2 text-pretty text-[17px] md:text-[19px] opacity-80">{t.home.lead2}</p>
-    )}
+    <p class="mt-6 max-w-2xl text-pretty opacity-70
+              text-[15px] sm:text-base md:text-lg">
+      {t.home.lead1}
+      <br class="hidden sm:block" />
+      {t.home.lead2}
+    </p>
 
-    <div class="mt-8 flex gap-3">
-      <a href={`/${lang}/projects`} class="inline-flex items-center justify-center rounded-xl px-6 py-3 text-white bg-blue-600 hover:bg-blue-700">
+    <div class="mt-8 flex flex-col sm:flex-row gap-3">
+      <!-- 我们的规范是所有语言都带前缀：/en,/fi,/sv,/zh,/yue -->
+      <a href={`/${lang}/projects`}
+         class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl
+                px-5 py-3 font-semibold bg-blue-600 text-white hover:bg-blue-700">
         {t.home.btnProjects}
       </a>
-      <a href={`/${lang}/about`} class="inline-flex items-center justify-center rounded-xl px-5 py-3 border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800/60">
+      <a href={`/${lang}/about`}
+         class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl
+                px-5 py-3 font-semibold border border-zinc-300
+                hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800">
         {t.home.btnAbout}
       </a>
     </div>
 
-    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- 手机 1 列，>=md 3 列 -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
       {t.home.cards.map((c) => (
-        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm">
+        <div class="rounded-2xl border border-zinc-200/80 dark:border-zinc-800 p-5">
           <div class="font-semibold mb-1">{c.title}</div>
-          <div class="opacity-75 text-[15px]">{c.desc}</div>
+          <div class="opacity-70 text-[15px]">{c.desc}</div>
         </div>
       ))}
     </div>

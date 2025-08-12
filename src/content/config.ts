@@ -1,31 +1,16 @@
-import { defineCollection, z } from "astro:content";
+// src/content/config.ts
+import { defineCollection, z } from 'astro:content';
 
-const projects = defineCollection({
-  type: "content",
+const blog = defineCollection({
+  type: 'content',
   schema: z.object({
     title: z.string(),
-    summary: z.string(),
-    cover: z.string().optional(),   // /assets/cover.png
-    date: z.string(),               // "2025-08-12"
-    tags: z.array(z.string()).default([]),
-    lang: z.enum(["en","fi","sv","zh","yue"]),
-    links: z.object({
-      live: z.string().url().optional(),
-      repo: z.string().url().optional(),
-      tableau: z.string().url().optional()
-    }).optional()
-  })
+    lang: z.enum(['en','fi','sv','zh','yue']),
+    date: z.string().transform((v) => new Date(v)),
+    summary: z.string().optional(),
+    cover: z.string().optional(),
+    draft: z.boolean().optional(),
+  }),
 });
 
-const posts = defineCollection({
-  type: "content",
-  schema: z.object({
-    title: z.string(),
-    summary: z.string(),
-    date: z.string(),
-    lang: z.enum(["en","fi","sv","zh","yue"]),
-    tags: z.array(z.string()).default([])
-  })
-});
-
-export const collections = { projects, posts };
+export const collections = { blog };
