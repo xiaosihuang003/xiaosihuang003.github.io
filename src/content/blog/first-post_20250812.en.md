@@ -1,12 +1,14 @@
---- 
-title: Kickoff: What This Blog Is About
-subtitle: A multilingual data portfolio starts here
+---
+title: "Kickoff: What This Blog Is About"
+subtitle: "A multilingual data portfolio starts here"
 date: 2025-08-12
-lang: en
-cover: /assets/blog/first-post/cover.jpg
-coverAlt: Colorful charts collage
-excerpt: A short intro to why I started this blog, what to expect, and how posts are organized across languages.
-tags: ["intro", "meta"]
+lang: "en"
+cover: "/assets/blog/first-post/cover.jpg"
+coverAlt: "Colorful charts collage"
+excerpt: "A short intro to why I started this blog, what to expect, and how posts are organized across languages."
+tags:
+  - "intro"
+  - "meta"
 draft: false
 ---
 

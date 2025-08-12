@@ -1,12 +1,14 @@
 ---
-title: Start: Vad den här bloggen handlar om
-subtitle: En flerspråkig dataportfölj börjar här
+title: "Start: Vad den här bloggen handlar om"
+subtitle: "En flerspråkig dataportfölj börjar här"
 date: 2025-08-12
-lang: sv
-cover: /assets/blog/first-post/cover.jpg
-coverAlt: Färgglad diagram-collage
-excerpt: En kort introduktion till syftet med bloggen, vad som kommer och hur språken organiseras.
-tags: ["intro", "meta"]
+lang: "sv"
+cover: "/assets/blog/first-post/cover.jpg"
+coverAlt: "Färgglad diagram-collage"
+excerpt: "En kort introduktion till syftet med bloggen, vad som kommer och hur språken organiseras."
+tags:
+  - "intro"
+  - "meta"
 draft: false
 ---
 

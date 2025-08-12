@@ -1,12 +1,14 @@
 ---
-title: 开场：呢个博客会讲乜
-subtitle: 多语言数据作品集由此开始
+title: "开场：呢个博客会讲乜"
+subtitle: "多语言数据作品集由此开始"
 date: 2025-08-12
-lang: yue
-cover: /assets/blog/first-post/cover.jpg
-coverAlt: 色彩丰富嘅图表拼贴
-excerpt: 简单介绍下开呢个博客嘅原因、内容方向同语言版本安排。
-tags: ["简介", "站务"]
+lang: "yue"
+cover: "/assets/blog/first-post/cover.jpg"
+coverAlt: "色彩丰富嘅图表拼贴"
+excerpt: "简单介绍下开呢个博客嘅原因、内容方向同语言版本安排。"
+tags:
+  - "简介"
+  - "站务"
 draft: false
 ---
 
