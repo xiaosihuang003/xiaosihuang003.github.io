@@ -1,0 +1,64 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { dict, normalizeLang, languages } from "../../../i18n";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((p) => ({
+    params: { lang: p.data.lang, slug: p.slug },
+  }));
+}
+
+const lang = normalizeLang(Astro.params.lang as string);
+const t = dict[lang];
+
+const slug = Astro.params.slug as string;
+const all = await getCollection("blog");
+const post = all.find((p) => p.slug === slug && p.data.lang === lang);
+
+if (!post) {
+  throw new Error(`Post not found: ${lang}/${slug}`);
+}
+
+const { Content } = await post.render();
+---
+
+<Layout lang={lang} title={`${post.data.title} · Xiaosi Huang`}>
+  <article class="mx-auto max-w-3xl px-4 py-8">
+    <header class="mb-6">
+      <h1 class="text-3xl font-extrabold">{post.data.title}</h1>
+      {post.data.subtitle && <p class="opacity-70 mt-2">{post.data.subtitle}</p>}
+      <time datetime={post.data.date.toISOString()} class="text-sm text-gray-500 block mt-2">
+        {post.data.date.toLocaleDateString(lang)}
+      </time>
+    </header>
+
+    {post.data.cover && (
+      <img
+      src={post.data.cover}
+    alt={post.data.coverAlt || post.data.title}
+    class="block w-full max-w-[720px] mx-auto rounded-xl mb-6"
+    loading="eager"
+    style="height:auto"
+    width="300" height="130"  
+      />
+    )}
+
+    <div class="prose dark:prose-invert">
+      <Content />
+    </div>
+
+    {post.data.tags?.length > 0 && (
+      <footer class="mt-8">
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">{tag}</span>
+          ))}
+        </div>
+      </footer>
+    )}
+  </article>
+</Layout>

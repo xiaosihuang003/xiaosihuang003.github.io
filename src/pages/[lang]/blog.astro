@@ -4,6 +4,7 @@ import { dict, normalizeLang, languages } from "../../i18n";
 import { getCollection } from "astro:content";
 
 export const prerender = true;
+
 export function getStaticPaths() {
   return languages.map((lang) => ({ params: { lang } }));
 }
@@ -11,31 +12,54 @@ export function getStaticPaths() {
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 
-// 只取当前语言
-const posts = (await getCollection("blog", ({ data }) => !data.draft && data.lang === lang))
-  .sort((a, b) => (a.data.date < b.data.date ? 1 : -1));
+// 获取当前语言的所有文章（非草稿）
+const posts = (await getCollection("blog", ({ data }) => {
+  return !data.draft && data.lang === lang;
+})).sort((a, b) => +b.data.date - +a.data.date);
 
 const base = lang === "en" ? "/en" : `/${lang}`;
 ---
 
-<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.blog}`}>
-  <section class="mx-auto max-w-3xl px-4 md:px-0 py-12">
-    <h1 class="text-3xl font-bold mb-2">{t.blog.title}</h1>
+<Layout lang={lang} title={`Xiaosi Huang · ${t.blog.title}`}>
+  <section class="mx-auto max-w-5xl px-4">
+    <h1 class="text-4xl font-extrabold mb-3">{t.blog.title}</h1>
     <p class="opacity-70 mb-8">{t.blog.subtitle}</p>
 
     {posts.length === 0 ? (
-      <p class="opacity-60">No posts yet.</p>
+      <p class="opacity-60">{t.blog.empty || "No posts yet."}</p>
     ) : (
-      <div class="space-y-4">
+      <ul class="space-y-6">
         {posts.map((p) => (
-          <a href={`${base}/blog/${p.data.slug ?? p.slug}`}
-             class="block rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
-            <h2 class="text-xl font-semibold mb-1">{p.data.title}</h2>
-            <div class="opacity-60 text-sm mb-1">{p.data.date}</div>
-            {p.data.summary && <p class="opacity-80">{p.data.summary}</p>}
-          </a>
+          <li class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 hover:shadow-md transition group">
+            <a href={`${base}/blog/${p.slug}`} class="group block">
+              {p.data.cover && (
+                <img
+                  src={p.data.cover}
+                  alt={p.data.coverAlt || p.data.title}
+                  class="w-full h-48 object-cover rounded-lg mb-4"
+                  loading="lazy"
+                />
+              )}
+              <h2 class="text-2xl font-semibold group-hover:underline">{p.data.title}</h2>
+              {p.data.excerpt && (
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{p.data.excerpt}</p>
+              )}
+              <div class="flex justify-between items-start gap-4 mt-3">
+                <time datetime={p.data.date.toISOString()} class="text-xs text-gray-500">
+                  {p.data.date.toLocaleDateString(lang)}
+                </time>
+                {p.data.tags?.length > 0 && (
+                  <div class="flex flex-wrap gap-2">
+                    {p.data.tags.map((tag) => (
+                      <span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     )}
   </section>
 </Layout>

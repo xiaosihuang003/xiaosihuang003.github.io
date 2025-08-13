@@ -1,18 +1,20 @@
 ---
-// src/components/Nav.astro
 import { dict, normalizeLang, languages, langMeta } from "../i18n";
 
-// 1) 识别当前语言：优先 props，其次从路径第 1 段拿（/zh/...）
+interface Props {
+  lang?: string;
+}
+const { lang: langProp } = Astro.props as Props;
+
 const pathname = Astro.url?.pathname ?? "/";
-const fromProps = (Astro.props as any)?.lang as string | undefined;
 const seg = pathname.split("/")[1] || "";
-const lang = normalizeLang(fromProps || seg);
+const lang = normalizeLang(langProp || seg);
 
-// 2) 文案 & 前缀
+// 文案 & 前缀
 const t = dict[lang];
-const base = lang === "en" ? "" : `/${lang}`;
+const base = lang === "en" ? "/en" : `/${lang}`;
 
-// 3) 导航链接（文案来自字典）
+// 导航链接
 const links = [
   { href: `${base}/`,         label: t.nav.home },
   { href: `${base}/projects`, label: t.nav.projects },
@@ -20,19 +22,20 @@ const links = [
   { href: `${base}/about`,    label: t.nav.about },
 ];
 
-// 4) 当前高亮
+// 当前高亮
 const normalize = (u: string) => u.replace(/\/+$/, "") || "/";
 const isActive = (href: string) => normalize(pathname) === normalize(href);
 
-// 5) 语言下拉
+// 语言下拉
 const meta = langMeta[lang];
-const langHref = (code: string) => (code === "en" ? "/" : `/${code}`);
+const langHref = (code: string) => (code === "en" ? "/en" : `/${code}`);
 const badge = meta.badge;
 ---
+
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-zinc-200 dark:bg-zinc-900/80 dark:border-zinc-800">
   <div class="mx-auto max-w-7xl h-16 px-4 md:px-8 flex items-center gap-4">
     <!-- 品牌 -->
-    <a href={base || "/"} class="shrink-0 font-extrabold tracking-tight text-[20px] md:text-[22px]">
+    <a href={base} class="shrink-0 font-extrabold tracking-tight text-[20px] md:text-[22px]">
       Xiaosi Huang
     </a>
 
