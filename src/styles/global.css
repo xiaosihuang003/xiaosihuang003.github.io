@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 /* =========================================================
-   ① 基础设置（根字号 / 行高 / 抗锯齿）
+   ① 基础：根字号 / 行高 / 抗锯齿 + 移动端护栏
    ========================================================= */
 @layer base {
-  html { font-size: clamp(16px, 0.9vw + 14px, 18px); }
+  /* 桌面到平板的自适应根字号（16–18px） */
+  html { font-size: clamp(16px, 0.8vw + 14px, 18px); }
   body {
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
@@ -12,18 +13,15 @@
   }
 }
 
-/* =========================================================
-   ①.1 移动端护栏（强烈建议）
-   - 媒体元素最多撑满容器
-   - flex/grid 子项不要因 min-width 造成溢出
-   - 任意位置可断行（长英文 / URL）
-   ========================================================= */
+/* 媒体元素最多撑满容器，避免溢出 */
 img, svg, video, canvas, audio, iframe {
   max-width: 100%;
   height: auto;
   display: block;
 }
+/* flex/grid 子项不要因 min-width 造成溢出 */
 * { min-width: 0; }
+/* 长英文 / URL 可断行 */
 .break-anywhere { overflow-wrap: anywhere; word-break: break-word; }
 
 /* =========================================================
@@ -42,11 +40,10 @@ html:lang(zh-HK) body {
 }
 
 /* =========================================================
-   ③ 博客排版：容器与标题层级（kicker / title / subtitle）
+   ③ 文章容器与标题层级（kicker / title / subtitle）
    ========================================================= */
 .post { max-width: 70ch; margin: 0 auto; }
 
-/* 冒号前的小标题（kicker）：比主标题小两号 */
 .post-kicker {
   font-size: 0.95rem;
   font-weight: 500;
@@ -54,10 +51,10 @@ html:lang(zh-HK) body {
   margin: 0 0 .35rem 0;
 }
 
-/* 主标题（冒号后部分） */
+/* 桌面：≈26–32px；手机会单独再降一档 */
 .post-title {
   font-weight: 700;
-  font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem); /* ≈26–32px */
+  font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
   line-height: 1.3;
   letter-spacing: -0.01em;
   margin: 0 0 .75rem 0;
@@ -65,7 +62,6 @@ html:lang(zh-HK) body {
   text-wrap: balance;
 }
 
-/* 副标题（dek） */
 .post-subtitle {
   font-size: 1.125rem;
   color: #6b7280;
@@ -73,7 +69,7 @@ html:lang(zh-HK) body {
 }
 
 /* =========================================================
-   ④ Meta 行（日期 + 标签）
+   ④ Meta（日期 + 标签）
    ========================================================= */
 .post-meta {
   display: flex;
@@ -96,7 +92,7 @@ html:lang(zh-HK) body {
    ⑤ 正文（段落 / 小标题 / 列表）
    ========================================================= */
 .post-body p {
-  margin: 1.5rem 0;           /* 视觉等效“空一行” */
+  margin: 1.4rem 0;
   line-height: 1.85;
   font-size: 1.05rem;
   color: #1f2937;
@@ -104,12 +100,12 @@ html:lang(zh-HK) body {
 .post-body h2 {
   font-size: 1.35rem;
   font-weight: 600;
-  margin: 2.5rem 0 1rem;
+  margin: 2.25rem 0 1rem;
 }
 .post-body h3 {
   font-size: 1.15rem;
   font-weight: 600;
-  margin: 2rem 0 .8rem;
+  margin: 1.8rem 0 .8rem;
 }
 .post-body ul,
 .post-body ol { margin: 1rem 0 1rem 1.25rem; }
@@ -118,8 +114,10 @@ html:lang(zh-HK) body {
 /* =========================================================
    ⑥ 嵌入图表 / 图片（含 Tableau iframe）
    ========================================================= */
-.post-body figure { margin: 2rem 0; }
-.post-body .viz iframe {
+.post-body figure { margin: 1.75rem 0; }
+
+/* 默认 16:9；手机上会改成更“高”一些的比例，减少挤压 */
+.viz iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
@@ -127,8 +125,16 @@ html:lang(zh-HK) body {
   background: #f9fafb;
 }
 
+/* 没有 aspect-ratio 的浏览器降级方案（安全网） */
+.viz { position: relative; }
+.viz--fallback { padding-top: 56.25%; }   /* 16:9 = 9/16 * 100% */
+.viz--fallback > iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; border-radius: .75rem;
+}
+
 /* =========================================================
-   ⑦ 正文内链接（含“数据来源”）
+   ⑦ 链接（含“数据来源”）
    ========================================================= */
 .post-body a {
   color: #2563eb;
@@ -142,13 +148,10 @@ html:lang(zh-HK) body {
 /* =========================================================
    ⑧ 封面图片（缩小 / 居中 / 来源说明）
    ========================================================= */
-.post-cover {
-  margin: 1rem auto 1.25rem;
-  text-align: center;
-}
+.post-cover { margin: 1rem auto 1.25rem; text-align: center; }
 .post-cover img {
   width: 100%;
-  max-width: 200px;           /* 封面图缩小，更适合手机 */
+  max-width: 220px;   /* 文章页封面小巧一点，手机更舒服 */
   height: auto;
   border-radius: 0.75rem;
   display: inline-block;
@@ -167,17 +170,32 @@ html:lang(zh-HK) body {
 .post-cover figcaption a:hover { color: #1d4ed8; }
 
 /* =========================================================
-   ⑨ 手机端优化（≤480px）
+   ⑨ 📱 手机专属优化（≤480px）
+   - 再降一档字号
+   - 标题更紧凑
+   - Tableau 变“更高”一些（3:4）以减少内部挤压
    ========================================================= */
 @media (max-width: 480px) {
-  html { font-size: 15px; } /* 根字号稍微小一些 */
+  /* 统一把根字号收紧到 ~15.5px */
+  html { font-size: 15.5px; }
+
+  .post { padding-left: .25rem; padding-right: .25rem; }
+
   .post-title {
-    font-size: clamp(1.25rem, 3.2vw + 0.9rem, 1.8rem);
+    /* ~20–26px 左右，阅读更稳妥 */
+    font-size: clamp(1.25rem, 4.8vw + 0.2rem, 1.625rem);
     line-height: 1.25;
+    margin-bottom: .6rem;
   }
-  .post-subtitle { font-size: 1rem; }
-  .post-body p { font-size: 1rem; line-height: 1.75; }
-  .post-body h2 { font-size: 1.2rem; }
-  .post-body h3 { font-size: 1.05rem; }
-  .post-body .viz iframe { aspect-ratio: 3 / 4; } /* 图表竖屏比例 */
+
+  .post-subtitle { font-size: 1rem; margin-bottom: 1rem; }
+  .post-meta { font-size: .8rem; margin-bottom: 1.25rem; }
+  .tag { font-size: .72rem; }
+
+  .post-body p { font-size: 1rem; margin: 1.2rem 0; line-height: 1.8; }
+  .post-body h2 { font-size: 1.2rem; margin: 1.75rem 0 .9rem; }
+  .post-body h3 { font-size: 1.05rem; margin: 1.4rem 0 .6rem; }
+
+  /* 让可视化容器更“高”，减少内部拥挤（尤其 Tableau 左侧大标题） */
+  .viz iframe { aspect-ratio: 3 / 4; min-height: 56vh; }
 }
