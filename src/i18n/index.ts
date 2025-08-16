@@ -12,7 +12,7 @@ export const langMeta: Record<Lang, { flag: string; label: string; badge: string
   fi:  { flag: '🇫🇮', label: 'Suomi',    badge: 'FI' },
   sv:  { flag: '🇸🇪', label: 'Svenska',  badge: 'SV' },
   zh:  { flag: '🇨🇳', label: '简体',      badge: '简体' },
-  yue: { flag: '🇨🇳', label: '繁体',      badge: '繁体' },
+  yue: { flag: '🇨🇳', label: '粤语',      badge: '粤语' },
 };
 
 type Card = { title: string; desc: string };

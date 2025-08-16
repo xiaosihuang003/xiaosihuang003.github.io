@@ -36,34 +36,58 @@ const base = lang === "en" ? "/en" : `/${lang}`;
               <h2 class="text-2xl font-semibold group-hover:underline break-anywhere">
                 {p.data.title}
               </h2>
+
               {p.data.excerpt && (
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 break-anywhere">
                   {p.data.excerpt}
                 </p>
               )}
 
-              {/* 日期 + 标签 + 右侧小封面 */}
+              {/* 日期 + 标签 + 右侧自适应小封面 */}
               <div class="mt-3 grid grid-cols-[1fr_auto] items-end gap-3">
                 <div class="flex flex-col gap-2">
-                  <time datetime={p.data.date.toISOString()} class="text-xs text-gray-500">
+                  <time
+                    datetime={p.data.date.toISOString()}
+                    class="text-xs text-gray-500"
+                  >
                     {p.data.date.toLocaleDateString(lang)}
                   </time>
+
                   {p.data.tags?.length > 0 && (
                     <div class="flex flex-wrap gap-2">
                       {p.data.tags.map((tag) => (
-                        <span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">{tag}</span>
+                        <span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                          {tag}
+                        </span>
                       ))}
                     </div>
                   )}
                 </div>
 
+                {/* ✅ 自适应封面：手机更小、桌面更大；不裁切插画 */}
                 {p.data.cover && (
-                  <img
-                    src={p.data.cover}
-                    alt={p.data.coverAlt || p.data.title}
-                    class="w-24 h-24 md:w-28 md:h-28 object-cover rounded-lg"
-                    loading="lazy"
-                  />
+                  <div class="ml-auto shrink-0 flex items-end">
+                    <img
+                      src={p.data.cover}
+                      alt={p.data.coverAlt || p.data.title}
+                      width="96"  /* 预留布局，避免 CLS；不影响 CSS 尺寸 */
+                      height="96"
+                      class="
+                        w-12 h-12            /* ~48px：手机 */
+                        sm:w-14 sm:h-14      /* ~56px：小平板 */
+                        md:w-16 md:h-16      /* ~64px：平板 */
+                        lg:w-20 lg:h-20      /* ~80px：桌面 */
+                        object-contain rounded-lg
+                        bg-white dark:bg-zinc-900
+                        ring-1 ring-zinc-200/70 dark:ring-zinc-800/80
+                      "
+                      loading="lazy"
+                      sizes="(max-width: 640px) 48px,
+                             (max-width: 768px) 56px,
+                             (max-width: 1024px) 64px,
+                             80px"
+                    />
+                  </div>
                 )}
               </div>
             </a>
