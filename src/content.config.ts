@@ -8,10 +8,14 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
-    date: z.date(),                 // 这里用 z.date()
+    date: z.date(),
     lang: Lang,
     cover: z.string().optional(),
     coverAlt: z.string().optional(),
+    // ✅ 新增：封面图片来源（文字与链接，任选其一或都填）
+    coverCredit: z.string().optional(),
+    coverCreditUrl: z.string().url().optional(),
+
     excerpt: z.string().max(280).optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
@@ -19,7 +23,6 @@ const blog = defineCollection({
   }),
 });
 
-// 顺便把 projects 定义上，去掉启动时的黄色提示
 const projects = defineCollection({
   type: "content",
   schema: z.object({
