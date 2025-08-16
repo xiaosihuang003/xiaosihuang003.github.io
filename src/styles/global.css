@@ -148,7 +148,7 @@ html:lang(zh-HK) body {
 }
 .post-cover img {
   width: 100%;
-  max-width: 200px;           /* 你现在设的是 250px，小图更适合手机 */
+  max-width: 200px;           /* 封面图缩小，更适合手机 */
   height: auto;
   border-radius: 0.75rem;
   display: inline-block;
@@ -165,3 +165,19 @@ html:lang(zh-HK) body {
   text-underline-offset: 3px;
 }
 .post-cover figcaption a:hover { color: #1d4ed8; }
+
+/* =========================================================
+   ⑨ 手机端优化（≤480px）
+   ========================================================= */
+@media (max-width: 480px) {
+  html { font-size: 15px; } /* 根字号稍微小一些 */
+  .post-title {
+    font-size: clamp(1.25rem, 3.2vw + 0.9rem, 1.8rem);
+    line-height: 1.25;
+  }
+  .post-subtitle { font-size: 1rem; }
+  .post-body p { font-size: 1rem; line-height: 1.75; }
+  .post-body h2 { font-size: 1.2rem; }
+  .post-body h3 { font-size: 1.05rem; }
+  .post-body .viz iframe { aspect-ratio: 3 / 4; } /* 图表竖屏比例 */
+}
