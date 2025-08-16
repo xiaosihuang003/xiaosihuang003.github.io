@@ -13,6 +13,20 @@
 }
 
 /* =========================================================
+   ①.1 移动端护栏（强烈建议）
+   - 媒体元素最多撑满容器
+   - flex/grid 子项不要因 min-width 造成溢出
+   - 任意位置可断行（长英文 / URL）
+   ========================================================= */
+img, svg, video, canvas, audio, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+* { min-width: 0; }
+.break-anywhere { overflow-wrap: anywhere; word-break: break-word; }
+
+/* =========================================================
    ② 字体族（按语言切换）
    ========================================================= */
 html:lang(en) body {
@@ -134,7 +148,7 @@ html:lang(zh-HK) body {
 }
 .post-cover img {
   width: 100%;
-  max-width: 250px;           /* 想更小：520 / 480 */
+  max-width: 200px;           /* 你现在设的是 250px，小图更适合手机 */
   height: auto;
   border-radius: 0.75rem;
   display: inline-block;
@@ -151,4 +165,3 @@ html:lang(zh-HK) body {
   text-underline-offset: 3px;
 }
 .post-cover figcaption a:hover { color: #1d4ed8; }
-

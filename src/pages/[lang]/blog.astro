@@ -12,7 +12,7 @@ export function getStaticPaths() {
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 
-// 获取当前语言的所有文章（非草稿）并按日期倒序
+// 获取当前语言的所有文章（非草稿）
 const posts = (await getCollection("blog", ({ data }) => {
   return !data.draft && data.lang === lang;
 })).sort((a, b) => +b.data.date - +a.data.date);
@@ -30,47 +30,41 @@ const base = lang === "en" ? "/en" : `/${lang}`;
     ) : (
       <ul class="space-y-6">
         {posts.map((p) => (
-          <li class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 hover:shadow-md transition">
+          <li class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 hover:shadow-md transition group">
             <a href={`${base}/blog/${p.slug}`} class="group block">
               {/* 标题 + 摘要 */}
-              <h2 class="text-2xl font-semibold group-hover:underline">
+              <h2 class="text-2xl font-semibold group-hover:underline break-anywhere">
                 {p.data.title}
               </h2>
-
               {p.data.excerpt && (
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 break-anywhere">
                   {p.data.excerpt}
                 </p>
               )}
 
-              {/* 底部：左边时间，右边 = （可选缩略图）+ 标签 */}
-              <div class="mt-3 flex justify-between items-start gap-4">
-                <time datetime={p.data.date.toISOString()} class="text-xs text-gray-500">
-                  {p.data.date.toLocaleDateString(lang)}
-                </time>
-
-                {/* 右侧区域：有封面就先放小图，再放标签；没有封面就只放标签。
-                    这样第一篇（没有封面）完全不变，第二篇（有姆明）图就贴着标签左侧。 */}
-                <div class="flex items-center gap-3">
-                  {p.data.cover && (
-                    <img
-                      src={p.data.cover}
-                      alt={p.data.coverAlt || p.data.title}
-                      loading="lazy"
-                      class="hidden md:block w-[108px] h-[72px] object-cover rounded-lg"
-                    />
-                  )}
-
+              {/* 日期 + 标签 + 右侧小封面 */}
+              <div class="mt-3 grid grid-cols-[1fr_auto] items-end gap-3">
+                <div class="flex flex-col gap-2">
+                  <time datetime={p.data.date.toISOString()} class="text-xs text-gray-500">
+                    {p.data.date.toLocaleDateString(lang)}
+                  </time>
                   {p.data.tags?.length > 0 && (
-                    <div class="flex flex-wrap gap-2 justify-end">
+                    <div class="flex flex-wrap gap-2">
                       {p.data.tags.map((tag) => (
-                        <span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
-                          {tag}
-                        </span>
+                        <span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">{tag}</span>
                       ))}
                     </div>
                   )}
                 </div>
+
+                {p.data.cover && (
+                  <img
+                    src={p.data.cover}
+                    alt={p.data.coverAlt || p.data.title}
+                    class="w-24 h-24 md:w-28 md:h-28 object-cover rounded-lg"
+                    loading="lazy"
+                  />
+                )}
               </div>
             </a>
           </li>

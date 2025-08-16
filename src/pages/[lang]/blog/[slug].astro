@@ -39,7 +39,8 @@ const mainTitle = parts.length > 1
       {kicker && <div class="post-kicker">{kicker}</div>}
 
       <!-- 主标题：只放冒号后的部分 -->
-      <h1 class="post-title">{mainTitle}</h1>
+      <h1 class="post-title break-anywhere">{mainTitle}</h1>
+
 
       {post.data.subtitle && <p class="post-subtitle">{post.data.subtitle}</p>}
 
