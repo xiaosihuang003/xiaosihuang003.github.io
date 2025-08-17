@@ -5,14 +5,17 @@ import { languages } from "../i18n";
 
 const { title = "Xiaosi Huang · Portfolio", lang = "en" } = Astro.props;
 
-// 去掉语言前缀，得到逻辑路径（/en|fi|sv|zh|yue）
 const raw = Astro.url.pathname || "/";
-const logicalPath = raw.replace(/^\/(en|fi|sv|zh|yue)(?=\/|$)/, "");
+const langPattern = new RegExp(`^/(?:${languages.join("|")})(?=/|$)`);
+const logicalPath = raw.replace(langPattern, "");
+
+
 
 // hreflang
 const hreflangMap: Record<string, string> = {
   en: "en",
   fi: "fi",
+  no: "no",
   sv: "sv",
   zh: "zh-Hans",
   yue: "zh-Hant",

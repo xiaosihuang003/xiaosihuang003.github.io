@@ -1,7 +1,7 @@
 // src/content.config.ts
 import { defineCollection, z } from "astro:content";
 
-const Lang = z.enum(["en", "fi", "sv", "yue", "zh"]);
+const Lang = z.enum(["en", "fi", "sv", "yue", "zh", "no"]); 
 
 const blog = defineCollection({
   type: "content",

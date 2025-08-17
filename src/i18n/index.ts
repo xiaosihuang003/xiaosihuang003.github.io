@@ -1,4 +1,4 @@
-export const languages = ['en', 'fi', 'sv', 'zh', 'yue'] as const;
+export const languages = ['en', 'fi', 'no','sv', 'zh', 'yue'] as const;
 export type Lang = typeof languages[number];
 
 export function normalizeLang(input?: string): Lang {
@@ -10,6 +10,7 @@ export function normalizeLang(input?: string): Lang {
 export const langMeta: Record<Lang, { flag: string; label: string; badge: string }> = {
   en:  { flag: '🇬🇧', label: 'English',  badge: 'EN' },
   fi:  { flag: '🇫🇮', label: 'Suomi',    badge: 'FI' },
+  no:  { flag: '🇳🇴', label: 'Norsk',    badge: 'NO' },
   sv:  { flag: '🇸🇪', label: 'Svenska',  badge: 'SV' },
   zh:  { flag: '🇨🇳', label: '简体',      badge: '简体' },
   yue: { flag: '🇨🇳', label: '粤语',      badge: '粤语' },
@@ -148,7 +149,30 @@ export const dict: Record<Lang, Copy> = {
     },
     projects: { title: '項目', subtitle: '精選視覺化與分析作品。' },
     about: { title: '關於', subtitle: '個人背景、關注方向與聯絡方式。' },
-  }
+  },
+    no: {
+      nav: { home: 'Hjem', projects: 'Prosjekter', blog: 'Blogg', about: 'Om' },
+      home: {
+        line1: 'Fortell historier med data,',
+        line2: 'gjør innsikt om til effekt',
+        lead1: 'Fokus på Tableau-visualisering, dashboards og forretningsanalyse.',
+        lead2: 'Her finner du utvalgte prosjekter, metoder og notater.',
+        btnProjects: 'Se prosjekter',
+        btnAbout: 'Om meg',
+        cards: [
+          { title: 'Dashboards', desc: 'KPI-er for vekst, drift og markedsføring' },
+          { title: 'Datafortelling', desc: 'Fra KPI-er til historier som driver beslutninger' },
+          { title: 'Metoder & vurderinger', desc: 'Strukturerte tankemodeller og beste praksis' },
+        ],
+      },
+      blog: {
+        title: 'Blogg',
+        subtitle: 'Notater om metoder, gjennomganger og praksis.',
+        empty: 'Ingen innlegg ennå.',
+      },
+      projects: { title: 'Prosjekter', subtitle: 'Utvalgt visualiserings- og analysearbeid.' },
+      about: { title: 'Om', subtitle: 'Bakgrunn, fokus og kontakt.' },
+    }
 };
 
 // 兜底翻译
