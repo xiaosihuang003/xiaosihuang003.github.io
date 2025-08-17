@@ -66,9 +66,9 @@ const urlFor = (code: string) =>
 
     {/* hreflang 多语言 alternate */}
     {languages.map((code) => (
-      <link rel="alternate" hrefLang={hreflangMap[code]} href={urlFor(code)} />
+      <link rel="alternate" hreflang={hreflangMap[code]} href={urlFor(code)} />
     ))}
-    <link rel="alternate" hrefLang="x-default" href={urlFor("en")} />
+    <link rel="alternate" hreflang="x-default" href={urlFor("en")} />
   </head>
 
   <!--

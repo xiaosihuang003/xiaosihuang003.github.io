@@ -12,8 +12,8 @@ export const langMeta: Record<Lang, { flag: string; label: string; badge: string
   fi:  { flag: '🇫🇮', label: 'Suomi',    badge: 'FI' },
   no:  { flag: '🇳🇴', label: 'Norsk',    badge: 'NO' },
   sv:  { flag: '🇸🇪', label: 'Svenska',  badge: 'SV' },
-  zh:  { flag: '🇨🇳', label: '简体',      badge: '简体' },
-  yue: { flag: '🇨🇳', label: '粤语',      badge: '粤语' },
+  zh:  { flag: '🇨🇳', label: 'Chinese',      badge: 'Chinese' },
+  yue: { flag: '🇨🇳', label: 'Cantonese',      badge: 'Cantonese' },
 };
 
 type Card = { title: string; desc: string };

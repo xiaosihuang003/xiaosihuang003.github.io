@@ -14,7 +14,11 @@ const lang = normalizeLang(langProp || seg);
 const t = dict[lang];
 const base = lang === "en" ? "/en" : `/${lang}`;
 
-// 导航链接
+// ====== 关键：保留当前页面路径（去掉语言段得到逻辑路径）======
+const langPattern = new RegExp(`^/(?:${languages.join("|")})(?=/|$)`);
+const logicalPath = pathname.replace(langPattern, ""); // 例如："/blog"、"/blog/first-post"
+
+// 导航链接（仍然用 base 生成）
 const links = [
   { href: `${base}/`,         label: t.nav.home },
   { href: `${base}/projects`, label: t.nav.projects },
@@ -26,10 +30,13 @@ const links = [
 const normalize = (u: string) => u.replace(/\/+$/, "") || "/";
 const isActive = (href: string) => normalize(pathname) === normalize(href);
 
-// 语言下拉
-const meta = langMeta[lang];
-const langHref = (code: string) => (code === "en" ? "/en" : `/${code}`);
-const badge = meta.badge;
+// 语言下拉：切到目标语言但保留当前路径
+const langHref = (code: string) => {
+  const path = logicalPath || "/";
+  return `/${code}${path}`;
+};
+
+const badge = langMeta[lang].badge;
 ---
 
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-zinc-200 dark:bg-zinc-900/80 dark:border-zinc-800">
