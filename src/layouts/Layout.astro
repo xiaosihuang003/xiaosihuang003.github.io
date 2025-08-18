@@ -1,58 +1,43 @@
 ---
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
-import { languages } from "../i18n";
+import { languages, hreflangMap, htmlLangMap } from "../i18n";
 
-const { title = "Xiaosi Huang · Portfolio", lang = "en" } = Astro.props;
+interface Props {
+  title?: string;
+  lang?: string;
+  /** 当前页的其它语言 URL 映射（详情页会传入） */
+  alternates?: Record<string, string>;
+}
+const { title = "Xiaosi Huang · Portfolio", lang = "en", alternates = {} } = Astro.props as Props;
 
+// 去掉语言前缀，得到逻辑路径
 const raw = Astro.url.pathname || "/";
 const langPattern = new RegExp(`^/(?:${languages.join("|")})(?=/|$)`);
 const logicalPath = raw.replace(langPattern, "");
 
-
-
-// hreflang
-const hreflangMap: Record<string, string> = {
-  en: "en",
-  fi: "fi",
-  no: "no",
-  sv: "sv",
-  zh: "zh-Hans",
-  yue: "zh-Hant",
-};
+// hreflang URLs
 const urlFor = (code: string) =>
   new URL(`${`/${code}`}${logicalPath || "/"}`, Astro.url.origin).toString();
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-smooth">
+<html lang={htmlLangMap[lang as any] ?? (lang as string)} class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
-    <!-- 视口 + 安全区 -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-
-    <!-- 跟随系统浅/深色 -->
     <meta name="color-scheme" content="light dark" />
-    <!-- 浏览器地址栏/任务栏颜色：浅/深色分别声明 -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b0f15" media="(prefers-color-scheme: dark)" />
 
-    <!-- 字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
     <title>{title}</title>
 
-    <!-- Canonical & Meta -->
     <link rel="canonical" href={Astro.url.origin + Astro.url.pathname} />
-    <meta
-      name="description"
-      content="Tableau visualization, dashboard design, and business analytics. Selected projects, methods, and notes."
-    />
+    <meta name="description" content="Tableau visualization, dashboard design, and business analytics. Selected projects, methods, and notes." />
     <meta property="og:title" content={title} />
     <meta property="og:description" content="Portfolio of visualization & analytics work." />
     <meta property="og:type" content="website" />
@@ -60,28 +45,21 @@ const urlFor = (code: string) =>
     <meta property="og:image" content="/og-cover.png" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Favicon -->
     <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
     <link rel="mask-icon" href="/favicon.svg?v=3" color="#2563eb" />
 
-    {/* hreflang 多语言 alternate */}
+    {/* hreflang */}
     {languages.map((code) => (
       <link rel="alternate" hreflang={hreflangMap[code]} href={urlFor(code)} />
     ))}
     <link rel="alternate" hreflang="x-default" href={urlFor("en")} />
   </head>
 
-  <!--
-    不再使用 Tailwind 的 dark: 强制配色，交给 global.css 的 CSS 变量控制。
-    这样即可根据系统浅/深色自动切换。
-  -->
   <body>
-    <Nav lang={lang} />
-
+    <Nav lang={lang} alternates={alternates} />
     <main class="mx-auto max-w-7xl px-4 md:px-8 py-12">
       <slot />
     </main>
-
     <footer style="border-top:1px solid var(--border)" class="py-10">
       <div class="mx-auto max-w-7xl px-4 md:px-8 text-sm" style="opacity:.7">
         © {new Date().getFullYear()} Xiaosi Huang. All rights reserved.
