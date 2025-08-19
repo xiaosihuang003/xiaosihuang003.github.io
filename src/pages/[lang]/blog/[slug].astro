@@ -1,5 +1,6 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
+import BackButton from "../../../components/BackButton.astro";
 import { dict, normalizeLang, languages } from "../../../i18n";
 import { getCollection } from "astro:content";
 
@@ -7,9 +8,7 @@ export const prerender = true;
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-  return posts.map((p) => ({
-    params: { lang: p.data.lang, slug: p.slug },
-  }));
+  return posts.map((p) => ({ params: { lang: p.data.lang, slug: p.slug } }));
 }
 
 const lang = normalizeLang(Astro.params.lang as string);
@@ -20,161 +19,63 @@ const all = await getCollection("blog");
 const post = all.find((p) => p.slug === slug && p.data.lang === lang);
 if (!post) throw new Error(`Post not found: ${lang}/${slug}`);
 
-// —— 标题自动拆分：kicker（冒号前）+ 主标题（冒号后）
-const rawTitle = post.data.title ?? "";
-const parts = rawTitle.split(/[:：]/);
-const kicker = parts.length > 1 ? parts[0].trim() : "";
-const mainTitle =
-  parts.length > 1
-    ? rawTitle.slice(rawTitle.indexOf(parts[0]) + parts[0].length + 1).trim()
-    : rawTitle.trim();
-
-// —— 构造其它语言的“就地跳转”链接（没有对应译文就退到该语言的博客列表）
-const langs = languages as readonly string[];
-const baseId = post.slug.replace(new RegExp(`[-_]?(${langs.join("|")})$`), "");
-function basePrefix(code: string) { return code === "en" ? "/en" : `/${code}`; }
-
+// 其他语言 alternate
 const alternates = Object.fromEntries(
-  langs.map((code) => {
-    const re = new RegExp(`^${baseId}[-_]?${code}$`);
-    const target = all.find((p) => p.data.lang === code && re.test(p.slug));
-    return [
-      code,
-      target
-        ? `${basePrefix(code)}/blog/${target.slug}`
-        : `${basePrefix(code)}/blog`,
-    ];
+  (languages as readonly string[]).map((code) => {
+    const target = all.find((p) => p.data.lang === code && p.slug.replace(/[-_](en|fi|no|sv|zh|yue)$/,'').length > 0 && p.slug.startsWith(slug.replace(/[-_](en|fi|no|sv|zh|yue)$/,'')));
+    const prefix = code === "en" ? "/en" : `/${code}`;
+    return [code, target ? `${prefix}/blog/${target.slug}` : `${prefix}/blog`];
   })
 );
 
-// 同语言文章按日期排序（用于上一篇/下一篇 & 相关内容）
-const siblings = (await getCollection("blog", ({ data }) => data.lang === lang && !data.draft))
-  .sort((a, b) => +b.data.date - +a.data.date);
-
-const idx = siblings.findIndex((x) => x.slug === post.slug);
-const prevPost = idx > 0 ? siblings[idx - 1] : null;
-const nextPost = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null;
-
-const firstTag = post.data.tags?.[0];
-const related = siblings
-  .filter((x) => x.slug !== post.slug && (firstTag ? x.data.tags?.includes(firstTag) : true))
-  .slice(0, 4);
-
-// 返回列表 URL（兜底）
-const base = lang === "en" ? "/en" : `/${lang}`;
-const backToList = `${base}/blog`;
-
-// 页面组件（MD 内容）
+// 内容
 const { Content } = await post.render();
+const base = lang === "en" ? "/en" : `/${lang}`;
 ---
 
 <Layout lang={lang} title={`${post.data.title} · Xiaosi Huang`} alternates={alternates}>
-  <article class="post px-4 py-12">
-    <!-- 面包屑 -->
-    <nav class="text-sm text-zinc-500 mb-6">
-      <a class="hover:underline" href={base + "/"}>{t.ui.breadcrumbs.home}</a>
-      <span> / </span>
-      <a class="hover:underline" href={base + "/blog"}>{t.ui.breadcrumbs.blog}</a>
-      <span> / </span>
-      <span class="opacity-70">{kicker || mainTitle}</span>
-    </nav>
+  <article class="mx-auto max-w-3xl px-4 md:px-6 lg:px-0 py-10 md:py-12">
+    <!-- 顶部：面包屑 + 返回按钮（绝对定位） -->
+    <header class="relative pb-1">
+      <nav class="mb-6 text-sm text-zinc-500">
+        <a href={base} class="hover:underline">{t.ui.breadcrumbs.home}</a>
+        <span class="mx-2">/</span>
+        <a href={`${base}/blog`} class="hover:underline">{t.ui.breadcrumbs.blog}</a>
+      </nav>
 
-    <header class="mb-4 relative">
-      <!-- 右上角：返回 Blog（跟随语言） -->
-      <a href={backToList}
-         class="absolute right-0 -top-2 rounded-full border px-3 py-1.5 text-sm
-                border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
-        ← {t.ui.backToBlog}
-      </a>
+      <BackButton
+        href={`${base}/blog`}
+        lang={lang}
+        kind="blog"
+        class="absolute right-0 -top-10 md:top-0"
+      />
 
-      {kicker && (
-        <div class="text-xs uppercase tracking-wide text-zinc-500 mb-2">
-          {kicker}
-        </div>
-      )}
-
-      <!-- 主标题：更小、更紧凑，并限制最大宽度 -->
-      <h1
-        class="break-anywhere text-balance font-bold
-               text-[26px] md:text-[30px] lg:text-[34px]
-               leading-snug -tracking-[0.005em] max-w-3xl mb-2">
-        {mainTitle}
+      <h1 class="text-3xl md:text-[34px] font-extrabold leading-tight text-balance">
+        {post.data.title}
       </h1>
 
       {post.data.subtitle && (
-        <p class="text-[15px] md:text-base text-zinc-600 dark:text-zinc-400 max-w-2xl mb-3">
+        <p class="mt-2 text-[15px] md:text-base text-zinc-600 dark:text-zinc-400">
           {post.data.subtitle}
         </p>
       )}
 
-      <!-- 日期 + 标签 -->
-      <div class="flex flex-wrap items-center gap-2 text-sm text-zinc-500 mb-4">
+      <div class="mt-3 flex flex-wrap items-center gap-2 text-sm text-zinc-500">
         <time datetime={post.data.date.toISOString()}>
           {post.data.date.toLocaleDateString(lang)}
         </time>
-
         {post.data.tags?.length > 0 && (
           <div class="flex flex-wrap gap-2">
             {post.data.tags.map((tag) => (
-              <span
-                class="rounded-full border border-zinc-200 dark:border-zinc-800
-                       bg-zinc-50 dark:bg-zinc-900/40 px-2 py-0.5 text-xs">
-                #{tag}
-              </span>
+              <span class="rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 px-2 py-0.5 text-xs">#{tag}</span>
             ))}
           </div>
         )}
       </div>
-
-      <!-- 封面（如有） -->
-      {post.data.cover && (
-        <figure class="post-cover">
-          <img
-            src={post.data.cover}
-            alt={post.data.coverAlt || post.data.title}
-            loading="eager" />
-          {(post.data.coverCredit || post.data.coverCreditUrl) && (
-            <figcaption>
-              图片来源：
-              {post.data.coverCreditUrl ? (
-                <a href={post.data.coverCreditUrl} target="_blank" rel="noopener noreferrer nofollow">
-                  {post.data.coverCredit || post.data.coverCreditUrl}
-                </a>
-              ) : (post.data.coverCredit)}
-            </figcaption>
-          )}
-        </figure>
-      )}
     </header>
 
-    <div class="post-body">
+    <div class="post-body mt-6">
       <Content />
     </div>
-
-    <!-- 上一篇 / 下一篇（可选：先保留简单样式） -->
-    <div class="mt-10 flex justify-between text-sm">
-      <div>
-        {prevPost && (
-          <a class="hover:underline" href={`${base}/blog/${prevPost.slug}`}>← {prevPost.data.title}</a>
-        )}
-      </div>
-      <div>
-        {nextPost && (
-          <a class="hover:underline" href={`${base}/blog/${nextPost.slug}`}>{nextPost.data.title} →</a>
-        )}
-      </div>
-    </div>
-
-    <!-- 相关内容（简单列表） -->
-    {related.length > 0 && (
-      <section class="mt-10">
-        <h3 class="font-semibold mb-3">Related</h3>
-        <ul class="list-disc pl-5 space-y-1">
-          {related.map(r => (
-            <li><a class="hover:underline" href={`${base}/blog/${r.slug}`}>{r.data.title}</a></li>
-          ))}
-        </ul>
-      </section>
-    )}
   </article>
 </Layout>

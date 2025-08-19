@@ -4,16 +4,135 @@ import { dict, normalizeLang, languages } from "../../i18n";
 
 export const prerender = true;
 export function getStaticPaths() {
-  return languages.map((lang) => ({ params: { lang } }));
+  return (languages as readonly string[]).map((lang) => ({ params: { lang } }));
 }
 
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
+
+/** 可选：本科论文链接（留空则不显示论文卡片） */
+const thesisUrl = ""; // 如: "https://example.com/your-thesis.pdf"
+
+/** 图片放在 /public/images/about/ 下 */
+const avatar = "/images/about/avatar.jpg";
+const photos = [
+  { src: "/images/about/grad1.jpg", alt: "Graduation", caption: "Graduation" },
+  { src: "/images/about/life1.jpg",  alt: "Life & travel", caption: "Life & travel" },
+];
 ---
 
-<Layout lang={lang} title={`Xiaosi Huang · ${t.nav.about}`}>
-  <section class="mx-auto max-w-3xl px-4 md:px-8 py-12">
-    <h1 class="text-3xl font-bold mb-4">{t.about.title}</h1>
-    <p class="opacity-70">{t.about.subtitle}</p>
+<Layout lang={lang} title={`Xiaosi Huang · ${t.about.title}`}>
+  <!-- 与 Blog 完全一致：同容器、同顶部间距 -->
+  <section class="mx-auto max-w-5xl px-4">
+    <!-- 标题与副标题样式与 Blog 一致 -->
+    <h1 class="text-4xl font-extrabold mb-3">{t.about.title}</h1>
+    {t.about.subtitle && (
+      <p class="opacity-70 mb-8">{t.about.subtitle}</p>
+    )}
+
+    <!-- 个人信息卡 -->
+    <section class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+      <div class="p-6">
+        <div class="flex items-start gap-4">
+          <img
+            src={avatar}
+            alt="Portrait of Xiaosi Huang"
+            class="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover"
+            loading="eager"
+          />
+          <div class="min-w-0">
+            <h2 class="text-xl md:text-2xl font-semibold">Data Engineer / Analytics</h2>
+            <p class="mt-2 text-sm md:text-[15px] text-zinc-600 dark:text-zinc-300">
+              I design and build reliable data pipelines and dashboards that turn messy raw data
+              into trustworthy, decision-ready analytics. Focus areas: data modeling, ETL/ELT,
+              orchestration, and practical data visualization for business stakeholders.
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <a
+                href="mailto:your-email@example.com"
+                class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
+              >
+                Email
+              </a>
+              <a
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
+              >
+                Resume / CV
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 正文 -->
+    <article class="mt-8 space-y-4 text-[15px] md:text-base leading-relaxed">
+      <p>
+        I’m a data engineer focused on building durable analytics stacks that scale with the
+        business. On the backend, I work with Python and SQL to design data models and pipelines,
+        ensure data quality, and orchestrate jobs. On the frontend, I deliver clear dashboards and
+        narratives that help teams move faster with confidence.
+      </p>
+      <p>
+        Typical toolbelt: Python (pandas, polars), SQL, Airflow/Prefect, dbt-style modeling,
+        cloud warehouses, and Tableau for storytelling. I care about the last mile of analytics:
+        helping non-technical stakeholders understand, trust, and act on data.
+      </p>
+      <p>
+        Outside of work, I enjoy building small tooling and automation projects—many of them are
+        open-sourced. You can find some of my mini-projects and experiments in the Projects page.
+      </p>
+    </article>
+
+    <!-- 本科论文（可选） -->
+    {thesisUrl && (
+      <section class="mt-10">
+        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6">
+          <h3 class="text-lg font-semibold mb-2">Undergraduate Thesis</h3>
+          <p class="text-[15px] md:text-base text-zinc-600 dark:text-zinc-300">
+            A highlight from my academic work. The thesis reflects my early interest in data,
+            quantitative thinking, and practical applications.
+          </p>
+          <div class="mt-3">
+            <a
+              href={thesisUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
+            >
+              View thesis
+            </a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- 照片栅格 -->
+    {photos.length > 0 && (
+      <section class="mt-10 mb-12">
+        <h3 class="text-lg font-semibold mb-3">Photos</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {photos.map((p) => (
+            <figure class="rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+              <img src={p.src} alt={p.alt} class="w-full h-56 object-cover" loading="lazy" />
+              <figcaption class="px-3 py-2 text-sm text-zinc-600 dark:text-zinc-300">
+                {p.caption}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
   </section>
 </Layout>

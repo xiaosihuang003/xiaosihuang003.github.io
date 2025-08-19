@@ -6,41 +6,28 @@ export function normalizeLang(input?: string): Lang {
   return (languages as readonly string[]).includes(v) ? (v as Lang) : 'en';
 }
 
-/** 下拉菜单用：国旗 + 文案 + 按钮徽标（右上小字） */
+/** 下拉菜单：国旗 + 文案 + 徽标 */
 export const langMeta: Record<Lang, { flag: string; label: string; badge: string }> = {
   en:  { flag: '🇬🇧', label: 'English',   badge: 'EN'  },
   fi:  { flag: '🇫🇮', label: 'Suomi',     badge: 'FI'  },
   no:  { flag: '🇳🇴', label: 'Norsk',     badge: 'NO'  },
   sv:  { flag: '🇸🇪', label: 'Svenska',   badge: 'SV'  },
   zh:  { flag: '🇨🇳', label: 'Chinese',   badge: 'ZH'  },
-  yue: { flag: '🇨🇳', label: 'Cantonese', badge: '粤' },
+  yue: { flag: '🇨🇳', label: 'Cantonese', badge: '粤'  },
 };
 
-/** hreflang 用 */
-export const hreflangMap: Record<Lang, string> = {
-  en:  'en',
-  fi:  'fi',
-  no:  'no',
-  sv:  'sv',
-  zh:  'zh-Hans',
-  yue: 'yue-Hant',
-};
-
-/** <html lang="..."> 建议与 hreflang 对齐 */
-export const htmlLangMap: Record<Lang, string> = {
-  en:  'en',
-  fi:  'fi',
-  no:  'no',
-  sv:  'sv',
-  zh:  'zh-Hans',
-  yue: 'yue-Hant',
-};
+/** hreflang / html lang */
+export const hreflangMap = {
+  en: 'en', fi: 'fi', no: 'no', sv: 'sv', zh: 'zh-Hans', yue: 'yue-Hant',
+} as const;
+export const htmlLangMap = hreflangMap;
 
 type Card = { title: string; desc: string };
 type Copy = {
   nav: { home: string; projects: string; blog: string; about: string };
   ui: {
-    backToBlog: string;      // ← 返回博客 / Takaisin blogiin / …
+    backToBlog: string;
+    backToProjects: string;        // ✅ 新增
     breadcrumbs: { home: string; blog: string };
   };
   home: {
@@ -59,6 +46,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Home', projects: 'Projects', blog: 'Blog', about: 'About' },
     ui: {
       backToBlog: 'Back to Blog',
+      backToProjects: 'Back to Projects',     // ✅
       breadcrumbs: { home: 'Home', blog: 'Blog' },
     },
     home: {
@@ -81,6 +69,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Koti', projects: 'Projektit', blog: 'Blogi', about: 'Tietoa' },
     ui: {
       backToBlog: 'Takaisin blogiin',
+      backToProjects: 'Takaisin projekteihin',   // ✅
       breadcrumbs: { home: 'Koti', blog: 'Blogi' },
     },
     home: {
@@ -103,6 +92,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Hjem', projects: 'Prosjekter', blog: 'Blogg', about: 'Om' },
     ui: {
       backToBlog: 'Tilbake til blogg',
+      backToProjects: 'Tilbake til prosjekter',  // ✅
       breadcrumbs: { home: 'Hjem', blog: 'Blogg' },
     },
     home: {
@@ -125,6 +115,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Hem', projects: 'Projekt', blog: 'Blogg', about: 'Om' },
     ui: {
       backToBlog: 'Tillbaka till blogg',
+      backToProjects: 'Tillbaka till projekt',   // ✅
       breadcrumbs: { home: 'Hem', blog: 'Blogg' },
     },
     home: {
@@ -147,6 +138,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: '首页', projects: '项目', blog: '博客', about: '关于' },
     ui: {
       backToBlog: '返回博客',
+      backToProjects: '返回项目',              // ✅
       breadcrumbs: { home: '首页', blog: '博客' },
     },
     home: {
@@ -169,6 +161,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: '首頁', projects: '項目', blog: '博客', about: '關於' },
     ui: {
       backToBlog: '返回博客',
+      backToProjects: '返回項目',              // ✅
       breadcrumbs: { home: '首頁', blog: '博客' },
     },
     home: {

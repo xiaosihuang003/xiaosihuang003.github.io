@@ -1,0 +1,135 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import BackButton from "../../../components/BackButton.astro";
+import { dict, normalizeLang, languages } from "../../../i18n";
+import { getCollection } from "astro:content";
+
+export const prerender = true;
+
+/** 生成所有语言 + slug 的静态路径 */
+export async function getStaticPaths() {
+  const all = await getCollection("projects");
+  return all.map((p) => ({
+    params: { lang: p.data.lang, slug: p.slug },
+  }));
+}
+
+const lang = normalizeLang(Astro.params.lang as string);
+const t = dict[lang];
+
+const slug = Astro.params.slug as string;
+const all = await getCollection("projects");
+const project = all.find((p) => p.slug === slug && p.data.lang === lang);
+if (!project) throw new Error(`Project not found: ${lang}/${slug}`);
+
+/* ===== 构造其它语言的“就地跳转”链接（与博客页一致） ===== */
+const langs = languages as readonly string[];
+const baseId = project.slug.replace(new RegExp(`[-_]?(${langs.join("|")})$`), "");
+function basePrefix(code: string) { return code === "en" ? "/en" : `/${code}`; }
+
+const alternates = Object.fromEntries(
+  langs.map((code) => {
+    const re = new RegExp(`^${baseId}[-_]?${code}$`);
+    const target = all.find((p) => p.data.lang === code && re.test(p.slug));
+    return [
+      code,
+      target
+        ? `${basePrefix(code)}/projects/${target.slug}`
+        : `${basePrefix(code)}/projects`,
+    ];
+  })
+);
+
+/* ===== 页面内容（MD 渲染） ===== */
+const { Content } = await project.render();
+
+/* 路径前缀 */
+const base = lang === "en" ? "/en" : `/${lang}`;
+---
+
+<Layout lang={lang} title={`${project.data.title} · Xiaosi Huang`} alternates={alternates}>
+  <!-- 与博客详情统一的容器留白与宽度 -->
+  <article class="mx-auto max-w-3xl px-4 md:px-6 lg:px-0 py-10 md:py-12">
+
+    <!-- ✅ 面包屑（与博客一致） + 右上角返回按钮 -->
+    <div class="mb-6 flex items-center gap-2 text-sm text-zinc-500">
+      <a href={base} class="hover:underline">{t.ui.breadcrumbs.home}</a>
+      <span>/</span>
+      <a href={`${base}/projects`} class="hover:underline">{t.nav.projects}</a>
+      <span>/</span>
+      <span class="text-zinc-400 truncate">{project.data.title}</span>
+
+      <!-- 右侧返回按钮（不占位；随面包屑同一行，靠右） -->
+      <div class="ml-auto">
+        <BackButton href={`${base}/projects`} text={t.nav.projects} />
+      </div>
+    </div>
+
+    <!-- 标题区（与博客一致的层级与行高） -->
+    <header class="mb-4">
+      <h1
+        class="break-anywhere text-balance font-extrabold
+               text-3xl md:text-4xl
+               leading-tight tracking-tight mb-2">
+        {project.data.title}
+      </h1>
+
+      {project.data.excerpt && (
+        <p class="text-[15px] md:text-base text-zinc-600 dark:text-zinc-400">
+          {project.data.excerpt}
+        </p>
+      )}
+
+      <!-- 日期 + 标签（轻量风格与博客一致） -->
+      <div class="mt-3 flex flex-wrap items-center gap-2 text-sm text-zinc-500">
+        <time datetime={project.data.date.toISOString()}>
+          {project.data.date.toLocaleDateString(lang)}
+        </time>
+
+        {project.data.tags?.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {project.data.tags.map((tag) => (
+              <span
+                class="rounded-full border border-zinc-200 dark:border-zinc-800
+                       bg-zinc-50 dark:bg-zinc-900/40
+                       px-2 py-0.5 text-xs">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- 可选：GitHub / Demo 按钮（如不配置则不显示） -->
+      {(project.data.repo || project.data.demo) && (
+        <div class="mt-3 flex flex-wrap gap-2">
+          {project.data.repo && (
+            <a
+              href={project.data.repo}
+              target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border text-[14px]
+                     hover:bg-zinc-50 dark:hover:bg-zinc-900/40"
+              style="border-color: var(--border)">
+              GitHub
+            </a>
+          )}
+          {project.data.demo && (
+            <a
+              href={project.data.demo}
+              target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border text-[14px]
+                     hover:bg-zinc-50 dark:hover:bg-zinc-900/40"
+              style="border-color: var(--border)">
+              Demo
+            </a>
+          )}
+        </div>
+      )}
+    </header>
+
+    <!-- 正文内容（Markdown 渲染区） -->
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</Layout>

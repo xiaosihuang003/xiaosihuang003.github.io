@@ -1,0 +1,32 @@
+---
+import { dict, normalizeLang } from "../i18n";
+
+interface Props {
+  href: string;
+  lang?: string;                       // 当前语言
+  kind?: "blog" | "projects" | "custom";
+  text?: string;                       // 自定义文案（优先）
+  class?: string;                      // 额外类名（可选）
+}
+const props = Astro.props as Props;
+const lang = normalizeLang(props.lang);
+const t = dict[lang];
+
+const label =
+  props.text ??
+  (props.kind === "blog"
+    ? t.ui.backToBlog
+    : props.kind === "projects"
+    ? t.ui.backToProjects
+    : t.ui.backToBlog);
+---
+
+<a
+  href={props.href}
+  class={`inline-flex items-center gap-2 rounded-xl border border-zinc-300/70 dark:border-zinc-700
+          px-3 py-1.5 text-sm bg-white/70 dark:bg-zinc-900/70 backdrop-blur
+          hover:bg-zinc-100 dark:hover:bg-zinc-800 transition ${props.class ?? ""}`}
+>
+  <span aria-hidden="true">←</span>
+  {label}
+</a>
