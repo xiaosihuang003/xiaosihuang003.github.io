@@ -1,0 +1,26 @@
+---
+// src/components/Breadcrumbs.astro
+interface Crumb { href?: string; label: string }
+interface Props {
+  items: Crumb[];
+  class?: string;
+}
+const { items, class: klass = "" } = Astro.props as Props;
+---
+
+<nav aria-label="Breadcrumb" class={`w-full ${klass}`}>
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
+    {items.map((c, i) => (
+      <>
+        {i > 0 && <li aria-hidden="true" class="mx-1 text-gray-300 dark:text-gray-600">/</li>}
+        <li class="shrink-0">
+          {c.href ? (
+            <a href={c.href} class="hover:underline text-gray-600 dark:text-gray-300">{c.label}</a>
+          ) : (
+            <span aria-current="page" class="font-medium text-gray-800 dark:text-gray-100">{c.label}</span>
+          )}
+        </li>
+      </>
+    ))}
+  </ol>
+</nav>

@@ -1,3 +1,4 @@
+// src/i18n/index.ts
 export const languages = ['en', 'fi', 'no', 'sv', 'zh', 'yue'] as const;
 export type Lang = typeof languages[number];
 
@@ -27,7 +28,7 @@ type Copy = {
   nav: { home: string; projects: string; blog: string; about: string };
   ui: {
     backToBlog: string;
-    backToProjects: string;        // ✅ 新增
+    backToProjects: string;        // 新增：返回“项目”按钮的文案
     breadcrumbs: { home: string; blog: string };
   };
   home: {
@@ -46,7 +47,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Home', projects: 'Projects', blog: 'Blog', about: 'About' },
     ui: {
       backToBlog: 'Back to Blog',
-      backToProjects: 'Back to Projects',     // ✅
+      backToProjects: 'Back to Projects',
       breadcrumbs: { home: 'Home', blog: 'Blog' },
     },
     home: {
@@ -69,7 +70,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Koti', projects: 'Projektit', blog: 'Blogi', about: 'Tietoa' },
     ui: {
       backToBlog: 'Takaisin blogiin',
-      backToProjects: 'Takaisin projekteihin',   // ✅
+      backToProjects: 'Takaisin projekteihin',
       breadcrumbs: { home: 'Koti', blog: 'Blogi' },
     },
     home: {
@@ -92,7 +93,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Hjem', projects: 'Prosjekter', blog: 'Blogg', about: 'Om' },
     ui: {
       backToBlog: 'Tilbake til blogg',
-      backToProjects: 'Tilbake til prosjekter',  // ✅
+      backToProjects: 'Tilbake til prosjekter',
       breadcrumbs: { home: 'Hjem', blog: 'Blogg' },
     },
     home: {
@@ -115,7 +116,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: 'Hem', projects: 'Projekt', blog: 'Blogg', about: 'Om' },
     ui: {
       backToBlog: 'Tillbaka till blogg',
-      backToProjects: 'Tillbaka till projekt',   // ✅
+      backToProjects: 'Tillbaka till projekt',
       breadcrumbs: { home: 'Hem', blog: 'Blogg' },
     },
     home: {
@@ -138,7 +139,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: '首页', projects: '项目', blog: '博客', about: '关于' },
     ui: {
       backToBlog: '返回博客',
-      backToProjects: '返回项目',              // ✅
+      backToProjects: '返回项目',
       breadcrumbs: { home: '首页', blog: '博客' },
     },
     home: {
@@ -161,7 +162,7 @@ export const dict: Record<Lang, Copy> = {
     nav: { home: '首頁', projects: '項目', blog: '博客', about: '關於' },
     ui: {
       backToBlog: '返回博客',
-      backToProjects: '返回項目',              // ✅
+      backToProjects: '返回項目',
       breadcrumbs: { home: '首頁', blog: '博客' },
     },
     home: {
@@ -181,7 +182,3 @@ export const dict: Record<Lang, Copy> = {
     about: { title: '關於', subtitle: '個人背景、關注方向與聯絡方式。' },
   },
 };
-
-// 兜底
-dict.fi = dict.fi ?? dict.en;
-dict.sv = dict.sv ?? dict.en;
