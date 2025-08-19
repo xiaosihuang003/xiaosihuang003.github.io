@@ -18,7 +18,8 @@ article h2 { margin-top: 28px; margin-bottom: 10px; font-weight: 650; }
 /* 更轻的分隔线与间距 */
 article hr { border: 0; border-top: 1px solid #e6e6e6; margin: 28px 0; }
 
-/* Hero 图与说明文字的细节（不改变你原本尺寸与位置） */
+/* Hero 图与说明文字的细节（全局样式里已提供 .project-hero；此处仅保留微调）
+   你也可以完全删除这段 <style>，只用全局样式即可。 */
 article figure { margin: 8px auto 20px auto; }
 article figure img { border-radius: 14px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
 article figure figcaption { color: #6e6e73; font-size: 0.95em; margin-top: 10px; }
@@ -28,11 +29,13 @@ article a:hover { opacity: 0.9; }
 </style>
 
 <!-- ===== Hero Visual ===== -->
-<figure style="margin: 8px auto 20px auto; text-align:center; max-width:1100px;">
-  <img src="/images/projects/project1.png"
-       alt="Python Lab - overview of hands-on Python mini-projects"
-       style="width:72%; max-width:980px; height:auto; display:block; margin:0 auto; border-radius:14px; box-shadow:0 4px 24px rgba(0,0,0,0.12);" />
-  <figcaption style="margin-top:10px; font-size:0.95em; color:#6e6e73;">
+<figure class="project-hero">
+  <img
+    src="/images/projects/project1.png"
+    alt="Python Lab - overview of hands-on Python mini-projects"
+    class="project-hero__img"
+  />
+  <figcaption class="project-hero__cap">
     Picture: Python Lab — A collection of tiny, focused Python mini-projects
   </figcaption>
 </figure>
