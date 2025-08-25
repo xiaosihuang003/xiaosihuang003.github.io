@@ -1,8 +1,7 @@
 ---
 title: "Första inlägget: min blogg 🌱"
 subtitle: "Här börjar min portfolio"
-date: 2025-08-12
-lang: "sv"
+date: "2025-08-12"
 cover: "/assets/blog/first-post/cover.jpg"
 coverAlt: "Färgglad diagram-collage"
 coverCredit: "eettinenluksus.fi"

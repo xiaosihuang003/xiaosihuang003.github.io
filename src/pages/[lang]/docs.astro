@@ -1,22 +1,21 @@
 ---
-/* @ts-nocheck */
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 import { getCollection } from "astro:content";
 
 export const prerender = true;
 
-// 静态路径：所有语言各出一条（不加任何 TS 注解，避免编辑器报错）
+/** 每种语言一条静态路径 */
 export function getStaticPaths() {
   return languages.map((code) => ({ params: { lang: code } }));
 }
 
-const lang = normalizeLang(Astro.params.lang);
+const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 const base = lang === "en" ? "/en" : `/${lang}`;
 
-// 取集合，按文件名推断 slug 与语言，过滤草稿并按时间倒序
-const all = await getCollection("blog");
+/** 取 docs 集合，按文件路径推断语言（最后一段），只取当前语言且非草稿 */
+const all = await getCollection("docs");
 const posts = all
   .map((e) => {
     const parts = e.slug.split("/");
@@ -30,32 +29,32 @@ const posts = all
   );
 
 const alternates = Object.fromEntries(
-  languages.map((code) => [code, `${code === "en" ? "/en" : "/" + code}/blog`]),
+  languages.map((code) => [code, `${code === "en" ? "/en" : "/" + code}/docs`]),
 );
 ---
 
-<Layout lang={lang} title={`Xiaosi Huang · ${t.blog.title}`} alternates={alternates}>
+<Layout lang={lang} title={`Xiaosi Huang · ${t.docs.title}`} alternates={alternates}>
   <section class="mx-auto max-w-5xl px-4">
-    <h1 class="text-4xl font-extrabold mb-2">{t.blog.title}</h1>
-    <p class="opacity-70 mb-6">{t.blog.subtitle}</p>
+    <h1 class="text-4xl font-extrabold mb-2">{t.docs.title}</h1>
+    <p class="opacity-70 mb-6">{t.docs.subtitle}</p>
 
     {posts.length === 0 ? (
-      <p class="opacity-60">{t.blog.empty || "No posts yet."}</p>
+      <p class="opacity-60">{t.docs.empty || "No docs yet."}</p>
     ) : (
       <ul class="space-y-5">
         {posts.map(({ entry: p, slug }) => (
           <li class="blog-card group rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 hover:shadow-md transition">
-            <a href={`${base}/blog/${slug}`} class="block">
+            <a href={`${base}/docs/${slug}`} class="block">
               <div class="flex items-start gap-4">
-                <!-- 左侧文本 -->
+                {/* 左侧文本 */}
                 <div class="min-w-0 flex-1">
                   <div class="flex items-center gap-2 mb-2">
                     {p.data.date && (
                       <time
-                        datetime={(p.data.date as any).toISOString?.() ?? String(p.data.date)}
+                        datetime={p.data.date.toISOString?.() ?? String(p.data.date)}
                         class="blog-date"
                       >
-                        {new Date(p.data.date as any).toLocaleDateString(lang)}
+                        {new Date(p.data.date).toLocaleDateString(lang)}
                       </time>
                     )}
                   </div>
@@ -68,7 +67,7 @@ const alternates = Object.fromEntries(
 
                   {p.data.tags?.length > 0 && (
                     <div class="mt-3 flex flex-wrap gap-2">
-                      {(p.data.tags ?? []).slice(0, 4).map((tag: string) => (
+                      {(p.data.tags ?? []).slice(0, 4).map((tag) => (
                         <span class="blog-tag">#{tag}</span>
                       ))}
                       {(p.data.tags ?? []).length > 4 && (
@@ -78,7 +77,7 @@ const alternates = Object.fromEntries(
                   )}
                 </div>
 
-                <!-- 右侧可选封面缩略图 -->
+                {/* 右侧可选封面缩略图（有 cover 就显示） */}
                 {p.data.cover && (
                   <img
                     src={p.data.cover}

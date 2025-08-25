@@ -1,8 +1,7 @@
 ---
 title: "第一篇：關於我嘅Blog 🌱"
 subtitle: "Portfolio就由呢度開始"
-date: 2025-08-12
-lang: "yue"
+date: "2025-08-12"
 cover: "/assets/blog/first-post/cover.jpg"
 coverAlt: "多彩圖表拼貼"
 coverCredit: "eettinenluksus.fi"

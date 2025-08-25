@@ -1,0 +1,8 @@
+---
+/** 返回按钮（所有详情页右上角一致） */
+interface Props { href: string; text: string }
+const { href, text } = Astro.props as Props;
+---
+<a href={href} class="btn-ghost" aria-label={text}>
+  ← {text}
+</a>

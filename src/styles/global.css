@@ -1,265 +1,305 @@
 @import "tailwindcss";
 
 /* =========================================================
-   0) 主题变量：默认浅色；深色用媒体查询覆盖
+   0) 主题变量 + 统一字号体系（Type Scale）
    ========================================================= */
-:root {
-  --bg: #ffffff;
-  --text: #111827;        /* slate-900 */
-  --muted: #6b7280;       /* slate-500 */
-  --subtle: #9ca3af;      /* slate-400 */
-  --border: #e5e7eb;      /* slate-200 */
-  --card: #f9fafb;        /* slate-50 */
-  --link: #2563eb;        /* blue-600 */
-  --link-hover: #1d4ed8;  /* blue-700 */
-  --tag-bg: #f3f4f6;      /* slate-100 */
-  --tag-text: #374151;    /* slate-700 */
+:root{
+  /* 颜色 */
+  --bg:#fff;
+  --text:#111827;
+  --muted:#6b7280;
+  --subtle:#9ca3af;
+  --border:#e5e7eb;
+  --card:#f9fafb;
+  --link:#2563eb;
+  --link-hover:#1d4ed8;
+  --tag-bg:#f3f4f6;
+  --tag-text:#374151;
+  --radius:12px;
 
-  --radius: 12px;
+  /* 字体族 */
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* ===== 字号体系（桌面默认） ===== */
+  --fs-meta: 0.94rem;                 /* 面包屑/标签/弱化信息 */
+  --fs-body: 1.00rem;                 /* 正文基线 */
+  --fs-nav:  1.02rem;                 /* 导航链接（比正文略大） */
+  --fs-brand:1.14rem;                 /* 左侧品牌文字 */
+  --fs-h3:   1.05rem;                 /* 三级标题：略大于正文 */
+  --fs-h2:   1.14rem;                 /* 二级标题：清晰但克制 */
+  --fs-h1:   clamp(1.45rem, 1.05rem + 1.2vw, 1.90rem); /* 页面主标题 */
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b0f15;        /* very dark */
-    --text: #e5e7eb;      /* slate-200 */
-    --muted: #9ca3af;     /* slate-400 */
-    --subtle: #94a3b8;    /* blue-gray-400 */
-    --border: #1f2937;    /* slate-800 */
-    --card: #0f172a;      /* slate-900/blue-950 */
-    --link: #93c5fd;      /* blue-300 */
-    --link-hover: #bfdbfe;/* blue-200 */
-    --tag-bg: #111827;    /* slate-900 */
-    --tag-text: #e5e7eb;  /* slate-200 */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b0f15;
+    --text:#e5e7eb;
+    --muted:#9ca3af;
+    --subtle:#94a3b8;
+    --border:#1f2937;
+    --card:#0f172a;
+    --link:#93c5fd;
+    --link-hover:#bfdbfe;
+    --tag-bg:#111827;
+    --tag-text:#e5e7eb;
   }
 }
 
 /* =========================================================
-   ① 基础：根字号 / 行高 / 抗锯齿 + 移动端护栏
+   ① 基础：字号/行高/抗锯齿
    ========================================================= */
-@layer base {
-  html { font-size: clamp(16px, 0.8vw + 14px, 18px); }
-  body {
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: var(--bg);
-    color: var(--text);
+@layer base{
+  html{ font-size: clamp(16px, 0.6vw + 14px, 18px); }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    font-size: var(--fs-body);
   }
 }
-
-/* 媒体元素最多撑满容器，避免溢出 */
-img, svg, video, canvas, audio, iframe {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-/* flex/grid 子项不要因 min-width 造成溢出 */
-* { min-width: 0; }
-/* 长英文 / URL 可断行 */
-.break-anywhere { overflow-wrap: anywhere; word-break: break-word; }
+img,svg,video,canvas,audio,iframe{ max-width:100%; height:auto; display:block; }
+*{ min-width:0; }
+.break-anywhere{ overflow-wrap:anywhere; word-break:break-word; }
 
 /* =========================================================
-   ② 字体族（按语言切换）
+   ② 字体族（按语言）
    ========================================================= */
-html:lang(en) body {
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+html:lang(en) body{
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 html:lang(zh) body,
 html:lang(yue) body,
-html:lang(zh-HK) body {
-  font-family: "PingFang SC","Noto Sans SC","Microsoft YaHei",
-               "Hiragino Sans GB","Source Han Sans SC",
-               system-ui, -apple-system, Arial, sans-serif;
-  font-variant-east-asian: normal;
+html:lang(zh-HK) body{
+  font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei","Hiragino Sans GB","Source Han Sans SC",system-ui,-apple-system,Arial,sans-serif;
+  font-variant-east-asian:normal;
 }
 
 /* =========================================================
-   ③ 文章容器与标题层级（kicker / title / subtitle）
+   ③ 顶部导航（提升可读性）
    ========================================================= */
-.post { max-width: 70ch; margin: 0 auto; }
-
-.post-kicker {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--muted);
-  margin: 0 0 .35rem 0;
-}
-
-.post-title {
-  font-weight: 700;
-  font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  margin: 0 0 .75rem 0;
-  color: var(--text);
-  text-wrap: balance;
-}
-
-.post-subtitle {
-  font-size: 1.125rem;
-  color: var(--muted);
-  margin: 0 0 1.25rem 0;
-}
+/* 下面三条覆盖常见结构；如有 .site-nav / .brand 类名会自动应用 */
+header nav { font-size: var(--fs-nav); }
+header nav a, header nav button { font-weight: 500; }
+header .brand, header .site-brand, header .logo-text { font-size: var(--fs-brand); font-weight: 800; letter-spacing: -0.01em; }
 
 /* =========================================================
-   ④ Meta（日期 + 标签）
+   ④ 标题区（kicker / title / subtitle）
    ========================================================= */
-.post-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem 1rem;
-  font-size: .875rem;
-  color: var(--subtle);
-  margin-bottom: 1.75rem;
+.post{ max-width:70ch; margin:0 auto; }
+.post-kicker{ font-size:var(--fs-meta); font-weight:500; color:var(--muted); margin:0 0 .35rem 0; }
+
+.post-title{
+  font-size: var(--fs-h1);
+  font-weight:800;
+  line-height:1.22;
+  letter-spacing:-0.012em;
+  margin:.3rem 0 .6rem 0;
+  color:var(--text);
+  text-wrap:balance;
+  hyphens:auto;
 }
-.tag {
-  font-size: .75rem;
-  padding: .15rem .5rem;
-  border-radius: 9999px;
+.post-subtitle{ font-size:1.02rem; color:var(--muted); margin:0 0 1rem 0; }
+.post-header{ max-width:72ch; margin:0 auto 1.2rem auto; }
+
+/* =========================================================
+   ⑤ 面包屑 / 返回链接 / Meta
+   ========================================================= */
+.breadcrumbs{ color:var(--subtle); font-size:var(--fs-meta); }
+.breadcrumbs a{ color:inherit; text-decoration:none; }
+.breadcrumbs a:hover{ text-decoration:underline; color:var(--text); }
+.breadcrumbs .sep{ opacity:.45; }
+
+.backlink{ margin:.25rem 0 .75rem 0; font-size:var(--fs-meta); }
+.backlink a{ color:var(--muted); text-decoration:none; }
+.backlink a:hover{ color:var(--text); text-decoration:underline; }
+
+.post-meta{
+  display:flex; flex-wrap:wrap; gap:.5rem 1rem;
+  font-size:var(--fs-meta); color:var(--subtle); margin-bottom:1.25rem;
+}
+.tag{
+  font-size:.74rem; padding:.15rem .5rem; border-radius:9999px;
+  background:var(--card); color:var(--muted); border:1px solid var(--border);
+}
+.tag:hover{ filter:brightness(1.05); }
+
+/* =========================================================
+   ⑥ 正文（段落/标题/列表）
+   ========================================================= */
+.post-body{ padding-bottom:max(84px, env(safe-area-inset-bottom)); }
+.post-body p{ margin:1.1rem 0; line-height:1.85; font-size:var(--fs-body); color:var(--text); }
+
+/* 统一后的小标题层级：H2 > H3 > 正文 ≈ 导航 */
+.post-body h2{
+  font-size: var(--fs-h2);
+  font-weight:600;
+  line-height:1.35;
+  margin:1.6rem 0 0.9rem;
+}
+.post-body h3{
+  font-size: var(--fs-h3);
+  font-weight:600;
+  line-height:1.4;
+  margin:1.2rem 0 .7rem;
+}
+
+.post-body ul,.post-body ol{ margin:1rem 0 1rem 1.25rem; }
+.post-body li{ margin:.4rem 0; }
+.post-body hr{ border:0; border-top:1px solid var(--border); margin:1.2rem 0; opacity:.6; }
+
+/* =========================================================
+   ⑦ 代码与代码块（等宽字体 + 亮暗主题和谐）
+   ========================================================= */
+.post-body code{
+  font-family: var(--mono);
+  font-size: 0.92em;
   background: var(--tag-bg);
   color: var(--tag-text);
+  padding: 0.15em 0.4em;
+  border-radius: 0.3em;
   border: 1px solid var(--border);
 }
-.tag:hover { filter: brightness(1.05); }
-
-/* =========================================================
-   ⑤ 正文（段落 / 小标题 / 列表）
-   ========================================================= */
-.post-body p {
-  margin: 1.4rem 0;
-  line-height: 1.85;
-  font-size: 1.05rem;
+.post-body pre{
+  font-family: var(--mono);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  background: var(--card);
   color: var(--text);
-}
-.post-body h2 {
-  font-size: 1.35rem;
-  font-weight: 600;
-  margin: 2.25rem 0 1rem;
-}
-.post-body h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  margin: 1.8rem 0 .8rem;
-}
-.post-body ul,
-.post-body ol { margin: 1rem 0 1rem 1.25rem; }
-.post-body li { margin: .4rem 0; }
-
-/* =========================================================
-   ⑥ 嵌入图表 / 图片（含 Tableau iframe）
-   ========================================================= */
-.post-body figure { margin: 1.75rem 0; }
-
-/* 默认 16:9；深色下容器配合暗背景；带内侧细边作为分隔 */
-.viz iframe {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  border-radius: .75rem;
-  background: var(--card);
-  box-shadow: 0 0 0 1px var(--border) inset;
-}
-
-/* 没有 aspect-ratio 的浏览器降级方案（安全网） */
-.viz { position: relative; }
-.viz--fallback { padding-top: 56.25%; }
-.viz--fallback > iframe {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  border: 0; border-radius: .75rem;
-}
-
-/* =========================================================
-   ⑦ 链接（含“数据来源”）
-   ========================================================= */
-.post-body a {
-  color: var(--link);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  font-weight: 500;
-  transition: color .2s ease;
-}
-.post-body a:hover { color: var(--link-hover); }
-
-/* 保留底部安全区，避免 iOS “阅读器/底栏” 遮住来源链接 */
-.post-body { padding-bottom: max(84px, env(safe-area-inset-bottom)); }
-
-/* =========================================================
-   ⑧ 封面图片（缩小 / 居中 / 来源说明）
-   ========================================================= */
-.post-cover { margin: 1rem auto 1.25rem; text-align: center; }
-.post-cover img {
-  width: 100%;
-  max-width: 220px;
-  height: auto;
+  border: 1px solid var(--border);
   border-radius: 0.75rem;
-  display: inline-block;
-  background: var(--card);
-  box-shadow: 0 0 0 1px var(--border) inset;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  -webkit-overflow-scrolling: touch;
 }
-.post-cover figcaption {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
+.post-body pre code{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 1em;
+}
+.post-body pre,
+.post-body code{
+  word-wrap: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* =========================================================
+   ⑧ 嵌入图表/图片（含 Tableau iframe）
+   ========================================================= */
+.post-body figure{ margin:1.5rem 0; }
+.viz iframe{
+  width:100%; aspect-ratio:16/9; border:0; border-radius:.75rem;
+  background:var(--card); box-shadow:0 0 0 1px var(--border) inset;
+}
+.viz{ position:relative; }
+.viz--fallback{ padding-top:56.25%; }
+.viz--fallback>iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; border-radius:.75rem; }
+
+/* =========================================================
+   ⑨ 链接
+   ========================================================= */
+.post-body a{ color:var(--link); text-decoration:underline; text-underline-offset:3px; font-weight:500; transition:color .2s ease; }
+.post-body a:hover{ color:var(--link-hover); }
+
+/* =========================================================
+   ⑩ 封面图片
+   ========================================================= */
+.post-cover{ margin:1rem auto 1.25rem; text-align:center; }
+.post-cover img{
+  width:100%; max-width:220px; height:auto; border-radius:.75rem; display:inline-block;
+  background:var(--card); box-shadow:0 0 0 1px var(--border) inset;
+}
+.post-cover figcaption{ margin-top:.5rem; font-size:var(--fs-meta); color:var(--muted); }
+.post-cover figcaption a{ color:var(--link); text-decoration:underline; text-underline-offset:3px; }
+.post-cover figcaption a:hover{ color:var(--link-hover); }
+
+/* =========================================================
+   ⑪ 项目详情页 Hero 图
+   ========================================================= */
+.project-hero{ width:100%; margin:2rem auto; text-align:center; }
+.project-hero__img{ width:100%; max-width:none; height:auto; display:block; margin:0 auto; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,.12); }
+.project-hero__cap{ margin-top:12px; font-size:.95em; color:#6e6e73; }
+@media (min-width:1024px){ .project-hero__img{ max-width:1280px; } }
+
+/* =========================================================
+   ⑫ 手机优化（比例更紧凑）
+   ========================================================= */
+@media (max-width:480px){
+  html{ font-size:15.5px; }
+  .post{ padding-inline:.25rem; }
+
+  :root{
+    --fs-nav:  1.00rem;
+    --fs-brand:1.10rem;
+    --fs-h1: clamp(1.28rem, 1.0rem + 2.6vw, 1.52rem);
+    --fs-h2: 1.10rem;
+    --fs-h3: 1.03rem;
+  }
+
+  .post-title{ line-height:1.22; }
+  .post-subtitle{ font-size:1.0rem; margin-bottom:1rem; }
+  .post-meta{ font-size:var(--fs-meta); margin-bottom:1.1rem; }
+  .tag{ font-size:.72rem; }
+  .post-body p{ margin:1.05rem 0; line-height:1.8; }
+  .post-body h2{ margin:1.4rem 0 .8rem; }
+  .post-body h3{ margin:1.15rem 0 .6rem; }
+  .viz iframe{ aspect-ratio:3/4; min-height:56vh; }
+  .post-body pre{ font-size:0.88rem; }
+}
+
+/* =========================================================
+   ⑬ 代码块滚动条弱化（可选）
+   ========================================================= */
+.post-body pre::-webkit-scrollbar{ height:10px; }
+.post-body pre::-webkit-scrollbar-thumb{ background:var(--border); border-radius:9999px; }
+.post-body pre::-webkit-scrollbar-track{ background:transparent; }
+
+/* strong  */
+.post-body strong{ font-weight:600; }
+
+/* 全站统一的引用块样式 */
+.post-body blockquote{
+  margin: 1.1rem 0;
+  padding: .75rem 1rem;
+  background: var(--card);
+  border-left: 3px solid var(--border);
+  border-radius: .5rem;
   color: var(--muted);
 }
-.post-cover figcaption a {
-  color: var(--link);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.post-body blockquote p{ margin: .4rem 0; }
+
+
+/* ============ 博客专用排版 ============ */
+.blog-typo{
+  --fs-body: 1rem;
+  --fs-h2: 1.12rem;
+  --fs-h3: 1.02rem;
 }
-.post-cover figcaption a:hover { color: var(--link-hover); }
+.blog-typo p{ font-size: var(--fs-body); line-height: 1.85; margin: 1rem 0; }
+.blog-typo h2{ font-size: var(--fs-h2); font-weight: 600; line-height: 1.35; margin: 1.4rem 0 .8rem; }
+.blog-typo h3{ font-size: var(--fs-h3); font-weight: 600; line-height: 1.4;  margin: 1rem 0 .6rem; }
+.blog-typo strong{ font-weight: 600; }            /* 粗体稍降一点，耐看 */
+.blog-typo hr{ border:0; border-top:1px solid var(--border); margin: 1.2rem 0; opacity:.6; }
 
-/* =========================================================
-   ⑨ 📱 手机专属优化（≤480px）
-   ========================================================= */
-@media (max-width: 480px) {
-  html { font-size: 15.5px; }
-
-  .post { padding-left: .25rem; padding-right: .25rem; }
-
-  .post-title {
-    font-size: clamp(1.25rem, 4.8vw + 0.2rem, 1.625rem);
-    line-height: 1.25;
-    margin-bottom: .6rem;
-  }
-  .post-subtitle { font-size: 1rem; margin-bottom: 1rem; }
-  .post-meta { font-size: .8rem; margin-bottom: 1.25rem; }
-  .tag { font-size: .72rem; }
-
-  .post-body p { font-size: 1rem; margin: 1.2rem 0; line-height: 1.8; }
-  .post-body h2 { font-size: 1.2rem; margin: 1.75rem 0 .9rem; }
-  .post-body h3 { font-size: 1.05rem; margin: 1.4rem 0 .6rem; }
-
-  /* 让可视化更“高”，减少内部拥挤（Tableau 左侧大标题常见） */
-  .viz iframe { aspect-ratio: 3 / 4; min-height: 56vh; }
+/* “图标题”（把 Figure 放进 figcaption） */
+.blog-typo .fig-title{
+  margin-top: .5rem; font-size: .95rem; color: var(--muted);
+  text-align: left;
 }
 
-/* =========================================================
-   ⑩ 项目详情页 Hero 图（响应式放大；替代内联样式）
-   ---------------------------------------------------------
-   用法（Markdown 里写 HTML 块）：
-     <figure class="project-hero">
-       <img class="project-hero__img" src="/images/projects/project1.png" alt="..." />
-       <figcaption class="project-hero__cap">Picture: ...</figcaption>
-     </figure>
+/* 关键点列表：比普通列表更清爽 */
+.blog-typo dl.kv{ margin: .8rem 0 1.1rem; }
+.blog-typo dl.kv dt{ font-weight: 600; margin-top: .35rem; }
+.blog-typo dl.kv dd{ margin: .15rem 0 .55rem 0; color: var(--muted); }
 
-   设计要点：
-   - 桌面端更宽（max 1200~1280px），同时留白不溢出
-   - 平板/手机按容器百分比缩放，不会左右抖动
-   - 统一圆角与阴影风格，暗色模式兼容
-   ========================================================= */
-
-/* ========== 基础样式 ========== */
-.project-hero { width: 100%; margin: 2rem auto; text-align: center; }
-.project-hero__img { width: 100%; max-width: none; height: auto; display: block; margin: 0 auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12); }
-.project-hero__cap { margin-top: 12px; font-size: 0.95em; color: #6e6e73; }
-
-/* ========== 响应式调整 ========== */
-@media (min-width: 768px) {
-  .project-hero__img { width: 100%; max-width: none; }
+/* 引用（Tip 等）作为 callout */
+.blog-typo blockquote{
+  margin: 1.1rem 0; padding: .75rem 1rem;
+  background: var(--card); color: var(--muted);
+  border-left: 3px solid var(--border); border-radius: .5rem;
 }
-@media (min-width: 1024px) {
-  .project-hero__img { width: 100%; max-width: 1280px; }
-}
-@media (max-width: 640px) {
-  .project-hero__img { width: 100%; max-width: none; }
-}
+.blog-typo figure{ margin: 1.2rem 0 1.4rem; }
+.blog-typo .viz iframe{ width:100%; aspect-ratio:16/9; border:0; border-radius:.75rem; background:var(--card); box-shadow:0 0 0 1px var(--border) inset; }

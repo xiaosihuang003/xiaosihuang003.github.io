@@ -1,8 +1,7 @@
 ---
 title: "Første innlegg: bloggen min 🌱"
 subtitle: "Her starter porteføljen min"
-date: 2025-08-12
-lang: "no"
+date: "2025-08-12"
 cover: "/assets/blog/first-post/cover.jpg"
 coverAlt: "Fargerik diagram-collage"
 coverCredit: "eettinenluksus.fi"

@@ -6,32 +6,27 @@ import { getCollection, type CollectionEntry } from "astro:content";
 
 export const prerender = true;
 
+/** 由 docs 集合生成 { lang, slug } 静态路径 */
 export async function getStaticPaths() {
-  const all = await getCollection("blog");
-  return all.map((entry: CollectionEntry<"blog">) => {
+  const all = await getCollection("docs");
+  return all.map((entry: CollectionEntry<"docs">) => {
     const parts = entry.slug.split("/");
-    // 语言放最后一段（如 .../en），没有就回退 en
     const lang = (parts.at(-1) ?? "en") as string;
-    // 其余部分作为 slug
     const slug = parts.slice(0, -1).join("/") || parts[0];
     return { params: { lang, slug }, props: { entry, lang, slug } };
   });
 }
 
-// 明确这个路由的参数形状，避免 undefined 
 type PageParams = { lang: string; slug: string };
-const { lang: langParam, slug } = Astro.params as PageParams;
+const { lang: rawLang, slug } = Astro.params as PageParams;
 
-const paramsLang = normalizeLang(langParam ?? "en");
+const paramsLang = normalizeLang(rawLang ?? "en");
 const t = dict[paramsLang];
 const base = paramsLang === "en" ? "/en" : `/${paramsLang}`;
 
-// entry 用博客集合的类型
-const { entry } = Astro.props as { entry: CollectionEntry<"blog"> };
-
-
+const { entry } = Astro.props as { entry: CollectionEntry<"docs"> };
 const alternates = Object.fromEntries(
-  languages.map((code) => [code, `${code === "en" ? "/en" : "/" + code}/blog/${slug}`]),
+  languages.map((code) => [code, `${code === "en" ? "/en" : "/" + code}/docs/${slug}`]),
 );
 
 const tags = (entry?.data?.tags ?? []) as string[];
@@ -44,11 +39,11 @@ const { Content } = await entry.render();
       <Breadcrumbs
         items={[
           { href: base, label: t.nav.home },
-          { href: `${base}/blog`, label: t.nav.blog },
+          { href: `${base}/docs`, label: t.nav.docs },
           { label: entry.data.title },
         ]}
       />
-      <p class="backlink"><a href={`${base}/blog`}>← {t.ui.backToBlog}</a></p>
+      <p class="backlink"><a href={`${base}/docs`}>← {t.ui.backToDocs}</a></p>
 
       {entry.data.kicker && <div class="post-kicker">{entry.data.kicker}</div>}
       <h1 class="post-title">{entry.data.title}</h1>
@@ -75,7 +70,7 @@ const { Content } = await entry.render();
 </Layout>
 
 <style>
-/* 仅博客详情页的排版微调：更克制的小标题、段落与引文 */
+/* 复用博客详情页的排版样式，保证风格一致 */
 .blog-typo{
   --fs-body: 1rem;
   --fs-h2: 1.12rem;
@@ -84,12 +79,9 @@ const { Content } = await entry.render();
 .blog-typo p{ font-size: var(--fs-body); line-height: 1.85; margin: 1rem 0; }
 .blog-typo ul, .blog-typo ol{ margin: .9rem 0 .9rem 1.2rem; }
 .blog-typo li{ margin: .35rem 0; }
-
 .blog-typo h2{ font-size: var(--fs-h2); font-weight: 600; line-height: 1.35; margin: 1.4rem 0 .8rem; }
 .blog-typo h3{ font-size: var(--fs-h3); font-weight: 600; line-height: 1.4;  margin: 1rem 0 .6rem; }
-
 .blog-typo strong{ font-weight: 600; }
-
 .blog-typo blockquote{
   margin: 1.1rem 0;
   padding: .75rem 1rem;
@@ -99,10 +91,8 @@ const { Content } = await entry.render();
   color: var(--muted);
 }
 .blog-typo blockquote p{ margin: .4rem 0; }
-
 .blog-typo hr{ border:0; border-top:1px solid var(--border); margin: 1.2rem 0; opacity:.6; }
 .blog-typo figure{ margin: 1.2rem 0 1.4rem; }
 .blog-typo figure figcaption{ color: var(--muted); font-size: .92rem; margin-top: .5rem; }
-
 .blog-typo .viz iframe{ aspect-ratio: 16/9; border-radius: .75rem; }
 </style>

@@ -1,63 +1,79 @@
 ---
-// src/pages/[lang]/projects/[slug].astro
 import Layout from "../../../layouts/Layout.astro";
-import { dict, normalizeLang } from "../../../i18n";
-import { getCollection } from "astro:content";
-import BackButton from "../../../components/BackButton.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { dict, normalizeLang, languages } from "../../../i18n";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export const prerender = true;
 
-// ✅ 生成所有 (lang, slug) 路径
+/* 动态路径：从 projects 集合推导 { lang, slug } */
 export async function getStaticPaths() {
-  const items = await getCollection("projects");
-  return items.map((p) => ({
-    params: { lang: p.data.lang, slug: p.slug },
-  }));
+  const all = await getCollection("projects");
+  return all.map((entry) => {
+    const parts = entry.slug.split("/");
+    const lang = parts.at(-1) || "en";                 // 例如 2024-python-lab/en
+    const slug = parts.slice(0, -1).join("/") || parts[0];
+    return { params: { lang, slug }, props: { entry, lang, slug } };
+  });
 }
 
-const lang = normalizeLang(Astro.params.lang as string);
+/* 路由参数 & 文案（沿用 blog 的写法） */
+type Params = { lang: string; slug: string };
+const { lang: rawLang, slug } = Astro.params as Params;
+const lang = normalizeLang(rawLang);
 const t = dict[lang];
 const base = lang === "en" ? "/en" : `/${lang}`;
-const slug = Astro.params.slug as string;
 
-const entry = (await getCollection("projects")).find(
-  (x) => x.slug === slug && x.data.lang === lang
+/* 当前项目条目（由 getStaticPaths 的 props 传入）*/
+const { entry } = Astro.props as { entry: CollectionEntry<"projects"> };
+const { Content } = await entry.render();
+
+const alternates = Object.fromEntries(
+  languages.map((code) => [code, `${code === "en" ? "/en" : "/" + code}/projects/${slug}`]),
 );
-if (!entry) throw new Error(`Project not found: ${slug} (${lang})`);
 
-const data = entry.data;
-const Content = await entry.render();
+const tags = (entry.data.tags ?? []) as string[];
 ---
 
-<Layout lang={lang} title={data.title}>
-  <section class="mx-auto max-w-3xl px-4 md:px-6 lg:px-0 pt-6 md:pt-8">
-    <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+<Layout lang={lang} title={`${entry.data.title} · Xiaosi Huang`} alternates={alternates}>
+  <section class="mx-auto max-w-3xl px-4 md:px-6 py-10">
+    <div class="post-header">
       <Breadcrumbs
         items={[
-          { href: `${base}/`, label: t.ui.breadcrumbs.home },
+          { href: base, label: t.nav.home },
           { href: `${base}/projects`, label: t.nav.projects },
-          { label: data.title },
+          { label: entry.data.title },
         ]}
       />
-      <BackButton href={`${base}/projects`} kind="projects" lang={lang} />
-    </div>
+      <p class="backlink"><a href={`${base}/projects`}>← {t.ui.backToProjects}</a></p>
 
-    <header class="mb-6">
-      <h1 class="post-title">{data.title}</h1>
-      {data.excerpt && <p class="post-subtitle">{data.excerpt}</p>}
+      <h1 class="post-title">{entry.data.title}</h1>
+      {entry.data.subtitle && <p class="post-subtitle">{entry.data.subtitle}</p>}
+
       <div class="post-meta">
-        <time datetime={data.date.toISOString()}>{data.date.toLocaleDateString(lang)}</time>
-        {data.tags?.length > 0 && (
+        {entry.data.date && (
+          <time datetime={(entry.data.date as any).toISOString?.() ?? String(entry.data.date)}>
+            {new Date(entry.data.date as any).toLocaleDateString(lang)}
+          </time>
+        )}
+        {tags.length > 0 && (
           <div class="flex flex-wrap gap-2">
-            {data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+            {tags.map((tag) => <span class="tag">#{tag}</span>)}
           </div>
         )}
       </div>
-    </header>
+    </div>
 
-    <article class="post-body">
-      <Content.Content />
+    <article class="post-body blog-typo">
+      <Content />
     </article>
   </section>
 </Layout>
+
+<style>
+.post-title{ font-size:2rem; font-weight:800; line-height:1.2; margin:.4rem 0 .3rem; }
+.post-subtitle{ color:var(--muted); margin:.2rem 0 .6rem; }
+.post-meta{ font-size:.85rem; color:#6b7280; display:flex; gap:.75rem; align-items:center; }
+.tag{ font-size:.75rem; background:var(--tag-bg); color:var(--muted); padding:.28rem .55rem; border-radius:.55rem; border:1px solid var(--border); }
+.blog-typo .viz iframe{ aspect-ratio:16/9; border-radius:.75rem; }
+</style>

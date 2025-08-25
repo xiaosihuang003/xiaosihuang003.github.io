@@ -1,8 +1,7 @@
 ---
 title: "开篇：关于我的博客 🌱"
 subtitle: "作品集从这里开始"
-date: 2025-08-12
-lang: "zh"
+date: "2025-08-12"
 cover: "/assets/blog/first-post/cover.jpg"
 coverAlt: "多彩图表拼贴"
 coverCredit: "eettinenluksus.fi"

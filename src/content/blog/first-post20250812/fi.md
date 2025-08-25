@@ -1,8 +1,7 @@
 ---
 title: "Eka postaus: mun blogi 🌱"
 subtitle: "Tästä se portfolio lähtee käyntiin"
-date: 2025-08-12
-lang: "fi"
+date: "2025-08-12"
 cover: "/assets/blog/first-post/cover.jpg"
 coverAlt: "Värikäs kaaviokollaasi"
 coverCredit: "eettinenluksus.fi"

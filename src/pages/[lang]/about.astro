@@ -1,7 +1,9 @@
 ---
+/* @ts-nocheck */
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 
+// 动态路由
 export const prerender = true;
 export function getStaticPaths() {
   return (languages as readonly string[]).map((lang) => ({ params: { lang } }));
@@ -10,129 +12,258 @@ export function getStaticPaths() {
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 
-/** 可选：本科论文链接（留空则不显示论文卡片） */
-const thesisUrl = ""; // 如: "https://example.com/your-thesis.pdf"
+/* ─────────────────────────────────────────
+   ① 照片墙数据：静态导入 JSON
+   ───────────────────────────────────────── */
+import CAPS_EN from "../../data/albums.en.json";
+import CAPS_ZH from "../../data/albums.zh.json";
+import CAPS_YUE from "../../data/albums.yue.json";
+import CAPS_FI from "../../data/albums.fi.json";
+import CAPS_NO from "../../data/albums.no.json";
+import CAPS_SV from "../../data/albums.sv.json";
 
-/** 图片放在 /public/images/about/ 下 */
+type SeasonKey = "Spring" | "Summer" | "Autumn" | "Winter";
+type Caps = Record<string, Partial<Record<SeasonKey, string>>>;
+
+// 当前语言的 caption 映射（没有则回退到英文）
+const BY_LANG: Record<string, Caps> = {
+  en: CAPS_EN as Caps,
+  zh: CAPS_ZH as Caps,
+  yue: CAPS_YUE as Caps,
+  fi: CAPS_FI as Caps,
+  no: CAPS_NO as Caps,
+  sv: CAPS_SV as Caps,
+};
+const CAPS: Caps = BY_LANG[lang] ?? (CAPS_EN as Caps);
+
+// 年份：把“英文 + 当前语言”的 key 合并，再倒序
+const years = Array.from(new Set([
+  ...Object.keys(CAPS_EN as Caps),
+  ...Object.keys(CAPS),
+]))
+  .map((y) => Number(y))
+  .sort((a, b) => b - a);
+
+// 先取当前语言 caption，缺失则回退英文
+const captionOf = (year: number, s: SeasonKey) =>
+  CAPS[String(year)]?.[s] ??
+  (CAPS_EN as Caps)[String(year)]?.[s] ??
+  "";
+
+// 各语言的季节名
+const seasonLabelMap: Record<string, Record<SeasonKey, string>> = {
+  en: { Spring: "Spring", Summer: "Summer", Autumn: "Autumn", Winter: "Winter" },
+  zh: { Spring: "春", Summer: "夏", Autumn: "秋", Winter: "冬" },
+  yue:{ Spring: "春", Summer: "夏", Autumn: "秋", Winter: "冬" },
+  fi: { Spring: "Kevät", Summer: "Kesä", Autumn: "Syksy", Winter: "Talvi" },
+  no: { Spring: "Vår", Summer: "Sommer", Autumn: "Høst", Winter: "Vinter" },
+  sv: { Spring: "Vår", Summer: "Sommar", Autumn: "Höst", Winter: "Vinter" },
+};
+const S = seasonLabelMap[lang] ?? seasonLabelMap.en;
+const ORDER: SeasonKey[] = ["Spring", "Summer", "Autumn", "Winter"];
+
+/* ─────────────────────────────────────────
+   ② 其余数据（头像/链接/教育/语言/国家/技能）
+   ───────────────────────────────────────── */
 const avatar = "/images/about/avatar.jpg";
-const photos = [
-  { src: "/images/about/grad1.jpg", alt: "Graduation", caption: "Graduation" },
-  { src: "/images/about/life1.jpg",  alt: "Life & travel", caption: "Life & travel" },
+
+const links: Array<{ label: string; href: string; sub?: string; ext?: boolean }> = [
+  { label: "GitHub",         href: "https://github.com/xiaosihuang003", ext: true },
+  { label: "LinkedIn",       href: "https://www.linkedin.com/in/xiaosi-huang-387559251/", ext: true },
+  { label: "Tableau Public", href: "https://public.tableau.com/app/profile/xiaosi.huang/vizzes", ext: true },
+  { label: "Resume & CV",    href: "/resume.pdf", ext: true },
+  { label: "Email :",        href: "mailto:huang.xiaosi@outlook.com", sub: "huang.xiaosi@outlook.com" },
 ];
+
+const thesisUrl = "https://www.theseus.fi/handle/10024/885903";
+type Edu = { title: string; school: string; period: string; gpa?: string; thesis?: { label: string; href: string } };
+const education: Edu[] = [
+  { title: "M.Sc. in Data Science (ongoing)", school: "Tampere University", period: "Aug 2025 – present" },
+  { title: "B.Eng. in Software Engineering",  school: "Tampere University of Applied Sciences", period: "Aug 2021 – May 2025", gpa: "GPA: 4.63 / 5", thesis: { label: "Bachelor’s Thesis", href: thesisUrl } },
+];
+
+const profileByLang: Record<string, { speak: string[]; studied: string[]; learning: string[] }> = {
+  en: { speak: ["English", "Cantonese", "Mandarin"], studied: ["Japanese", "Korean", "Finnish"], learning: ["Norwegian", "Swedish"] },
+  zh: { speak: ["英语", "粤语", "普通话"],             studied: ["日语", "韩语", "芬兰语"],     learning: ["挪威语", "瑞典语"] },
+  yue:{ speak: ["英語", "廣東話", "普通話"],           studied: ["日文", "韓文", "芬蘭文"],     learning: ["挪威文", "瑞典文"] },
+  fi: { speak: ["englanti", "kantoninkiina", "mandariinikiina"], studied: ["japani", "korea", "suomi"], learning: ["norja", "ruotsi"] },
+  no: { speak: ["engelsk", "kantonesisk", "mandarin"],           studied: ["japansk", "koreansk", "finsk"], learning: ["norsk", "svensk"] },
+  sv: { speak: ["engelska", "kantonesiska", "mandarin"],         studied: ["japanska", "koreanska", "finska"], learning: ["norska", "svenska"] },
+};
+const langData = profileByLang[lang] ?? profileByLang.en;
+
+const countries = [
+  "🇫🇷France","🇯🇵Japan","🇷🇺Russia","🇹🇷Turkey","🇫🇮Finland","🇱🇻Latvia","🇳🇴Norway","🇭🇺Hungary",
+  "🇦🇹Austria","🇱🇹Lithuania","🇮🇹Italy","🇨🇿Czechia","🇸🇰Slovakia","🇧🇪Belgium","🇪🇪Estonia","🇸🇪Sweden",
+  "🇪🇸Spain","🇵🇹Portugal","🇨🇭Switzerland","🇩🇪Germany","🇩🇰Denmark","🇷🇴Romania","🇬🇷Greece","🇭🇷Croatia",
+  "🇸🇮Slovenia",
+];
+
+const skills = [
+  "Tableau","Data Visualization","Dashboard Design",
+  "SQL","Python","Pandas","Excel","Statistics",
+  "A/B Testing","Storytelling","ETL","Data Cleaning"
+];
+
+// goodAt 标题的 i18n 回退
+const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at?";
 ---
 
 <Layout lang={lang} title={`Xiaosi Huang · ${t.about.title}`}>
-  <!-- 与 Blog 完全一致：同容器、同顶部间距 -->
-  <section class="mx-auto max-w-5xl px-4">
-    <!-- 标题与副标题样式与 Blog 一致 -->
-    <h1 class="text-4xl font-extrabold mb-3">{t.about.title}</h1>
-    {t.about.subtitle && (
-      <p class="opacity-70 mb-8">{t.about.subtitle}</p>
-    )}
+  <section id="about" class="mx-auto max-w-5xl px-4">
+    <h1 class="text-4xl font-extrabold mb-1">{t.about.title}</h1>
+    {t.about.subtitle && <p class="text-zinc-600 dark:text-zinc-300 mb-5">{t.about.subtitle}</p>}
 
-    <!-- 个人信息卡 -->
-    <section class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
-      <div class="p-6">
-        <div class="flex items-start gap-4">
-          <img
-            src={avatar}
-            alt="Portrait of Xiaosi Huang"
-            class="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover"
-            loading="eager"
-          />
-          <div class="min-w-0">
-            <h2 class="text-xl md:text-2xl font-semibold">Data Engineer / Analytics</h2>
-            <p class="mt-2 text-sm md:text-[15px] text-zinc-600 dark:text-zinc-300">
-              I design and build reliable data pipelines and dashboards that turn messy raw data
-              into trustworthy, decision-ready analytics. Focus areas: data modeling, ETL/ELT,
-              orchestration, and practical data visualization for business stakeholders.
-            </p>
+    <!-- 顶部：头像 / Links / 教育 / 技能 -->
+    <section class="card card--tight">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+        <figure class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/70 p-4 overflow-hidden self-start md:self-stretch md:row-span-2 max-w-[240px] w-full">
+          <div class="aspect-[4/5] w-full overflow-hidden rounded-xl">
+            <img src={avatar} alt="Portrait" class="w-full h-full object-cover" style="object-position:center 22%;" loading="eager" onerror="this.src='/placeholder.jpg'" />
+          </div>
+        </figure>
 
-            <div class="mt-3 flex flex-wrap gap-2">
-              <a
-                href="mailto:your-email@example.com"
-                class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
-              >
-                Email
-              </a>
-              <a
-                href="https://www.linkedin.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
-              >
-                Resume / CV
-              </a>
-            </div>
+        <div class="self-start">
+          <h2 class="col-title">{t.about.links}</h2>
+          <ul class="space-y-2">
+            {links.map((l) => (
+              <li class="pl-4 relative leading-tight">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="link-row">
+                  <a href={l.href} target={l.ext ? "_blank" : undefined} rel={l.ext ? "noopener noreferrer" : undefined} class="link font-medium text-[15px]">
+                    {l.label}{l.ext ? " ↗" : ""}
+                  </a>
+                  {l.sub && <span class="sub sub-lg sub-inline text-zinc-600">{l.sub}</span>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="self-start">
+          <h2 class="col-title">{t.about.education}</h2>
+          <ul class="space-y-2">
+            {education.map((e) => (
+              <li class="pl-4 relative leading-tight">
+                <span class="dot" aria-hidden="true"></span>
+                <div class="font-semibold text-[15px]">{e.title}</div>
+                <div class="sub sub-lg text-zinc-600">{e.school}</div>
+                <div class="sub sub-lg text-zinc-500">{e.period}</div>
+                {e.gpa && <div class="sub sub-lg text-zinc-600">{e.gpa}</div>}
+                {e.thesis && (
+                  <div class="mt-0.5">
+                    <a href={e.thesis.href} target="_blank" rel="noopener noreferrer" class="text-[16px] md:text-[17px] font-semibold text-red-600 hover:text-red-700">
+                      {e.thesis.label} ↗
+                    </a>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 md:col-start-2">
+          <h2 class="col-title">{goodAtTitle}</h2>
+          <div class="countries-chips">
+            {skills.map((s) => <span class="pill">{s}</span>)}
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 正文 -->
-    <article class="mt-8 space-y-4 text-[15px] md:text-base leading-relaxed">
-      <p>
-        I’m a data engineer focused on building durable analytics stacks that scale with the
-        business. On the backend, I work with Python and SQL to design data models and pipelines,
-        ensure data quality, and orchestrate jobs. On the frontend, I deliver clear dashboards and
-        narratives that help teams move faster with confidence.
-      </p>
-      <p>
-        Typical toolbelt: Python (pandas, polars), SQL, Airflow/Prefect, dbt-style modeling,
-        cloud warehouses, and Tableau for storytelling. I care about the last mile of analytics:
-        helping non-technical stakeholders understand, trust, and act on data.
-      </p>
-      <p>
-        Outside of work, I enjoy building small tooling and automation projects—many of them are
-        open-sourced. You can find some of my mini-projects and experiments in the Projects page.
-      </p>
-    </article>
+    <!-- 语言 & 国家 -->
+    <section class="card mt-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        <div class="md:col-span-1">
+          <h2 class="sec-title">{t.about.languages}</h2>
 
-    <!-- 本科论文（可选） -->
-    {thesisUrl && (
-      <section class="mt-10">
-        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6">
-          <h3 class="text-lg font-semibold mb-2">Undergraduate Thesis</h3>
-          <p class="text-[15px] md:text-base text-zinc-600 dark:text-zinc-300">
-            A highlight from my academic work. The thesis reflects my early interest in data,
-            quantitative thinking, and practical applications.
-          </p>
-          <div class="mt-3">
-            <a
-              href={thesisUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-[14px] hover:bg-zinc-50 dark:hover:bg-zinc-800/80"
-            >
-              View thesis
-            </a>
+          <div class="lang-row">
+            <span class="lang-label">{t.about.speak}</span>
+            <div class="lang-chips">{langData.speak.map((x) => <span class="pill">{x}</span>)}</div>
+          </div>
+
+          <div class="lang-row">
+            <span class="lang-label">{t.about.studied}</span>
+            <div class="lang-chips">{langData.studied.map((x) => <span class="pill">{x}</span>)}</div>
+          </div>
+
+          <div class="lang-row">
+            <span class="lang-label">{t.about.learning}</span>
+            <div class="lang-chips">{langData.learning.map((x) => <span class="pill">{x}</span>)}</div>
           </div>
         </div>
-      </section>
-    )}
 
-    <!-- 照片栅格 -->
-    {photos.length > 0 && (
-      <section class="mt-10 mb-12">
-        <h3 class="text-lg font-semibold mb-3">Photos</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {photos.map((p) => (
-            <figure class="rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
-              <img src={p.src} alt={p.alt} class="w-full h-56 object-cover" loading="lazy" />
-              <figcaption class="px-3 py-2 text-sm text-zinc-600 dark:text-zinc-300">
-                {p.caption}
-              </figcaption>
-            </figure>
-          ))}
+        <div class="md:col-span-2">
+          <h2 class="sec-title flex items-baseline gap-2">
+            {t.about.countriesVisited} <span class="count">({countries.length})</span>
+          </h2>
+          <div class="countries-chips">{countries.map((c) => <span class="pill">{c}</span>)}</div>
         </div>
-      </section>
-    )}
+      </div>
+    </section>
+
+    <!-- 四季照片墙：按年渲染。标题里显示季节名（随语言变化） -->
+    <section class="mt-4">
+      <h2 class="text-xl font-semibold">{t.about.fourSeasonsTitle}</h2>
+      <p class="text-zinc-600 dark:text-zinc-300 mb-3 text-[15px]">{t.about.fourSeasonsSubtitle}</p>
+
+      {years.map((year) => (
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-2">
+            {year} · {S.Spring} • {S.Summer} • {S.Autumn} • {S.Winter}
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            {ORDER.map((s) => (
+              <figure class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/60 overflow-hidden">
+                <div class="w-full aspect-[4/3] md:aspect-[3/2] overflow-hidden">
+                  <img
+                    src={`/images/about/${year}/${s}.jpg`}
+                    alt={`${year} ${s}`}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                    onerror="this.src='/placeholder.jpg'"
+                  />
+                </div>
+                <figcaption class="p-2.5">
+                  <div class="font-medium text-[15px]">{year} · {S[s]}</div>
+                  {captionOf(year, s) && (
+                    <div class="text-[13px] text-zinc-600 dark:text-zinc-300 mt-0.5">
+                      {captionOf(year, s)}
+                    </div>
+                  )}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
   </section>
+
+  <style>
+    #about .card{ border:1px solid var(--border); border-radius:16px; background:color-mix(in oklab, white 92%, transparent); padding:0.5rem 0.75rem; }
+    @media (min-width:768px){ #about .card{ padding:0.75rem 1rem; } }
+    #about .card--tight{ padding:0.6rem 0.9rem; }
+
+    #about .dot{ position:absolute; left:0; top:.42rem; width:.42rem; height:.42rem; border-radius:9999px; background:#15803d; }
+    #about .col-title{ font-size:1rem; font-weight:700; margin-bottom:.3rem; }
+    #about .link{ text-decoration:none; border-bottom:1px solid transparent; }
+    #about .link:hover{ text-decoration:underline; }
+
+    #about .link-row{ display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+    #about .sub{ font-size:13.5px; color:var(--muted); }
+    #about .sub-lg{ font-size:14.5px; }
+    #about .sub-inline{ display:inline; line-height:1.2; }
+
+    #about .sec-title{ font-size:1rem; font-weight:700; margin-bottom:.35rem; }
+    #about .count{ font-size:12.5px; color:var(--subtle); }
+
+    #about .lang-row{ display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin-bottom:.40rem; }
+    #about .lang-label{ flex:0 0 auto; white-space:nowrap; font-size:14.5px; color:var(--muted); line-height:1.2; margin:0; }
+    #about .lang-chips{ flex:1 1 0%; min-width:0; display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
+
+    #about .countries-chips{ display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
+    #about .pill{ display:inline-block; padding:.16rem .42rem; font-size:.76rem; line-height:1; border-radius:9999px; background:var(--tag-bg); color:var(--tag-text); border:1px solid var(--border); }
+  </style>
 </Layout>

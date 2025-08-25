@@ -1,8 +1,7 @@
 ---
 title: "First Post: About My Blog 🌱"
 subtitle: "A place to begin my portfolio"
-date: 2025-08-12
-lang: "en"
+date: "2025-08-12"
 cover: "/assets/blog/first-post/cover.jpg"
 coverAlt: "Colorful chart collage"
 coverCredit: "eettinenluksus.fi"
