@@ -215,4 +215,4 @@ Remove the environment (if you ever need to reset):
 conda remove -n dataml100 --all
 ```
 
-✅ With this setup complete, you are ready to run all notebooks and follow along with **DATA.ML.100 Introduction to Machine Learning**!
+With this setup complete, you are ready to run all notebooks and follow along with **DATA.ML.100 Introduction to Machine Learning**!
