@@ -22,8 +22,12 @@ import CAPS_FI from "../../data/albums.fi.json";
 import CAPS_NO from "../../data/albums.no.json";
 import CAPS_SV from "../../data/albums.sv.json";
 
+/** 四季键 */
 type SeasonKey = "Spring" | "Summer" | "Autumn" | "Winter";
-type Caps = Record<string, Partial<Record<SeasonKey, string>>>;
+
+/** 每年的文案结构：四季 + 可选的 Highlights（按 001/002… 对应） */
+type YearCaps = Partial<Record<SeasonKey, string>> & { Highlights?: string[] };
+type Caps = Record<string, YearCaps>;
 
 // 当前语言的 caption 映射（没有则回退到英文）
 const BY_LANG: Record<string, Caps> = {
@@ -50,6 +54,12 @@ const captionOf = (year: number, s: SeasonKey) =>
   (CAPS_EN as Caps)[String(year)]?.[s] ??
   "";
 
+// 取某年的 Highlights（若无则空数组）
+const highlightsOf = (year: number): string[] =>
+  (CAPS[String(year)]?.Highlights ??
+   (CAPS_EN as Caps)[String(year)]?.Highlights ??
+   []) as string[];
+
 // 各语言的季节名
 const seasonLabelMap: Record<string, Record<SeasonKey, string>> = {
   en: { Spring: "Spring", Summer: "Summer", Autumn: "Autumn", Winter: "Winter" },
@@ -61,6 +71,20 @@ const seasonLabelMap: Record<string, Record<SeasonKey, string>> = {
 };
 const S = seasonLabelMap[lang] ?? seasonLabelMap.en;
 const ORDER: SeasonKey[] = ["Spring", "Summer", "Autumn", "Winter"];
+
+// “年度高光” i18n（页面内自带回退，不改你 i18n 文件）
+const HIGHLIGHTS_LABEL: Record<string, string> = {
+  en: "Highlights",
+  zh: "年度高光",
+  yue: "年度高光",
+  fi: "Kohokohdat",
+  no: "Høydepunkter",
+  sv: "Höjdpunkter",
+};
+const HLabel = HIGHLIGHTS_LABEL[lang] ?? HIGHLIGHTS_LABEL.en;
+
+// 序号补零（001、002…），匹配 /Highlights/001.jpg 命名
+const pad3 = (n: number) => String(n).padStart(3, "0");
 
 /* ─────────────────────────────────────────
    ② 其余数据（头像/链接/教育/语言/国家/技能）
@@ -202,42 +226,71 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
       </div>
     </section>
 
-    <!-- 四季照片墙：按年渲染。标题里显示季节名（随语言变化） -->
+    <!-- 四季照片墙：按年渲染。若有 Highlights 先展示；下面保留四季四张卡片 -->
     <section class="mt-4">
       <h2 class="text-xl font-semibold">{t.about.fourSeasonsTitle}</h2>
       <p class="text-zinc-600 dark:text-zinc-300 mb-3 text-[15px]">{t.about.fourSeasonsSubtitle}</p>
 
-      {years.map((year) => (
-        <div class="mb-6">
-          <h3 class="text-lg font-semibold mb-2">
-            {year} · {S.Spring} • {S.Summer} • {S.Autumn} • {S.Winter}
-          </h3>
+      {years.map((year) => {
+        const H = highlightsOf(year);
+        return (
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-2">
+              {year} · {S.Spring} • {S.Summer} • {S.Autumn} • {S.Winter}
+            </h3>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-            {ORDER.map((s) => (
-              <figure class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/60 overflow-hidden">
-                <div class="w-full aspect-[4/3] md:aspect-[3/2] overflow-hidden">
-                  <img
-                    src={`/images/about/${year}/${s}.jpg`}
-                    alt={`${year} ${s}`}
-                    class="w-full h-full object-cover"
-                    loading="lazy"
-                    onerror="this.src='/placeholder.jpg'"
-                  />
+            {/* 年度高光（可选） */}
+            {H.length > 0 && (
+              <div class="mb-3">
+                <div class="text-[15px] font-semibold mb-2">{HLabel}</div>
+                <div class="masonry">
+                  {H.map((cap, idx) => (
+                    <figure class="masonry-item rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/60 overflow-hidden">
+                      <img
+                        src={`/images/about/${year}/Highlights/${pad3(idx + 1)}.jpg`}
+                        alt={`${year} Highlights ${idx + 1}`}
+                        class="w-full h-auto object-contain"
+                        loading="lazy"
+                        onerror="this.src='/placeholder.jpg'"
+                      />
+                      {(cap ?? "").trim() && (
+                        <figcaption class="p-2.5">
+                          <div class="text-[13px] text-zinc-600 dark:text-zinc-300">{cap}</div>
+                        </figcaption>
+                      )}
+                    </figure>
+                  ))}
                 </div>
-                <figcaption class="p-2.5">
-                  <div class="font-medium text-[15px]">{year} · {S[s]}</div>
-                  {captionOf(year, s) && (
-                    <div class="text-[13px] text-zinc-600 dark:text-zinc-300 mt-0.5">
-                      {captionOf(year, s)}
-                    </div>
-                  )}
-                </figcaption>
-              </figure>
-            ))}
+              </div>
+            )}
+
+            {/* 四季四张卡片（固定比例，外观与原站一致） */}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              {ORDER.map((s) => (
+                <figure class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/60 overflow-hidden">
+                  <div class="w-full aspect-[4/3] md:aspect-[3/2] overflow-hidden">
+                    <img
+                      src={`/images/about/${year}/${s}.jpg`}
+                      alt={`${year} ${s}`}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                      onerror="this.src='/placeholder.jpg'"
+                    />
+                  </div>
+                  <figcaption class="p-2.5">
+                    <div class="font-medium text-[15px]">{year} · {S[s]}</div>
+                    {captionOf(year, s) && (
+                      <div class="text-[13px] text-zinc-600 dark:text-zinc-300 mt-0.5">
+                        {captionOf(year, s)}
+                      </div>
+                    )}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </section>
   </section>
 
@@ -265,5 +318,21 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
 
     #about .countries-chips{ display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
     #about .pill{ display:inline-block; padding:.16rem .42rem; font-size:.76rem; line-height:1; border-radius:9999px; background:var(--tag-bg); color:var(--tag-text); border:1px solid var(--border); }
+
+    /* ================ Masonry（仅作用于“年度高光”） ================ */
+    #about .masonry{
+      column-count: 1;
+      column-gap: .875rem; /* ≈ gap-3.5 */
+    }
+    @media (min-width:640px){
+      #about .masonry{ column-count: 2; }
+    }
+    @media (min-width:1024px){
+      #about .masonry{ column-count: 4; }
+    }
+    #about .masonry-item{
+      break-inside: avoid;
+      margin-bottom: .875rem;
+    }
   </style>
 </Layout>

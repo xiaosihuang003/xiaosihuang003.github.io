@@ -1,14 +1,14 @@
 {
   "2025": {
-    "spring": "Tidigt ljus, nya början.",
-    "summer": "Långa dagar, sjöbris.",
-    "autumn": "Varma färger, långsamma promenader.",
-    "winter": "Snö, tystnad, stund vid pianot."
-  },
-  "2024": {
-    "spring": "Små gröna blad efter snön.",
-    "summer": "Cykelturer i solnedgång och glass.",
-    "autumn": "Lönnar vid Näsijärvi.",
-    "winter": "Första morgonen med -20 °C."
+    "Highlights": [
+      "02.06.2025 Grattis till mig själv 🏆, i dag tog jag examen från programmet Software Engineering vid Tampere University of Applied Sciences. Jag klarade det!",
+      "02.06.2025 Tillsammans med en av mina favoritlärare, Petteri Jekunen, som är mycket professionell och har stöttat oss och varit med oss i fyra år 🫂.",
+      "02.06.2025 I den internationella studentgruppen i Software Engineering var jag den enda som fick utmärkelsen Best Student of the Year 2025 och ett examensstipendium. Jag är mycket tacksam till TAMK för stödet jag fick under hela mina studier 💶.",
+      "02.06.2025 Mina klasskamrater är verkligen framstående. Jag hoppas att alla glänser inom sina egna områden i framtiden. Jag önskar er alla stor framgång ❤️ och en ljus framtid 💎."
+    ],
+    "Spring": "Early light, new starts.",
+    "Summer": "Long days, lake breeze.",
+    "Autumn": "Warm colors, slow walks.",
+    "Winter": "Snow, silence, piano time."
   }
 }
