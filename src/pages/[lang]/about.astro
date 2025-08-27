@@ -95,7 +95,7 @@ const links: Array<{ label: string; href: string; sub?: string; ext?: boolean }>
   { label: "GitHub",         href: "https://github.com/xiaosihuang003", ext: true },
   { label: "LinkedIn",       href: "https://www.linkedin.com/in/xiaosi-huang-387559251/", ext: true },
   { label: "Tableau Public", href: "https://public.tableau.com/app/profile/xiaosi.huang/vizzes", ext: true },
-  { label: "Resume & CV",    href: "/resume.pdf", ext: true },
+  { label: "Resume & CV (Updating)",    href: "/resume.pdf", ext: true },
   { label: "Email :",        href: "mailto:huang.xiaosi@outlook.com", sub: "huang.xiaosi@outlook.com" },
 ];
 
@@ -226,7 +226,7 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
       </div>
     </section>
 
-    <!-- 四季照片墙：按年渲染。若有 Highlights 先展示；下面保留四季四张卡片 -->
+    <!-- 照片墙：若有 Highlights 先展示；四季也用与 Highlights 相同的 masonry 尺寸 -->
     <section class="mt-4">
       <h2 class="text-xl font-semibold">{t.about.fourSeasonsTitle}</h2>
       <p class="text-zinc-600 dark:text-zinc-300 mb-3 text-[15px]">{t.about.fourSeasonsSubtitle}</p>
@@ -264,19 +264,17 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
               </div>
             )}
 
-            {/* 四季四张卡片（固定比例，外观与原站一致） */}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            {/* 四季：与高光相同的 masonry 尺寸与样式 */}
+            <div class="masonry">
               {ORDER.map((s) => (
-                <figure class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/60 overflow-hidden">
-                  <div class="w-full aspect-[4/3] md:aspect-[3/2] overflow-hidden">
-                    <img
-                      src={`/images/about/${year}/${s}.jpg`}
-                      alt={`${year} ${s}`}
-                      class="w-full h-full object-cover"
-                      loading="lazy"
-                      onerror="this.src='/placeholder.jpg'"
-                    />
-                  </div>
+                <figure class="masonry-item rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/60 overflow-hidden">
+                  <img
+                    src={`/images/about/${year}/${s}.jpg`}
+                    alt={`${year} ${s}`}
+                    class="w-full h-auto object-contain"
+                    loading="lazy"
+                    onerror="this.src='/placeholder.jpg'"
+                  />
                   <figcaption class="p-2.5">
                     <div class="font-medium text-[15px]">{year} · {S[s]}</div>
                     {captionOf(year, s) && (
@@ -319,7 +317,7 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
     #about .countries-chips{ display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
     #about .pill{ display:inline-block; padding:.16rem .42rem; font-size:.76rem; line-height:1; border-radius:9999px; background:var(--tag-bg); color:var(--tag-text); border:1px solid var(--border); }
 
-    /* ================ Masonry（仅作用于“年度高光”） ================ */
+    /* ================ Masonry（用于“年度高光”和“四季”） ================ */
     #about .masonry{
       column-count: 1;
       column-gap: .875rem; /* ≈ gap-3.5 */

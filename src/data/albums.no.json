@@ -10,5 +10,40 @@
     "Summer": "Long days, lake breeze.",
     "Autumn": "Warm colors, slow walks.",
     "Winter": "Snow, silence, piano time."
+    },
+  "2024": {
+    "Highlights": [],
+    "Spring": "Tiny greens after snow.",
+    "Summer": "Sunset rides and ice cream.",
+    "Autumn": "Maples at Näsijärvi.",
+    "Winter": "First −20°C morning."
+  },
+  "2023": {
+    "Highlights": [],
+    "Spring": "New routines, new light.",
+    "Summer": "Lakes, ferries, midnight sun.",
+    "Autumn": "Crisp air, colorful parks.",
+    "Winter": "Short days, warm cafés."
+  },
+  "2022": {
+    "Highlights": [],
+    "Spring": "First Finnish spring blooms.",
+    "Summer": "Sauna, swims, late sunsets.",
+    "Autumn": "Study projects and pumpkins.",
+    "Winter": "Snow walks, starry nights."
+  },
+  "2021": {
+    "Highlights": [],
+    "Spring": "Packing and goodbyes.",
+    "Summer": "Arrived in Tampere, new chapter.",
+    "Autumn": "First semester, first snow.",
+    "Winter": "Holiday lights, long nights."
+ },
+   "2020": {
+    "Highlights": [],
+    "Spring": "Packing and goodbyes.",
+    "Summer": "Arrived in Tampere, new chapter.",
+    "Autumn": "First semester, first snow.",
+    "Winter": "Holiday lights, long nights."
   }
 }
