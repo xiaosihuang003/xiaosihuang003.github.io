@@ -116,12 +116,64 @@ const profileByLang: Record<string, { speak: string[]; studied: string[]; learni
 };
 const langData = profileByLang[lang] ?? profileByLang.en;
 
-const countries = [
-  "🇫🇷France","🇯🇵Japan","🇷🇺Russia","🇹🇷Turkey","🇫🇮Finland","🇱🇻Latvia","🇳🇴Norway","🇭🇺Hungary",
-  "🇦🇹Austria","🇱🇹Lithuania","🇮🇹Italy","🇨🇿Czechia","🇸🇰Slovakia","🇧🇪Belgium","🇪🇪Estonia","🇸🇪Sweden",
-  "🇪🇸Spain","🇵🇹Portugal","🇨🇭Switzerland","🇩🇪Germany","🇩🇰Denmark","🇷🇴Romania","🇬🇷Greece","🇭🇷Croatia",
-  "🇸🇮Slovenia",
-];
+// ✅ 多语言国家名称（按语言显示，缺失时回退英文）
+const VISITED = [
+  "FR","JP","RU","TR","FI","LV","NO","HU","AT","LT",
+  "IT","CZ","SK","BE","EE","SE","ES","PT","CH","DE",
+  "DK","RO","GR","HR","SI",
+] as const;
+
+type CC = typeof VISITED[number];
+
+const flags: Record<CC, string> = {
+  FR:"🇫🇷", JP:"🇯🇵", RU:"🇷🇺", TR:"🇹🇷", FI:"🇫🇮", LV:"🇱🇻", NO:"🇳🇴",
+  HU:"🇭🇺", AT:"🇦🇹", LT:"🇱🇹", IT:"🇮🇹", CZ:"🇨🇿", SK:"🇸🇰", BE:"🇧🇪",
+  EE:"🇪🇪", SE:"🇸🇪", ES:"🇪🇸", PT:"🇵🇹", CH:"🇨🇭", DE:"🇩🇪", DK:"🇩🇰",
+  RO:"🇷🇴", GR:"🇬🇷", HR:"🇭🇷", SI:"🇸🇮",
+};
+
+const countryNames: Record<string, Record<CC, string>> = {
+  en: {
+    FR:"France", JP:"Japan", RU:"Russia", TR:"Turkey", FI:"Finland", LV:"Latvia", NO:"Norway",
+    HU:"Hungary", AT:"Austria", LT:"Lithuania", IT:"Italy", CZ:"Czechia", SK:"Slovakia",
+    BE:"Belgium", EE:"Estonia", SE:"Sweden", ES:"Spain", PT:"Portugal", CH:"Switzerland",
+    DE:"Germany", DK:"Denmark", RO:"Romania", GR:"Greece", HR:"Croatia", SI:"Slovenia",
+  },
+  zh: {
+    FR:"法国", JP:"日本", RU:"俄罗斯", TR:"土耳其", FI:"芬兰", LV:"拉脱维亚", NO:"挪威",
+    HU:"匈牙利", AT:"奥地利", LT:"立陶宛", IT:"意大利", CZ:"捷克", SK:"斯洛伐克",
+    BE:"比利时", EE:"爱沙尼亚", SE:"瑞典", ES:"西班牙", PT:"葡萄牙", CH:"瑞士",
+    DE:"德国", DK:"丹麦", RO:"罗马尼亚", GR:"希腊", HR:"克罗地亚", SI:"斯洛文尼亚",
+  },
+  yue: {
+    FR:"法國", JP:"日本", RU:"俄羅斯", TR:"土耳其", FI:"芬蘭", LV:"拉脫維亞", NO:"挪威",
+    HU:"匈牙利", AT:"奧地利", LT:"立陶宛", IT:"意大利", CZ:"捷克", SK:"斯洛伐克",
+    BE:"比利時", EE:"愛沙尼亞", SE:"瑞典", ES:"西班牙", PT:"葡萄牙", CH:"瑞士",
+    DE:"德國", DK:"丹麥", RO:"羅馬尼亞", GR:"希臘", HR:"克羅地亞", SI:"斯洛文尼亞",
+  },
+  fi: {
+    FR:"Ranska", JP:"Japani", RU:"Venäjä", TR:"Turkki", FI:"Suomi", LV:"Latvia", NO:"Norja",
+    HU:"Unkari", AT:"Itävalta", LT:"Liettua", IT:"Italia", CZ:"Tšekki", SK:"Slovakia",
+    BE:"Belgia", EE:"Viro", SE:"Ruotsi", ES:"Espanja", PT:"Portugali", CH:"Sveitsi",
+    DE:"Saksa", DK:"Tanska", RO:"Romania", GR:"Kreikka", HR:"Kroatia", SI:"Slovenia",
+  },
+  no: {
+    FR:"Frankrike", JP:"Japan", RU:"Russland", TR:"Tyrkia", FI:"Finland", LV:"Latvia", NO:"Norge",
+    HU:"Ungarn", AT:"Østerrike", LT:"Litauen", IT:"Italia", CZ:"Tsjekkia", SK:"Slovakia",
+    BE:"Belgia", EE:"Estland", SE:"Sverige", ES:"Spania", PT:"Portugal", CH:"Sveits",
+    DE:"Tyskland", DK:"Danmark", RO:"Romania", GR:"Hellas", HR:"Kroatia", SI:"Slovenia",
+  },
+  sv: {
+    FR:"Frankrike", JP:"Japan", RU:"Ryssland", TR:"Turkiet", FI:"Finland", LV:"Lettland", NO:"Norge",
+    HU:"Ungern", AT:"Österrike", LT:"Litauen", IT:"Italien", CZ:"Tjeckien", SK:"Slovakien",
+    BE:"Belgien", EE:"Estland", SE:"Sverige", ES:"Spanien", PT:"Portugal", CH:"Schweiz",
+    DE:"Tyskland", DK:"Danmark", RO:"Rumänien", GR:"Grekland", HR:"Kroatien", SI:"Slovenien",
+  },
+};
+
+// 生成最终展示数组（带国旗），若当前语言缺失则回退英文
+const countries = VISITED.map((cc) => `${flags[cc]}${countryNames[lang]?.[cc] ?? countryNames.en[cc]}`);
+
 
 const skills = [
   "Tableau","Data Visualization","Dashboard Design",
