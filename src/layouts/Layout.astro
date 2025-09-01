@@ -1,22 +1,19 @@
 ---
-// 引入 normalizeLang 和 Lang，先把传入的 lang 规范化成受限枚举
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
 import { languages, hreflangMap, htmlLangMap, normalizeLang, type Lang } from "../i18n";
 
 interface Props {
   title?: string;
-  // 允许 string 进来，规范化成 Lang
   lang?: Lang | string;
   alternates?: Record<string, string>;
 }
 
-// 先拿到原 props，再做规范化
 const props = Astro.props as Props;
 const title = props.title ?? "Xiaosi Huang · Portfolio";
 const lang: Lang = normalizeLang(props.lang as string);
 
-// 去掉语言前缀，得到逻辑路径
+// strip leading /{lang}
 const raw = Astro.url.pathname || "/";
 const langPattern = new RegExp(`^/(?:${languages.join("|")})(?=/|$)`);
 const logicalPath = raw.replace(langPattern, "");
@@ -25,7 +22,6 @@ const logicalPath = raw.replace(langPattern, "");
 const urlFor = (code: string) =>
   new URL(`${`/${code}`}${logicalPath || "/"}`, Astro.url.origin).toString();
 
-// 现在一定是 string，不会再是 string | undefined
 const htmlLang = htmlLangMap[lang];
 ---
 <!doctype html>
@@ -40,6 +36,9 @@ const htmlLang = htmlLangMap[lang];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- KaTeX CSS for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
 
     <title>{title}</title>
 
