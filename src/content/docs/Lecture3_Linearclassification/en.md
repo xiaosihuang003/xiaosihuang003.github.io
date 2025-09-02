@@ -1,13 +1,57 @@
 ---
 title: "Lecture 3: Linear classification"
-subtitle: "DATA.ML.100 · Joni Kämäräinen · Mon 1.9.2025 · K1704"
+subtitle: "DATA.ML.100 · Joni Kämäräinen · Mon 1.9.2025 · K1704 😊"
 date: 2025-09-02
 lang: en
 excerpt: "Recap of linear regression → simple baseline → classification. k-NN (distance/k/complexity), line-fitting view, step rule, logistic (sigmoid) output, MSE gradients, and why there’s no closed-form—setup for neural nets."
 tags: ["linear-classification", "k-NN", "baseline", "step-function", "sigmoid-function", "logistic"]
 draft: false 
 ---
-😊
+
+<details>
+<summary><strong>Table of contents (Click ▶️ when needed.)</strong></summary>
+
+- [Part 1 : Recap from last week course](#part-1--recap-from-last-week-course)
+  - [1.1 Model and training data](#11-model-and-training-data)
+  - [1.2 Error and how we solved it](#12-error-and-how-we-solved-it)
+  - [1.3 Why the analytic solution matters](#13-why-the-analytic-solution-matters)
+  - [1.4 What kind of problem this is](#14-what-kind-of-problem-this-is)
+- [Part 2 : Baseline and classification](#part-2--baseline-and-classification)
+  - [2.1 A simple baseline](#21-a-simple-baseline)
+  - [2.2 Moving to classification](#22-moving-to-classification)
+  - [2.3 Output type changes](#23-output-type-changes)
+  - [2.4 What the observation is](#24-what-the-observation-is)
+- [Part 3 : Example: Hobbits vs. Elves](#part-3--example-hobbits-vs-elves)
+  - [3.1 Learning from training examples](#31-learning-from-training-examples)
+  - [3.2 Orcs’ trap story](#32-orcs-trap-story)
+  - [3.3 Generating data](#33-generating-data)
+  - [3.4 Accepting overlap](#34-accepting-overlap)
+  - [3.5 Moving to two dimensions](#35-moving-to-two-dimensions)
+  - [3.6 Training vs. inference](#36-training-vs-inference)
+  - [3.7 First classification idea](#37-first-classification-idea)
+- [Part 4 : Nearest neighbor classifier](#part-4--nearest-neighbor-classifier)
+  - [4.1 Name and idea](#41-name-and-idea)
+  - [4.2 Training (store everything)](#42-training-store-everything)
+  - [4.3 Inference (find the closest and copy its label)](#43-inference-find-the-closest-and-copy-its-label)
+  - [4.4 Simple baselines for classification](#44-simple-baselines-for-classification)
+  - [4.5 Takeaways](#45-takeaways)
+- [Part 5 : k-NN considerations → line fitting](#part-5--k-nn-considerations--line-fitting)
+  - [5.1 What we can tweak in k-NN](#51-what-we-can-tweak-in-k-nn)
+  - [5.2 Can we classify by fitting a line?](#52-can-we-classify-by-fitting-a-line)
+  - [5.3 How do we measure error for classification?](#53-how-do-we-measure-error-for-classification)
+- [Part 6 : From line fitting to a step, then to sigmoid](#part-6--from-line-fitting-to-a-step-then-to-sigmoid)
+  - [6.1 Step rule and the discriminator](#61-step-rule-and-the-discriminator)
+  - [6.2 Approximate the step with a logistic (sigmoid)](#62-approximate-the-step-with-a-logistic-sigmoid)
+  - [6.3 Training signal (for now)](#63-training-signal-for-now)
+- [Part 7 : MSE with sigmoid output, gradients (step-by-step, clean)](#part-7--mse-with-sigmoid-output-gradients-step-by-step-clean)
+  - [7.1 Model, targets, loss](#71-model-targets-loss)
+  - [7.2 Why ∂zᵢ/∂b = 1 and ∂zᵢ/∂a = xᵢ?](#72-why--1-and--x)
+  - [7.3 Derivative of the sigmoid](#73-derivative-of-the-sigmoid)
+  - [7.4 Differentiate the MSE (chain rule)](#74-differentiate-the-mse-chain-rule)
+  - [7.5 What each factor means](#75-what-each-factor-means)
+  - [7.6 Why we don’t have a closed-form solution](#76-why-we-dont-have-a-closed-form-solution)
+
+</details>
 
 ## Part 1 : Recap from last week course
 
