@@ -396,7 +396,7 @@ $$
 
 <br />
 
-### 7.2 Why \(\partial z_i/\partial b = 1\) and \(\partial z_i/\partial a = x_i\)?
+### 7.2 Why $ \frac{\partial z_i}{\partial b} = 1 $ and $ \frac{\partial z_i}{\partial a} = x_i $?
 
 We have a straight line:
 
