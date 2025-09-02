@@ -5,10 +5,11 @@ date: 2025-09-02
 lang: en
 excerpt: "Recap of linear regression → simple baseline → classification. k-NN (distance/k/complexity), line-fitting view, step rule, logistic (sigmoid) output, MSE gradients, and why there’s no closed-form—setup for neural nets."
 tags: ["linear-classification", "k-NN", "baseline", "step-function", "sigmoid-function", "logistic"]
-draft: false
+draft: false 
 ---
+😊
 
-## Part 1 — Recap from last week course
+## Part 1 : Recap from last week course
 
 ![Board notes](/images/docs/Lecture3_Linearclassification/1.png)
 
@@ -58,7 +59,7 @@ Our output is a real value, $y \in \mathbb{R}$, so this is a **regression proble
 
 ---
 
-## Part 2 — Baseline and classification
+## Part 2 : Baseline and classification
 
 ![Board notes](/images/docs/Lecture3_Linearclassification/2.png)
 
@@ -104,7 +105,7 @@ A typical story is autonomous driving: the system takes images many times per se
 
 ---
 
-## Part 3 — Example: Hobbits vs. Elves
+## Part 3 : Example: Hobbits vs. Elves
 
 ![Board notes](/images/docs/Lecture3_Linearclassification/3.png)
 
@@ -173,7 +174,7 @@ This leads naturally to one of the first classification methods: using closeness
 
 ---
 
-## Part 4 — Nearest neighbor classifier
+## Part 4 : Nearest neighbor classifier
 
 ![Board notes](/images/docs/Lecture3_Linearclassification/4.png)
 
@@ -217,7 +218,7 @@ The second baseline is usually better than random, especially when one class **d
 
 ---
 
-## Part 5 — k-NN considerations → line fitting
+## Part 5 : k-NN considerations → line fitting
 
 ![Board notes](/images/docs/Lecture3_Linearclassification/5.png)
 
@@ -241,6 +242,25 @@ When we start to study what we can change in nearest neighbour, a whole world op
   For two classes, $k=2$ can tie (one hobbit, one elf), so $k=3$ avoids the tie.
 
 - **Computation time.** A basic 1-NN scan is a loop over all training points and can be slow for huge datasets, but **fast NN methods exist** (often approximate) that partition the space and speed up the search.
+
+- **1D vs 2D distances in k-NN:**  
+  In **1D**, Euclidean (L2) and city-block (L1) distances coincide, both reducing to  
+  $$
+  |x-x_i|.
+  $$  
+  In **2D and higher dimensions**, they differ:  
+  - Euclidean (L2) in 2D:  
+    $$
+    d(\mathbf{x},\mathbf{x_i})=\sqrt{(x_1-x_{i1})^2+(x_2-x_{i2})^2},
+    $$
+    which produces circular neighbourhoods.  
+  - City-block (L1) in 2D:  
+    $$
+    d(\mathbf{x},\mathbf{x_i})=|x_1-x_{i1}|+|x_2-x_{i2}|,
+    $$
+    which produces diamond-shaped neighbourhoods.  
+
+  This difference changes the **decision boundaries of k-NN**: with L2, boundaries are smoother and rounded; with L1, they align with coordinate axes. Choosing the right one depends on data geometry.
 
 **🤔 Homework:** Give 2D points for which **1-NN** and **3-NN** give **different** classifications.
 
@@ -285,7 +305,7 @@ Notice the mismatch: line fitting minimises **squared error**, not this 0/1 erro
 
 ---
 
-## Part 6 — From line fitting to a step, then to sigmoid
+## Part 6 : From line fitting to a step, then to sigmoid
 
 ![Board notes](/images/docs/Lecture3_Linearclassification/8.png)
 
@@ -344,7 +364,7 @@ With this smooth output we can still minimise **mean squared error** between the
 
 ---
 
-## Part 7 — MSE with sigmoid output, gradients (step-by-step, clean)
+## Part 7 : MSE with sigmoid output, gradients (step-by-step, clean)
 
 ![Board notes](/images/docs/Lecture3_Linearclassification/10.png)
 
