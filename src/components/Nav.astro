@@ -20,7 +20,7 @@ const base = lang === "en" ? "/en" : `/${lang}`;
 const links = [
   { href: `${base}/`,         label: t.nav.home },
   { href: `${base}/projects`, label: t.nav.projects },
-  { href: `${base}/docs`,     label: t.nav.docs }, 
+   { href: `${base}/docs`,     label: t.nav.docs }, 
   { href: `${base}/blog`,     label: t.nav.blog },
   { href: `${base}/about`,    label: t.nav.about },
 ];
@@ -71,8 +71,7 @@ const langHref = (code: string) => {
       <ul class="absolute right-0 mt-2 w-52 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-2 space-y-1 z-50">
         {languages.map(code => (
           <li>
-            {/* ✅ 打上 data-lang-link 标记，便于选择器稳定绑定 */}
-            <a href={langHref(code)} data-lang-link
+            <a href={langHref(code)}
                class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center gap-2">
               <span>{langMeta[code].flag}</span>
               <span>{langMeta[code].label}</span>
@@ -104,7 +103,7 @@ const langHref = (code: string) => {
         <ul class="space-y-1">
           {languages.map(code => (
             <li>
-              <a href={langHref(code)} data-lang-link
+              <a href={langHref(code)}
                  class="block rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center gap-2">
                 <span>{langMeta[code].flag}</span>
                 <span>{langMeta[code].label}</span>
@@ -116,36 +115,3 @@ const langHref = (code: string) => {
     </details>
   </div>
 </header>
-
-<!-- ✅ 切换语言前存储滚动位置（像素 & 比例 & hash），供下一页恢复 -->
-<script is:inline>
-  (function enhanceLangMenus() {
-    const links = document.querySelectorAll('a[data-lang-link]');
-    links.forEach((a) => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        const href = (e.currentTarget).getAttribute('href');
-        if (!href) return;
-
-        const doc = document.documentElement, body = document.body;
-        const y = doc.scrollTop || body.scrollTop || 0;
-        const max = (doc.scrollHeight || body.scrollHeight || 0) - window.innerHeight;
-        const ratio = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
-        const hash = location.hash || '';
-
-        try {
-          sessionStorage.setItem('__langScroll__', JSON.stringify({
-            y, ratio, hash, ts: Date.now()
-          }));
-          // 调试：如需可打开
-          // console.debug('[lang-switch] save', { y, ratio, hash });
-        } catch {}
-
-        const url = new URL(href, location.origin);
-        if (hash && !url.hash) url.hash = hash;
-
-        location.href = url.toString();
-      }, { passive: false });
-    });
-  })();
-</script>
