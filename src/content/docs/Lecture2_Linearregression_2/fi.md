@@ -1,5 +1,5 @@
 ---
-title: "Lecture 2: Lineaarinen regressio_(2. muistiinpano FI)"
+title: "Lecture 2: Lineaarinen regressio_(2nd note)"
 subtitle: "Lineaarinen malli → residuaali → neliöity virhe → MSE → ∂L/∂a=0, ∂L/∂b=0 → normaaliehdot → suljettu muoto a, b"
 date: 2025-09-01
 lang: fi
