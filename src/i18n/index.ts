@@ -33,6 +33,16 @@ type Copy = {
     /** 新增返回文档 */
     backToDocs: string;
     breadcrumbs: { home: string; blog: string };
+
+    /** 标签筛选的本地化 */
+    tags: {
+      placeholder: string;
+      clear: string;
+      ariaFilterByTags: string;
+      result: string;
+      results: string;
+      noResults: string;
+    };
   };
   home: {
     line1: string; line2: string;
@@ -70,11 +80,19 @@ export const dict: Record<Lang, Copy> = {
       backToProjects: 'Back to Projects',
       backToDocs: 'Back to Docs',
       breadcrumbs: { home: 'Home', blog: 'Blog' },
+      tags: {
+        placeholder: 'Filter tags…',
+        clear: 'Clear selection',
+        ariaFilterByTags: 'Filter posts by tags',
+        result: 'result',
+        results: 'results',
+        noResults: 'No results',
+      },
     },
     home: {
       line1: 'Tell stories with data,',
       line2: 'turn insights into impact',
-      lead1: 'Focused on Tableau visualization, dashboard design, and business analytics.',
+      lead1: 'Focused on Data visualization, dashboard design, and business analytics.',
       lead2: 'Here are my selected projects, methods, and notes.',
       btnProjects: 'View Projects', btnAbout: 'About Me',
       cards: [
@@ -110,11 +128,19 @@ export const dict: Record<Lang, Copy> = {
       backToProjects: 'Takaisin projekteihin',
       backToDocs: 'Takaisin dokumentteihin',
       breadcrumbs: { home: 'Koti', blog: 'Blogi' },
+      tags: {
+        placeholder: 'Suodata tunnisteita…',
+        clear: 'Tyhjennä valinta',
+        ariaFilterByTags: 'Suodata julkaisuja tunnisteilla',
+        result: 'tulos',
+        results: 'tulosta',
+        noResults: 'Ei tuloksia',
+      },
     },
     home: {
       line1: 'Kerro tarinoita datalla,',
       line2: 'muuta oivallukset vaikutukseksi',
-      lead1: 'Keskittyy Tableau-visualisointeihin, kojelautojen suunnitteluun ja liiketoiminta-analytiikkaan.',
+      lead1: 'Keskittyy Data-visualisointeihin, kojelautojen suunnitteluun ja liiketoiminta-analytiikkaan.',
       lead2: 'Täältä löytyvät valikoidut projektit, menetelmät ja muistiinpanot.',
       btnProjects: 'Katso projektit', btnAbout: 'Tietoa minusta',
       cards: [
@@ -150,11 +176,19 @@ export const dict: Record<Lang, Copy> = {
       backToProjects: 'Tilbake til prosjekter',
       backToDocs: 'Tilbake til dokumenter',
       breadcrumbs: { home: 'Hjem', blog: 'Blogg' },
+      tags: {
+        placeholder: 'Filtrer tagger…',
+        clear: 'Tøm valg',
+        ariaFilterByTags: 'Filtrer innlegg etter tagger',
+        result: 'resultat',
+        results: 'resultater',
+        noResults: 'Ingen resultater',
+      },
     },
     home: {
       line1: 'Fortell historier med data,',
       line2: 'gjør innsikt om til effekt',
-      lead1: 'Fokus på Tableau-visualisering, dashboards og forretningsanalyse.',
+      lead1: 'Fokus på Data-visualisering, dashboards og forretningsanalyse.',
       lead2: 'Her finner du utvalgte prosjekter, metoder og notater.',
       btnProjects: 'Se prosjekter', btnAbout: 'Om meg',
       cards: [
@@ -190,11 +224,19 @@ export const dict: Record<Lang, Copy> = {
       backToProjects: 'Tillbaka till projekt',
       backToDocs: 'Tillbaka till dokument',
       breadcrumbs: { home: 'Hem', blog: 'Blogg' },
+      tags: {
+        placeholder: 'Filtrera taggar…',
+        clear: 'Rensa val',
+        ariaFilterByTags: 'Filtrera inlägg efter taggar',
+        result: 'resultat',
+        results: 'resultat',
+        noResults: 'Inga resultat',
+      },
     },
     home: {
       line1: 'Berätta historier med data,',
       line2: 'förvandla insikter till påverkan',
-      lead1: 'Fokuserar på Tableau-visualisering, instrumentpaneler och affärsanalys.',
+      lead1: 'Fokuserar på Data-visualisering, instrumentpaneler och affärsanalys.',
       lead2: 'Här är utvalda projekt, metoder och anteckningar.',
       btnProjects: 'Visa projekt', btnAbout: 'Om mig',
       cards: [
@@ -230,11 +272,19 @@ export const dict: Record<Lang, Copy> = {
       backToProjects: '返回项目',
       backToDocs: '返回文档',
       breadcrumbs: { home: '首页', blog: '博客' },
+      tags: {
+        placeholder: '筛选标签…',
+        clear: '清空选择',
+        ariaFilterByTags: '按标签筛选文章',
+        result: '条结果',
+        results: '条结果',
+        noResults: '无结果',
+      },
     },
     home: {
       line1: '用数据讲故事，',
       line2: '将洞察化作影响',
-      lead1: '专注 Tableau 可视化、仪表板设计与业务分析。',
+      lead1: '专注 Data 可视化、仪表板设计与业务分析。',
       lead2: '这里可以看到我精选的项目、方法与笔记。',
       btnProjects: '查看项目', btnAbout: '关于我',
       cards: [
@@ -270,11 +320,19 @@ export const dict: Record<Lang, Copy> = {
       backToProjects: '返回項目',
       backToDocs: '返回文檔',
       breadcrumbs: { home: '首頁', blog: '博客' },
+      tags: {
+        placeholder: '篩選標籤…',
+        clear: '清空選擇',
+        ariaFilterByTags: '按標籤篩選文章',
+        result: '個結果',
+        results: '個結果',
+        noResults: '冇結果',
+      },
     },
     home: {
       line1: '用數據講故事，',
       line2: '將洞察化作影響',
-      lead1: '專注 Tableau 視覺化、儀表板設計與商業分析。',
+      lead1: '專注 Data 視覺化、儀表板設計與商業分析。',
       lead2: '呢度可以睇到我精選嘅項目、方法同筆記。',
       btnProjects: '查看項目', btnAbout: '關於我',
       cards: [

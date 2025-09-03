@@ -54,18 +54,30 @@ const alternates = Object.fromEntries(
       <p class="subtitle">{t.docs.subtitle}</p>
 
       {allTags.length > 0 && (
-        <div class="tags-toolbar" aria-label="Filter posts by tags">
+        <div
+          class="tags-toolbar"
+          aria-label={t.ui.tags?.ariaFilterByTags || "Filter posts by tags"}
+          data-result={t.ui.tags?.result || "result"}
+          data-results={t.ui.tags?.results || "results"}
+          data-noresults={t.ui.tags?.noResults || "No results"}
+        >
           <div class="combo" id="tagCombo" data-behavior="combo">
             <div class="combo-input" id="comboInput">
               <div id="selectedTags" class="chips" aria-live="polite"></div>
               <input
                 id="tagSearch"
                 type="text"
-                placeholder="Filter tags…"
-                aria-label="Filter tags"
+                placeholder={t.ui.tags?.placeholder || "Filter tags…"}
+                aria-label={t.ui.tags?.placeholder || "Filter tags"}
                 autocomplete="off"
               />
-              <button id="clearTags" type="button" class="clear-btn" title="Clear selection" aria-label="Clear tags">✕</button>
+              <button
+                id="clearTags"
+                type="button"
+                class="clear-btn"
+                title={t.ui.tags?.clear || "Clear selection"}
+                aria-label={t.ui.tags?.clear || "Clear selection"}
+              >✕</button>
             </div>
 
             <ul class="combo-list" id="tagList" role="listbox">
@@ -153,7 +165,7 @@ const alternates = Object.fromEntries(
     )}
   </section>
 
-  {/* 多选 + 搜索 combobox 的行为脚本（无依赖） */}
+  {/* 多选 + 搜索 combobox 的行为脚本（无依赖） —— 完全保留原逻辑 */}
   <script is:inline>
     (function () {
       const $list = document.getElementById('docList');
@@ -163,7 +175,14 @@ const alternates = Object.fromEntries(
       const $chips = document.getElementById('selectedTags');
       const $clear = document.getElementById('clearTags');
       const $count = document.getElementById('resultCount');
+      const $toolbar = document.querySelector('.tags-toolbar');
       if (!$list || !$combo || !$search || !$ul || !$chips) return;
+
+      const I18N = {
+        result: $toolbar?.dataset.result || 'result',
+        results: $toolbar?.dataset.results || 'results',
+        noResults: $toolbar?.dataset.noresults || 'No results',
+      };
 
       const sep = '|'; // data-tags 分隔符（不要在 tag 名里用 |）
       const cards = Array.from($list.children);
@@ -226,7 +245,7 @@ const alternates = Object.fromEntries(
           li.style.display = visible ? '' : 'none';
           if (visible) shown++;
         });
-        if ($count) $count.textContent = shown ? `${shown} result${shown>1?'s':''}` : 'No results';
+        if ($count) $count.textContent = shown ? `${shown} ${shown>1?I18N.results:I18N.result}` : I18N.noResults;
       }
 
       function open() { $combo.classList.add('open'); state.open = true; }
@@ -235,7 +254,7 @@ const alternates = Object.fromEntries(
         const q = $search.value.trim().toLowerCase();
         Array.from($ul.children).forEach((li) => {
           const name = (li.getAttribute('data-tag') || '').toLowerCase();
-          li.style.display = !q || name.includes(q) ? '' : 'none';
+        li.style.display = !q || name.includes(q) ? '' : 'none';
         });
       }
 
@@ -305,29 +324,24 @@ const alternates = Object.fromEntries(
 }
 .combo-input{
   display:flex; align-items:center; gap:.4rem;
-  flex-wrap:wrap;
-  width:100%;
-  min-height:26px;
-  padding: 2px 8px;                 /* 稍微加点左右空间 */
+  flex-wrap: wrap;            /* ✅ 允许换行，chips 多时不撑爆 */
+  width: 100%;
+  min-height: 30px;           /* 原始高度，保持设计 */
+  padding: .25rem .5rem .25rem .6rem;
   border:1px solid var(--border);
   border-radius:.65rem;
   background: var(--card);
 }
 .combo-input input{
-  flex:1 1 50px;
-  min-width:48px;
-  border:0; outline:0; background:transparent; color:inherit;
-  font-size:.92rem;                 /* 稍小一点更协调 */
-  line-height:1.15;                 /* 提升可读性 */
-  padding-block:3px 4px;            /* 底部多 1px → 文字下移一点点 */
-  position: relative;
-  top: 1px;                         /* 再向下微调 1px */
+  flex: 1 1 50px;
+  min-width: 48px;
+  border:0; outline:0; background:transparent; color:inherit; font-size:.95rem;
+  padding:.2rem 0;
 }
-.combo-input input::placeholder{ opacity:.65; }
 .clear-btn{
   display:none;
   border:0; background:transparent; cursor:pointer;
-  font-size:0.9rem; line-height:1; color:var(--muted);
+  font-size:1rem; line-height:1; color:var(--muted);
 }
 .chips{
   display:flex; flex-wrap:wrap; gap:.35rem; width:100%;
