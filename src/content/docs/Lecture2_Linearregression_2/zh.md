@@ -1,98 +1,96 @@
 ---
-title: "Lecture 2: Linear regression_(2nd note Eng)"
-subtitle: "Linear model → residual → squared error → MSE → ∂L/∂a=0, ∂L/∂b=0 → normal equations → closed form a, b"
+title: "Lecture 2: 线性回归（第2份笔记·中文）"
+subtitle: "线性模型 → 残差 → 平方误差 → MSE → ∂L/∂a=0, ∂L/∂b=0 → 正规方程 → a,b 的闭式解"
 date: 2025-09-01
 lang: zh
-excerpt: "From two samples to normal equations; solve a,b; extend to multi-input (ŷ=A w)."
-tags: [Joni Kämäräinen, machine-learning, linear-regression, calculus, least-squares]
+excerpt: "从两点到正规方程；解出 a、b；扩展到多输入（ŷ = A w）。"
+tags: [Joni Kämäräinen, 机器学习, 线性回归, 微积分, 最小二乘]
 draft: false
 ---
 
-## Deriving a & b for linear model via the least squares method from scratch
+## 从零开始用最小二乘法推导线性模型的 a 与 b
 
-## 1) What is the task?
+## 1) 任务是什么？
 
-Given **N** training samples $(x_1,y_1), (x_2,y_2), \ldots, (x_N,y_N)$, derive the **closed-form** solutions for $a$ and $b$ in the linear model
+给定 **N** 个训练样本 $(x_1,y_1), (x_2,y_2), \ldots, (x_N,y_N)$，在线性模型
 $$
 \hat y \;=\; a x + b
 $$
-by minimizing the mean squared error
+中推导 $a$ 与 $b$ 的**闭式**解，通过最小化均方误差
 $$
 L_{\text{MSE}}(a,b)
 =\frac{1}{N}\sum_{i=1}^{N}\big(y_i - (a x_i + b)\big)^2.
 $$
 ---
 
-## 2) What the professor taught?
+## 2) 老师讲了什么？
 
-### 2.1 Residual  
-For a single sample, the **residual** is the gap between the true value and the prediction:  
+### 2.1 残差（Residual）  
+对单个样本，**残差**是“真实值减去预测值”：  
 $$
 e_i = y_i - \hat{y}_i, \qquad \hat{y}_i = a x_i + b .
 $$
 <br />
 
-### 2.2 Squared error (per sample)  
-The formula for Squared Error is the square of the difference between an observed (actual) value and a predicted value for each data point. It is calculated as (Actual Value - Predicted Value)²
+### 2.2 平方误差（每个样本）  
+平方误差是每个点“真实值与预测值之差”的平方。计算为（真实 − 预测）²：
 $$
 e_i^{2} = \big(y_i - \hat{y}_i\big)^2 .
 $$
 <br />
 
-### 2.3 Mean Squared Error (MSE)  
-Mean Squared Error (MSE) is a metric that measures the average squared difference between predicted and actual values in a statistical model, quantifying its error and accuracy.
+### 2.3 均方误差（MSE）  
+均方误差（MSE）度量模型的平均误差：预测与真实之差的平方的平均值。
 $$
 L_{\text{MSE}}(a,b)=\frac{1}{N}\sum_{i=1}^{N}\big(y_i-(a x_i+b)\big)^2 .
 $$
 <br />
 
-### 2.4 Least Squares Method
+### 2.4 最小二乘（Least Squares）方法
 
-The least squares method is a statistical and mathematical technique used to find the best-fitting line or curve for a set of data points by minimizing the sum of the squared differences (residuals) between the observed and predicted values.
+最小二乘通过**最小化残差平方和**来为数据找到“最佳”直线/曲线。
 
 $$
 \min_{a,b}\; \frac{1}{N}\sum_{i=1}^{N}\big(y_i - (a x_i + b)\big)^2
 $$
 
-- $\boldsymbol{N}$: total number of samples  
-- $\boldsymbol{y}_i$: observed value (data)  
-- $\hat{\boldsymbol{y}}_i = a x_i + b$: predicted value (model output)  
-- $\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i$: residual (error for sample $i$)  
-- $\boldsymbol{\sum}$: sum over all samples ($i=1\ldots \boldsymbol{N}$)  
-- $\tfrac{1}{\boldsymbol{N}}$: average over samples
+- $\boldsymbol{N}$：样本个数  
+- $\boldsymbol{y}_i$：观测值（数据）  
+- $\hat{\boldsymbol{y}}_i = a x_i + b$：预测值（模型输出）  
+- $\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i$：残差（第 $i$ 个样本的误差）  
+- $\boldsymbol{\sum}$：对全部样本求和（$i=1\ldots \boldsymbol{N}$）  
+- $\tfrac{1}{\boldsymbol{N}}$：取平均
 
-
-Machine learning’s goal here is to <span class="hl-marker">find the pair (a, b) that minimizes the MSE</span>.
+此处机器学习的目标是：<span class="hl-marker">找到使 MSE 最小的参数对 (a, b)</span>。
 
 <br />
 
+### 2.5 如何找到使 MSE 最小的 (a, b)？
 
-### 2.5 How do we find (a, b) that minimizes MSE?
+**方案：** 暴力搜索（brute force）。
 
-**Solution:** brute force.
-
-We try many $(a,b)$ pairs in a bounded grid, compute the loss  
+在一个有界网格上尝试许多 $(a,b)$ 组合、计算损失
 $$
 L_{\text{MSE}}(a,b)=\frac{1}{N}\sum_{i=1}^{N}\big(y_i-(a x_i+b)\big)^2,
 $$
-and keep the best one.
+并保留最优者。
 
-- For **a** from **-100 : 1 : +100**  
-- For **b** from **-100 : 1 : +100**  
-- Compute $L_{\text{MSE}}(a,b)$  
-- If the loss is smaller → update the current best $(a,b)$
+- **a** 取 **-100 : 1 : +100**  
+- **b** 取 **-100 : 1 : +100**  
+- 计算 $L_{\text{MSE}}(a,b)$  
+- 如果更小 → 更新当前最佳 $(a,b)$
 
-This mirrors the instructor’s board: “-100 : 1 : +100” means **start at -100, step by 1, end at +100**.
+黑板上的 “-100 : 1 : +100” 表示**从 -100 开始、步长 1、到 +100 结束**。
 
-This simple brute-force search makes the idea clear: **we search the parameter space for the $(a,b)$ that minimizes the MSE** (later we’ll replace this with closed-form or gradient methods).
+这个简单搜索清楚传达了思想：**我们在参数空间中寻找让 MSE 最小的 $(a,b)$**（之后会用闭式解或梯度法替代）。
 
 <br />
 
-### 2.6 Find the minimum of $L_{\text{MSE}}$
+### 2.6 寻找 $L_{\text{MSE}}$ 的极小值
 
-We want to find the minimum of $L_{\text{MSE}}(a,b)$.
+我们要最小化 $L_{\text{MSE}}(a,b)$。
 
-At the minimum, the derivative (slope) is zero; hence
+在极小值处，导数（斜率）为 0；因此
 
 $$
 \frac{\partial L_{\text{MSE}}}{\partial a}=0,
@@ -100,9 +98,9 @@ $$
 \frac{\partial L_{\text{MSE}}}{\partial b}=0.
 $$
 
-$L_{\text{MSE}}$ has two inputs: $a$ (slope) and $b$ (intercept).
+$L_{\text{MSE}}$ 有两个自变量：$a$（斜率）与 $b$（截距）。
 
-Equivalently, the gradient is zero:
+等价地，用向量形式表示为梯度为零：
 
 $$
 \nabla L_{\text{MSE}}(a,b)
@@ -110,234 +108,232 @@ $$
 =(0,0).
 $$
 
-**Meaning of the partial derivatives**
-- $\displaystyle \frac{\partial L_{\text{MSE}}}{\partial a}$: partial derivative of the loss w.r.t. the slope $a$  
-- $\displaystyle \frac{\partial L_{\text{MSE}}}{\partial b}$: partial derivative of the loss w.r.t. the intercept $b$
+**两个偏导的含义**
+- $\displaystyle \frac{\partial L_{\text{MSE}}}{\partial a}$：损失对斜率 $a$ 的变化率  
+- $\displaystyle \frac{\partial L_{\text{MSE}}}{\partial b}$：损失对截距 $b$ 的变化率
 
+把 $L_{\text{MSE}}(a,b)$ 想象成一个“碗”：碗底各个方向的斜率都是零——那一点就是最优 $(a,b)$。
 
-Example: Take $L_{\text{MSE}}(a,b)$ as a bowl, at the bottom, the slopes in all directions are zero, that point gives the best $(a,b)$.
-
-To get the optimal solution, make the gradient zero, at that point the loss 𝐿MSE is minimal.
+通过令梯度为零得到最优；此时 $L_{\text{MSE}}$ 达到极小。
 
 <br />
 
-
-
-### 2.7 Chain rule (what we will use to take derivatives)
-If a function is composed as f(g(x)\), its derivative obeys the **chain rule**:
+### 2.7 链式法则（我们将用它来求导）
+若函数是复合 $f(g(x))$，其导数满足**链式法则**：
 $$
 \frac{d}{dx} \, f\!\big(g(x)\big) \;=\; f'\!\big(g(x)\big)\cdot g'(x).
 $$
-We will apply this rule when differentiating the squared residual inside the MSE with respect to \(a\) and \(b\) in the next section.
+接下来我们将把它用于对 MSE 中的“残差平方”分别对 \(a\)、\(b\) 求偏导。
 
 <br />
 
 ---
-## 3) Gradient of the MSE — step-by-step derivation
+## 3) MSE 的梯度——逐步推导
 
-Data: $N$ samples $(x_i,y_i)$.
+数据：$N$ 个样本 $(x_i,y_i)$。
 
-- Linear model  
+- 线性模型  
   $$
   \hat y_i = a\,x_i + b
   $$
 
-- Residual  
+- 残差  
   $$
   r_i = y_i - \hat y_i = y_i - (a x_i + b)
   $$
 
-- Squared error (per sample)  
+- 平方误差（每样本）  
   $$
   r_i^2
   $$
 
-- Mean squared error (MSE)  
+- 均方误差（MSE）  
   $$
   L(a,b)=\frac{1}{N}\sum_{i=1}^{N}\big(y_i-(a x_i+b)\big)^2
   $$
 
-Goal (least squares): choose $(a,b)$ that **minimize** $L(a,b)$.
+目标（最小二乘）：选择 $(a,b)$ 使 $L(a,b)$ **最小**。
 
 ---
 
-## 2) Minimum principle
+## 2) 极小化原理
 
-At a minimum of $L$,
+在 $L$ 的极小值处，
 $$
 \frac{\partial L}{\partial a}=0,
 \qquad
 \frac{\partial L}{\partial b}=0 .
 $$
 
-We will use the chain rule:
+我们将使用链式法则：
 $$
 \frac{d}{dz}f(g(z)) = f'(g(z))\,g'(z).
 $$
 
 ---
 
-## 3) Take the partial w.r.t. \(a\) — no steps skipped
+## 3) 对 \(a\) 求偏导——一个步骤也不省略
 
-Start
+从
 $$
 \frac{\partial L}{\partial a}
 = \frac{1}{N}\sum_{i=1}^{N}\frac{\partial}{\partial a}\Big(y_i-(a x_i+b)\Big)^2 .
 $$
+开始。
 
-Chain rule on each term:
-- outer $f(u)=u^2 \Rightarrow f'(u)=2u$
-- inner $g(a)=y_i-(a x_i+b) \Rightarrow g'(a)=-x_i$
+对每一项用链式法则：
+- 外层 $f(u)=u^2 \Rightarrow f'(u)=2u$
+- 内层 $g(a)=y_i-(a x_i+b) \Rightarrow g'(a)=-x_i$
 
-Therefore
+因此
 $$
 \frac{\partial}{\partial a}\Big(y_i-(a x_i+b)\Big)^2
 =2\big(y_i-(a x_i+b)\big)(-x_i),
 $$
-and
+于是
 $$
 \frac{\partial L}{\partial a}
 =\frac{1}{N}\sum_{i=1}^{N}2\big(y_i-(a x_i+b)\big)(-x_i).
 $$
 
-Set to $0$ and cancel the constant $2/N$:
+令其等于 $0$ 并约去常数 $2/N$：
 $$
 \sum_{i=1}^{N}\big(y_i-(a x_i+b)\big)(-x_i)=0 .
 $$
 
-Distribute $-x_i$:
+把 $-x_i$ 分配进去：
 $$
 \sum_{i=1}^{N}\big(-x_i y_i + a x_i^2 + b x_i\big)=0 .
 $$
 
-Group the like terms (bring the sum inside each symbol):
+把同类项合并（把求和放进符号中）：
 $$
 a\sum_{i=1}^{N}x_i^2 + b\sum_{i=1}^{N}x_i - \sum_{i=1}^{N}x_i y_i = 0 .
 $$
 
-Rearrange (this is the first normal equation):
+整理（第一条正规方程）：
 $$
 \boxed{\,a\sum x_i^2 + b\sum x_i = \sum x_i y_i \,}\tag{A}
 $$
 
-Also isolate $a$ (for later substitution):
+顺便把 $a$ 解出来（后面要代入）：
 $$
 a=\frac{\sum x_i y_i - b\sum x_i}{\sum x_i^2}. \tag{A1}
 $$
 
 ---
 
-## 4) Take the partial w.r.t. \(b\)
+## 4) 对 \(b\) 求偏导
 
-Similarly,
+同理，
 $$
 \frac{\partial}{\partial b}\Big(y_i-(a x_i+b)\Big)=-1,
 $$
-so
+因此
 $$
 \frac{\partial L}{\partial b}
 =\frac{1}{N}\sum_{i=1}^{N}2\big(y_i-(a x_i+b)\big)(-1).
 $$
 
-Set to $0$ and remove $2/N$:
+令其等于 $0$ 并去掉 $2/N$：
 $$
 \sum_{i=1}^{N}(-y_i + a x_i + b)=0 .
 $$
 
-Collect terms (second normal equation):
+合并得到（第二条正规方程）：
 $$
 \boxed{\,a\sum x_i + bN = \sum y_i \,}\tag{B}
 $$
 
-Also isolate $b$:
+再把 $b$ 解出：
 $$
 b=\frac{\sum y_i - a\sum x_i}{N}. \tag{B1}
 $$
 
 ---
 
-## 5) Solve by substitution — every algebra move written out
+## 5) 代入法求解——每一步代数都写出来
 
-### 5.1 Solve for \(a\) in a shared-denominator form
+### 5.1 用共同分母求 \(a\)
 
-Start from (A1) and substitute $b$ from (B1):
+从 (A1) 出发，把 (B1) 中的 $b$ 代入：
 $$
 a=\frac{\sum x_i y_i - \Big(\frac{\sum y_i - a\sum x_i}{N}\Big)\sum x_i}{\sum x_i^2}.
 $$
 
-Expand the numerator:
+展开分子：
 $$
 \sum x_i y_i \;-\; \frac{(\sum x_i)(\sum y_i)}{N} \;+\; a\,\frac{(\sum x_i)^2}{N}.
 $$
 
-Split by $\sum x_i^2$:
+再分别除以 $\sum x_i^2$：
 $$
 a=\frac{\sum x_i y_i}{\sum x_i^2}
 \;-\;\frac{(\sum x_i)(\sum y_i)}{N\,\sum x_i^2}
 \;+\;a\,\frac{(\sum x_i)^2}{N\,\sum x_i^2}. \tag{★}
 $$
 
-Bring the $a$-term on the right to the left:
+把右侧含 $a$ 的项移到左侧：
 $$
 a\Bigg(1-\frac{(\sum x_i)^2}{N\,\sum x_i^2}\Bigg)
 =\frac{\sum x_i y_i}{\sum x_i^2}
 -\frac{(\sum x_i)(\sum y_i)}{N\,\sum x_i^2}.
 $$
 
-Put left side over a single denominator:
+把左侧写成同一分母：
 $$
 a\,\frac{N\sum x_i^2-(\sum x_i)^2}{N\,\sum x_i^2}
 =\frac{N\sum x_i y_i-(\sum x_i)(\sum y_i)}{N\,\sum x_i^2}.
 $$
 
-Cancel equal denominators:
+约去相同分母：
 $$
 a\big(N\sum x_i^2-(\sum x_i)^2\big)
 = N\sum x_i y_i-(\sum x_i)(\sum y_i).
 $$
 
-So
+因此
 $$
 \boxed{\,a=\dfrac{N\sum x_i y_i-(\sum x_i)(\sum y_i)}
 {\,N\sum x_i^2-(\sum x_i)^2\,}\,}. \tag{C}
 $$
 
-### 5.2 Solve for \(b\) with the same denominator (no shortcuts)
+### 5.2 用相同分母求 \(b\)（不走捷径）
 
-Start from (B1):
+从 (B1) 出发：
 $$
 b=\frac{\sum y_i}{N} - a\,\frac{\sum x_i}{N}.
 $$
 
-Insert $a$ from (C):
+把 (C) 中的 $a$ 代入：
 $$
 b=\frac{\sum y_i}{N}
 -\frac{\sum x_i}{N}\cdot
 \frac{N\sum x_i y_i-(\sum x_i)(\sum y_i)}{N\sum x_i^2-(\sum x_i)^2}.
 $$
 
-Make a common denominator $N\big(N\sum x_i^2-(\sum x_i)^2\big)$:
+把分母统一为 $N\big(N\sum x_i^2-(\sum x_i)^2\big)$：
 $$
 b=\frac{(\sum y_i)\big(N\sum x_i^2-(\sum x_i)^2\big)
 -(\sum x_i)\big(N\sum x_i y_i-(\sum x_i)(\sum y_i)\big)}
 {\,N\big(N\sum x_i^2-(\sum x_i)^2\big)} .
 $$
 
-Expand the numerator fully:
+把分子完全展开：
 $$
-\underbrace{N(\sum y_i)(\sum x_i^2)}_{\text{term 1}}
--\underbrace{(\sum y_i)(\sum x_i)^2}_{\text{term 2}}
--\underbrace{N(\sum x_i)(\sum x_i y_i)}_{\text{term 3}}
-+\underbrace{(\sum x_i)^2(\sum y_i)}_{\text{term 4}} .
+\underbrace{N(\sum y_i)(\sum x_i^2)}_{\text{项 1}}
+-\underbrace{(\sum y_i)(\sum x_i)^2}_{\text{项 2}}
+-\underbrace{N(\sum x_i)(\sum x_i y_i)}_{\text{项 3}}
++\underbrace{(\sum x_i)^2(\sum y_i)}_{\text{项 4}} .
 $$
 
-Notice **term 2** and **term 4** cancel exactly. Divide numerator and denominator by $N$:
+注意：**项 2** 与 **项 4** 互相抵消。再把分子与分母同除以 $N$：
 $$
 b=\frac{(\sum y_i)(\sum x_i^2)-(\sum x_i)(\sum x_i y_i)}
 {\,N\sum x_i^2-(\sum x_i)^2\,}.
 $$
 
-Thus
+于是
 $$
 \boxed{\,b=\dfrac{(\sum y_i)(\sum x_i^2)-(\sum x_i)(\sum x_i y_i)}
 {\,N\sum x_i^2-(\sum x_i)^2\,}
@@ -345,11 +341,11 @@ $$
 \bar x=\frac{1}{N}\sum x_i,\ \bar y=\frac{1}{N}\sum y_i .
 $$
 
-> If all $x_i$ are equal, then $N\sum x_i^2-(\sum x_i)^2=0$: the slope is not identifiable (no $x$ variation).
+> 如果所有 $x_i$ 都相同，则 $N\sum x_i^2-(\sum x_i)^2=0$：斜率不可辨识（$x$ 没有变化）。
 
 ---
 
-## 6) (Optional) covariance form
+## 6)（可选）协方差形式
 
 $$
 a=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}
@@ -360,12 +356,12 @@ $$
 
 ---
 
-## 7) Tiny numeric check
+## 7) 一个很小的数值校验
 
-Data: $(0,1),(1,3),(2,5),(3,7)$ (true line $y=2x+1$).  
-Sums: $\sum x=6,\ \sum y=16,\ \sum x^2=14,\ \sum xy=34,\ N=4$.
+数据：$(0,1),(1,3),(2,5),(3,7)$（真实直线 $y=2x+1$）。  
+求和：$\sum x=6,\ \sum y=16,\ \sum x^2=14,\ \sum xy=34,\ N=4$。
 
-Compute
+计算
 $$
 a=\frac{4\cdot34-6\cdot16}{4\cdot14-6^2}
 =\frac{136-96}{56-36}=\frac{40}{20}=2,
@@ -373,4 +369,4 @@ a=\frac{4\cdot34-6\cdot16}{4\cdot14-6^2}
 b=\frac{16-2\cdot6}{4}=1.
 $$
 
-Residuals are zero $\Rightarrow$ $\text{MSE}=0$.
+全部残差为 0 $\Rightarrow$ $\text{MSE}=0$。
