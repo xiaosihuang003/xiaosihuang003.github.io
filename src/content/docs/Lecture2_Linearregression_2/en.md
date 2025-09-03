@@ -161,7 +161,7 @@ Goal (least squares): choose $(a,b)$ that **minimize** $L(a,b)$.
 
 ---
 
-## 2) Minimum principle
+## 4) Minimum principle
 
 At a minimum of $L$,
 $$
@@ -177,7 +177,7 @@ $$
 
 ---
 
-## 3) Take the partial w.r.t. \(a\) — no steps skipped
+## 5) Take the partial w.r.t. \(a\) — no steps skipped
 
 Start
 $$
@@ -227,7 +227,7 @@ $$
 
 ---
 
-## 4) Take the partial w.r.t. \(b\)
+## 6) Take the partial w.r.t. \(b\)
 
 Similarly,
 $$
@@ -256,9 +256,9 @@ $$
 
 ---
 
-## 5) Solve by substitution — every algebra move written out
+## 7) Solve by substitution — every algebra move written out
 
-### 5.1 Solve for \(a\) in a shared-denominator form
+### 7.1 Solve for \(a\) in a shared-denominator form
 
 Start from (A1) and substitute $b$ from (B1):
 $$
@@ -302,7 +302,7 @@ $$
 {\,N\sum x_i^2-(\sum x_i)^2\,}\,}. \tag{C}
 $$
 
-### 5.2 Solve for \(b\) with the same denominator (no shortcuts)
+### 7.2 Solve for \(b\) with the same denominator (no shortcuts)
 
 Start from (B1):
 $$
@@ -349,7 +349,7 @@ $$
 
 ---
 
-## 6) (Optional) covariance form
+## 8) (Optional) covariance form
 
 $$
 a=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}
@@ -360,7 +360,7 @@ $$
 
 ---
 
-## 7) Tiny numeric check
+## 9) Tiny numeric check
 
 Data: $(0,1),(1,3),(2,5),(3,7)$ (true line $y=2x+1$).  
 Sums: $\sum x=6,\ \sum y=16,\ \sum x^2=14,\ \sum xy=34,\ N=4$.

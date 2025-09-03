@@ -156,7 +156,7 @@ Tavoite (pienimmän neliösumman periaate): valitse $(a,b)$ niin, että $L(a,b)$
 
 ---
 
-## 2) Minimiperiaate
+## 4) Minimiperiaate
 
 Minimissä pätee
 $$
@@ -172,7 +172,7 @@ $$
 
 ---
 
-## 3) Ota osittaisderivaatta \(a\):n suhteen — yhtään askelta väliin jättämättä
+## 5) Ota osittaisderivaatta \(a\):n suhteen — yhtään askelta väliin jättämättä
 
 Aloita
 $$
@@ -222,7 +222,7 @@ $$
 
 ---
 
-## 4) Ota osittaisderivaatta \(b\):n suhteen
+## 6) Ota osittaisderivaatta \(b\):n suhteen
 
 Vastaavasti,
 $$
@@ -251,9 +251,9 @@ $$
 
 ---
 
-## 5) Ratkaise sijoittamalla — jokainen algebran siirto kirjoitettu
+## 7) Ratkaise sijoittamalla — jokainen algebran siirto kirjoitettu
 
-### 5.1 Ratkaise \(a\) yhteisellä nimittäjällä
+### 7.1 Ratkaise \(a\) yhteisellä nimittäjällä
 
 Lähde (A1):stä ja sijoita $b$ muodosta (B1):
 $$
@@ -297,7 +297,7 @@ $$
 {\,N\sum x_i^2-(\sum x_i)^2\,}\,}. \tag{C}
 $$
 
-### 5.2 Ratkaise \(b\) samalla nimittäjällä (ei oikoteitä)
+### 7.2 Ratkaise \(b\) samalla nimittäjällä (ei oikoteitä)
 
 Lähde (B1):stä:
 $$
@@ -344,7 +344,7 @@ $$
 
 ---
 
-## 6) (Valinnainen) kovarianssiesitys
+## 8) (Valinnainen) kovarianssiesitys
 
 $$
 a=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}
@@ -355,7 +355,7 @@ $$
 
 ---
 
-## 7) Pieni numeerinen tarkistus
+## 9) Pieni numeerinen tarkistus
 
 Data: $(0,1),(1,3),(2,5),(3,7)$ (todellinen suora $y=2x+1$).  
 Summat: $\sum x=6,\ \sum y=16,\ \sum x^2=14,\ \sum xy=34,\ N=4$.

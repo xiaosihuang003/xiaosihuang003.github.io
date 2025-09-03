@@ -159,7 +159,7 @@ Mål (minste kvadrater): velg $(a,b)$ som **minimerer** $L(a,b)$.
 
 ---
 
-## 2) Minimumsprinsipp
+## 4) Minimumsprinsipp
 
 I et minimum av $L$,
 $$
@@ -175,7 +175,7 @@ $$
 
 ---
 
-## 3) Ta den partielle mht. \(a\) — ingen steg hoppet over
+## 5) Ta den partielle mht. \(a\) — ingen steg hoppet over
 
 Start:
 $$
@@ -225,7 +225,7 @@ $$
 
 ---
 
-## 4) Ta den partielle mht. \(b\)
+## 6) Ta den partielle mht. \(b\)
 
 Tilsvarende:
 $$
@@ -254,9 +254,9 @@ $$
 
 ---
 
-## 5) Løs ved innsetting — hvert algebratrinn skrevet ut
+## 7) Løs ved innsetting — hvert algebratrinn skrevet ut
 
-### 5.1 Løs ut \(a\) med felles nevner
+### 7.1 Løs ut \(a\) med felles nevner
 
 Start fra (A1) og sett inn $b$ fra (B1):
 $$
@@ -300,7 +300,7 @@ $$
 {\,N\sum x_i^2-(\sum x_i)^2\,}\,}. \tag{C}
 $$
 
-### 5.2 Løs ut \(b\) med samme nevner (ingen snarveier)
+### 7.2 Løs ut \(b\) med samme nevner (ingen snarveier)
 
 Start fra (B1):
 $$
@@ -347,7 +347,7 @@ $$
 
 ---
 
-## 6) (Valgfritt) kovariansform
+## 8) (Valgfritt) kovariansform
 
 $$
 a=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}
@@ -358,7 +358,7 @@ $$
 
 ---
 
-## 7) Liten numerisk sjekk
+## 9) Liten numerisk sjekk
 
 Data: $(0,1),(1,3),(2,5),(3,7)$ (sann linje $y=2x+1$).  
 Summer: $\sum x=6,\ \sum y=16,\ \sum x^2=14,\ \sum xy=34,\ N=4$.

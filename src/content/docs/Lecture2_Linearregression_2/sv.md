@@ -159,7 +159,7 @@ Mål (minsta kvadrat): välj $(a,b)$ som **minimerar** $L(a,b)$.
 
 ---
 
-## 2) Miniprincip
+## 4) Miniprincip
 
 I en minimipunkt för $L$,
 $$
@@ -175,7 +175,7 @@ $$
 
 ---
 
-## 3) Tag partialderivatan m.a.p. \(a\) — inga steg hoppas över
+## 5) Tag partialderivatan m.a.p. \(a\) — inga steg hoppas över
 
 Start:
 $$
@@ -225,7 +225,7 @@ $$
 
 ---
 
-## 4) Tag partialderivatan m.a.p. \(b\)
+## 6) Tag partialderivatan m.a.p. \(b\)
 
 På samma sätt:
 $$
@@ -254,9 +254,9 @@ $$
 
 ---
 
-## 5) Lös med insättning — varje algebrasteg utskrivet
+## 7) Lös med insättning — varje algebrasteg utskrivet
 
-### 5.1 Lös ut \(a\) med gemensam nämnare
+### 7.1 Lös ut \(a\) med gemensam nämnare
 
 Börja från (A1) och sätt in $b$ från (B1):
 $$
@@ -300,7 +300,7 @@ $$
 {\,N\sum x_i^2-(\sum x_i)^2\,}\,}. \tag{C}
 $$
 
-### 5.2 Lös ut \(b\) med samma nämnare (inga genvägar)
+### 7.2 Lös ut \(b\) med samma nämnare (inga genvägar)
 
 Starta från (B1):
 $$
@@ -347,7 +347,7 @@ $$
 
 ---
 
-## 6) (Valfritt) kovariansform
+## 8) (Valfritt) kovariansform
 
 $$
 a=\frac{\sum (x_i-\bar x)(y_i-\bar y)}{\sum (x_i-\bar x)^2}
@@ -358,7 +358,7 @@ $$
 
 ---
 
-## 7) Liten numerisk koll
+## 9) Liten numerisk koll
 
 Data: $(0,1),(1,3),(2,5),(3,7)$ (sann linje $y=2x+1$).  
 Summor: $\sum x=6,\ \sum y=16,\ \sum x^2=14,\ \sum xy=34,\ N=4$.
