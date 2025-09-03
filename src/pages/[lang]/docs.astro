@@ -1,4 +1,5 @@
 ---
+// /src/pages/[lang]/docs.astro
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 import { getCollection } from "astro:content";
@@ -220,25 +221,22 @@ const alternates = Object.fromEntries(
         $clear.style.display = state.selected.size ? '' : 'none';
       }
 
-      // 应用筛选：要求 **全部匹配(AND)**；如需任一匹配，把 every 换成 some。
+      // 应用筛选：全部匹配(AND)；如需 OR，把 every 换成 some。
       function applyFilter() {
         const sel = Array.from(state.selected);
         let shown = 0;
         cards.forEach((li) => {
           const tags = (li.getAttribute('data-tags') || '').split(sep).filter(Boolean);
           const visible = sel.length === 0 || sel.every((t) => tags.includes(t)); // AND
-          // 需要 OR：改成  sel.length === 0 || sel.some((t) => tags.includes(t))
           li.style.display = visible ? '' : 'none';
           if (visible) shown++;
         });
         if ($count) $count.textContent = shown ? `${shown} result${shown>1?'s':''}` : 'No results';
       }
 
-      // 打开/关闭下拉
       function open() { $combo.classList.add('open'); state.open = true; }
       function close() { $combo.classList.remove('open'); state.open = false; }
 
-      // 搜索过滤下拉项
       function filterList() {
         const q = $search.value.trim().toLowerCase();
         Array.from($ul.children).forEach((li) => {
@@ -247,7 +245,6 @@ const alternates = Object.fromEntries(
         });
       }
 
-      // 勾选/取消勾选
       $ul.addEventListener('change', (e) => {
         const cb = e.target;
         if (!(cb && cb.type === 'checkbox')) return;
@@ -259,11 +256,9 @@ const alternates = Object.fromEntries(
         applyFilter();
       });
 
-      // 点击输入框：打开
       $search.addEventListener('focus', open);
       $search.addEventListener('input', filterList);
 
-      // 清空选择
       $clear.addEventListener('click', () => {
         state.selected.clear();
         $search.value = '';
@@ -274,11 +269,9 @@ const alternates = Object.fromEntries(
         $search.focus();
       });
 
-      // 点击外部关闭
       document.addEventListener('click', (e) => {
         if (!$combo.contains(e.target)) close();
       });
-      // 点击 combobox 容器内部，若不是 checkbox 行，也打开
       $combo.addEventListener('click', (e) => {
         if (e.target === $search) return;
         open();
@@ -313,41 +306,51 @@ const alternates = Object.fromEntries(
 /* --------- 可搜索多选 combobox --------- */
 .combo{
   position: relative;
-  width: 260px; /* 控制右边缘与卡片对齐；如需更短可改 360px */
+  width: 260px; /* 桌面端宽度（右边对齐） */
   max-width: 100%;
 }
 .combo-input{
   display:flex; align-items:center; gap:.4rem;
+  flex-wrap: wrap;                 /* ✅ 允许换行，解决移动端溢出 */
   min-height: 40px;
   padding: .35rem .5rem .35rem .6rem;
   border:1px solid var(--border);
   border-radius:.65rem;
   background: var(--card);
+  box-sizing: border-box;
 }
 .combo-input input{
-  flex:1; min-width:120px;
+  flex: 1 1 60px;                 /* ✅ 更小的最小宽度，避免把容器撑爆 */
+  min-width: 48px;                /* ✅ iPhone 小屏也能缩 */
   border:0; outline:0; background:transparent; color:inherit; font-size:.95rem;
+  padding:.2rem 0;
 }
 .clear-btn{
   display:none;
   border:0; background:transparent; cursor:pointer;
   font-size:1rem; line-height:1; color:var(--muted);
 }
-.chips{ display:flex; flex-wrap:wrap; gap:.35rem; }
+.chips{
+  display:flex; flex-wrap:wrap; gap:.35rem; width:100%;
+}
 .chip{
   border:1px solid var(--border); background:var(--tag-bg);
   color:inherit; border-radius:.6rem; padding:.2rem .45rem; font-size:.75rem; cursor:pointer;
+  white-space: normal;            /* ✅ 允许多行 */
+  overflow-wrap: anywhere;        /* ✅ 长词可断行 */
+  max-width: 100%;                /* ✅ 不超过容器 */
 }
 .chip .chip-x{ margin-left:.3rem; opacity:.7; }
 
 .combo-list{
-  position:absolute; z-index:50; inset: auto 0  auto 0; /* 宽度与输入框一致并右对齐 */
+  position:absolute; z-index:50; inset: auto 0 auto 0; /* 宽度与输入框一致并右对齐 */
   top: calc(100% + 6px);
   max-height: 280px; overflow:auto;
   background: var(--card);
   border:1px solid var(--border);
   border-radius:.65rem; padding:.35rem;
   display:none;
+  box-sizing: border-box;          /* ✅ 防止边框导致超宽 */
 }
 .combo.open .combo-list{ display:block; }
 .combo-list li{ list-style:none; }
@@ -365,6 +368,6 @@ const alternates = Object.fromEntries(
 @media (max-width: 768px){
   .subrow{ flex-direction:column; align-items:flex-start; gap:.5rem; }
   .tags-toolbar{ margin-left:0; width:100%; }
-  .combo{ width:100%; }
+  .combo{ width:100%; }           /* ✅ 移动端全宽 */
 }
 </style>
