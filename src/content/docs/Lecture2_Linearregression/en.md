@@ -1,6 +1,6 @@
 ---
 title: "Lecture 2: Linear regression"
-subtitle: "Linear model → residual → squared error → MSE → ∂L/∂a=0, ∂L/∂b=0 → normal equations → closed-form a, b"
+subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104 😊"
 date: 2025-09-01
 lang: en
 excerpt: "Step-by-step derivation of simple linear regression (y = a x + b) from scratch. We define residuals and MSE, apply the chain rule, set partial derivatives to zero, solve the normal equations for a and b, and verify with a small numeric example."

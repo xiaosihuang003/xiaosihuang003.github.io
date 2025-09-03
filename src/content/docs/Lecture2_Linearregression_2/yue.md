@@ -1,8 +1,8 @@
 ---
 title: "Lecture 2: Linear regression_(2nd note Eng)"
-subtitle: "Linear model → residual → squared error → MSE → ∂L/∂a=0, ∂L/∂b=0 → normal equations → closed form a, b 😊"
+subtitle: "Linear model → residual → squared error → MSE → ∂L/∂a=0, ∂L/∂b=0 → normal equations → closed form a, b"
 date: 2025-09-01
-lang: en
+lang: yue
 excerpt: "From two samples to normal equations; solve a,b; extend to multi-input (ŷ=A w)."
 tags: [Joni Kämäräinen, machine-learning, linear-regression, calculus, least-squares]
 draft: false
