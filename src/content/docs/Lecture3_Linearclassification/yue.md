@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · 星期一 1.9.2025 · K1704"
 date: 2025-09-02
 lang: yue
 excerpt: "我哋會先複習線性迴歸同簡單嘅基準分類，再進入分類問題，包括 k-NN（距離/k/計算）、線性分隔嘅視覺化、階躍函數、邏輯（sigmoid）輸出、MSE 梯度，仲有點解冇封閉解。最後會引入神經網絡。"
-tags: ["線性分類", "k-NN", "基準分類", "階躍函數", "sigmoid函數", "邏輯回歸"]
+tags: ["Joni Kämäräinen","machine-learning","linear-classification","step-function", "sigmoid-function", "logistic"]
 draft: false
 ---
 <details>

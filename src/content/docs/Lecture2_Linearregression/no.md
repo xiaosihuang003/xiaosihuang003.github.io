@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "no"
 excerpt: "Trinn-for-trinn-utledning av enkel lineær regresjon ($y = a x + b$): vi definerer residualer og MSE, bruker kjederegelen, setter de partielle deriverte lik null, løser de normale ligningene for $a$ og $b$, og verifiserer med et lite numerisk eksempel."
-tags: ["Joni Kämäräinen", "maskinlæring", "lineær regresjon", "analyse", "minste kvadrater"]
+tags: ["Joni Kämäräinen", machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 ## Utlede a og b for en lineær modell fra bunnen av med minste kvadraters metode

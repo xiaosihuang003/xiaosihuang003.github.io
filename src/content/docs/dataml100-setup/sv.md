@@ -4,7 +4,7 @@ subtitle: Introduktion till maskininlärning, hösten 2025
 date: 2025-08-25
 lang: sv
 excerpt: Steg-för-steg-anteckningar om att konfigurera Anaconda, Python och Jupyter för DATA.ML.100 (Joni Kämäräinen).
-tags: ["anaconda", "python", "jupyter", "maskininlärning"]
+tags: ["Joni Kämäräinen","anaconda", "jupyter", "machine-learning"]
 draft: false
 ---
 

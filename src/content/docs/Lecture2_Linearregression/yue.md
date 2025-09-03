@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "yue"
 excerpt: "由零開始推導簡單線性迴歸（$y = a x + b$）：定義殘差同 MSE，用鏈式法則，將 $a$、$b$ 嘅偏導設為 0，解正規方程得到 $a$、$b$ 嘅封閉解，再用細例子驗證。"
-tags: ["Joni Kämäräinen", "機器學習", "線性迴歸", "微積分", "最小二乘"]
+tags: ["Joni Kämäräinen", machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 ## 由零開始用最小二乘法推導線性模型入面嘅 a 同 b

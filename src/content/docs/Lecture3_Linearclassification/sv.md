@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · mån 1.9.2025 · K1704"
 date: 2025-09-02
 lang: sv
 excerpt: "Vi repeterar linjär regression → enkel baslinje → klassificering. k-NN (avstånd/k/komplexitet), perspektivet av linjär anpassning, stegregel, logistisk (sigmoid) utgång, MSE-gradienter och varför det inte finns en sluten formell lösning — förberedelse för neurala nätverk."
-tags: ["linjär-klassificering", "k-NN", "baseline", "stegfunktion", "sigmoidfunktion", "logistisk"]
+tags: ["Joni Kämäräinen","machine-learning","linear-classification","step-function", "sigmoid-function", "logistic"]
 draft: false
 ---
 <details>

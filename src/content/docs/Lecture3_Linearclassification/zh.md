@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025-09-01（周一）· K1704"
 date: 2025-09-02
 lang: zh
 excerpt: "回顾线性回归 → 简单基线 → 分类。k-NN（距离/k/复杂度）、直线拟合视角、阶跃规则、逻辑（sigmoid）输出、MSE 梯度，以及为什么没有解析解——为神经网络铺垫。"
-tags: ["线性分类", "k-NN", "baseline", "step-function", "sigmoid-function", "logistic"]
+tags: ["Joni Kämäräinen","machine-learning","linear-classification","step-function", "sigmoid-function", "logistic"]
 draft: false
 ---
 <details>

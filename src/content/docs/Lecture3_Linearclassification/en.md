@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · Mon 1.9.2025 · K1704 😊"
 date: 2025-09-02
 lang: en
 excerpt: "Recap of linear regression → simple baseline → classification. k-NN (distance/k/complexity), line-fitting view, step rule, logistic (sigmoid) output, MSE gradients, and why there’s no closed-form—setup for neural nets."
-tags: ["linear-classification", "k-NN", "baseline", "step-function", "sigmoid-function", "logistic"]
+tags: ["Joni Kämäräinen","machine-learning","linear-classification","step-function", "sigmoid-function", "logistic"]
 draft: false 
 ---
 

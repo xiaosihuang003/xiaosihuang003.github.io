@@ -4,7 +4,7 @@ subtitle: Johdatus koneoppimiseen, syksy 2025
 date: 2025-08-25
 lang: fi
 excerpt: Vaiheittaiset ohjeet Anacondan, Pythonin ja Jupytern asentamiseen DATA.ML.100 -kurssille (Joni Kämäräinen).
-tags: ["anaconda", "python", "jupyter", "koneoppiminen"]
+tags: ["Joni Kämäräinen","anaconda", "jupyter", "machine-learning"]
 draft: false
 ---
 

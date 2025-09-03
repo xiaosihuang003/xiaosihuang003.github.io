@@ -4,7 +4,7 @@ subtitle: 机器学习导论, 2025年秋季
 date: 2025-08-25
 lang: zh
 excerpt: 为 DATA.ML.100 (Joni Kämäräinen) 配置 Anaconda、Python 和 Jupyter 的分步说明。
-tags: ["anaconda", "python", "jupyter", "机器学习"]
+tags: ["Joni Kämäräinen","anaconda", "jupyter", "machine-learning"]
 draft: false
 ---
 

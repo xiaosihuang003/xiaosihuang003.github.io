@@ -4,7 +4,7 @@ subtitle: Introduction to Machine Learning, Autumn 2025
 date: 2025-08-25
 lang: en
 excerpt: Step-by-step notes on setting up Anaconda, Python, and Jupyter for DATA.ML.100 (Joni Kämäräinen).
-tags: ["anaconda", "python", "jupyter", "machine-learning"]
+tags: ["Joni Kämäräinen","anaconda", "jupyter", "machine-learning"]
 draft: false
 ---
 

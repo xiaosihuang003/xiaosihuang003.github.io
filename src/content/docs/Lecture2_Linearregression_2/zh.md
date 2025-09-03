@@ -4,7 +4,7 @@ subtitle: "线性模型 → 残差 → 平方误差 → MSE → ∂L/∂a=0, ∂
 date: 2025-09-01
 lang: zh
 excerpt: "从两点到正规方程；解出 a、b；扩展到多输入（ŷ = A w）。"
-tags: [Joni Kämäräinen, 机器学习, 线性回归, 微积分, 最小二乘]
+tags: [Joni Kämäräinen, machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 

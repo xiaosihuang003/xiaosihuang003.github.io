@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · ma 1.9.2025 · K1704"
 date: 2025-09-02
 lang: fi
 excerpt: "Kertaamme lineaarisen regression → yksinkertainen vertailutaso → luokittelu. k-NN (etäisyys/k/monimutkaisuus), suoran sovituksen näkökulma, askelsääntö, logistinen (sigmoidinen) ulostulo, MSE-gradientit sekä miksi ei ole analyyttista ratkaisua — pohjustus neuroverkoille."
-tags: ["lineaarinen-luokittelu", "k-NN", "baseline", "askelfunktio", "sigmoidifunktio", "logistinen"]
+tags: ["Joni Kämäräinen","machine-learning","linear-classification","step-function", "sigmoid-function", "logistic"]
 draft: false
 ---
 <details>

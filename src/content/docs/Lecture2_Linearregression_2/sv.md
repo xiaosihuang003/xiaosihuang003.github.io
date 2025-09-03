@@ -4,7 +4,7 @@ subtitle: "Linjär modell → residual → kvadratfel → MSE → ∂L/∂a=0, �
 date: 2025-09-01
 lang: sv
 excerpt: "Från två provpunkter till normalekvationer; lös ut a och b; utöka till fler indata (ŷ = A w)."
-tags: [Joni Kämäräinen, maskininlärning, linjär-regression, analys, minsta-kvadrat]
+tags: [Joni Kämäräinen, machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 

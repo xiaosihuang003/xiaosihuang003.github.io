@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "sv"
 excerpt: "Steg-för-steg-härledning av enkel linjär regression ($y = a x + b$): definiera residualer och MSE, använd kedjeregeln, sätt de partiella derivatorna till noll, lös normalekvationerna för $a$ och $b$, och verifiera med ett litet exempel."
-tags: ["Joni Kämäräinen", "maskininlärning", "linjär regression", "analys", "minsta kvadrat"]
+tags: ["Joni Kämäräinen", machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 ## Härledning av a och b för en linjär modell från grunden med minsta kvadratmetoden

@@ -4,7 +4,7 @@ subtitle: "線性模型 → 殘差 → 平方誤差 → MSE → ∂L/∂a=0, ∂
 date: 2025-09-01
 lang: yue
 excerpt: "由兩個樣本到正規方程；解出 a、b；擴展到多輸入（ŷ = A w）。"
-tags: [Joni Kämäräinen, 機器學習, 線性回歸, 微積分, 最小二乘]
+tags: [Joni Kämäräinen, machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 

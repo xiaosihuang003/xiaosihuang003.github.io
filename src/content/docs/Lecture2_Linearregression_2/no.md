@@ -4,7 +4,7 @@ subtitle: "Lineær modell → residual → kvadratfeil → MSE → ∂L/∂a=0, 
 date: 2025-09-01
 lang: no
 excerpt: "Fra to datapunkter til normallikninger; løs ut a og b; utvid til flere innganger (ŷ = A w)."
-tags: [Joni Kämäräinen, maskinlæring, lineær-regresjon, analyse, minste-kvadrater]
+tags: [Joni Kämäräinen, machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 

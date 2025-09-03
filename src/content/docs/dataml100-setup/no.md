@@ -4,7 +4,7 @@ subtitle: Introduksjon til maskinlæring, høsten 2025
 date: 2025-08-25
 lang: no
 excerpt: Steg-for-steg notater om oppsett av Anaconda, Python og Jupyter for DATA.ML.100 (Joni Kämäräinen).
-tags: ["anaconda", "python", "jupyter", "maskinlæring"]
+tags: ["Joni Kämäräinen","anaconda", "jupyter", "machine-learning"]
 draft: false
 ---
 

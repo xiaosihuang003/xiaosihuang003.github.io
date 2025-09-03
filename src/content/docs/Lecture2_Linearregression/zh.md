@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "zh"
 excerpt: "从零推导简单线性回归（$y = a x + b$）。定义残差与 MSE，应用链式法则，对 $a$ 与 $b$ 的偏导设为 0，解出正规方程得到 $a$、$b$ 的闭式解，并用一个小例子验证。"
-tags: ["Joni Kämäräinen", "机器学习", "线性回归", "微积分", "最小二乘"]
+tags: ["Joni Kämäräinen", machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 ## 从零推导最小二乘法求线性模型中的 a 与 b

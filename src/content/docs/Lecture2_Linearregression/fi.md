@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "fi"
 excerpt: "Vaiheittainen johdatus lineaariseen regressioon ($y = a x + b$): määritellään residuaalit ja MSE, käytetään ketjusääntöä, asetetaan osittaisderivaatat nollaan, ratkaistaan normaaliehdot $a$:lle ja $b$:lle ja varmistetaan pienellä esimerkillä."
-tags: ["Joni Kämäräinen", "koneoppiminen", "lineaarinen regressio", "analyysi", "pienimmän neliösumman menetelmä"]
+tags: ["Joni Kämäräinen", machine-learning, linear-regression, calculus, least-squares]
 draft: false
 ---
 ## Johdetaan a ja b lineaariselle mallille alusta alkaen pienimmän neliösumman menetelmällä
