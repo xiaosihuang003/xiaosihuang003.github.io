@@ -51,6 +51,17 @@ for (const item of parsed) {
 const items = Array.from(bySlug.values())
   .sort((a, b) => +new Date(b.entry.data?.date ?? 0) - +new Date(a.entry.data?.date ?? 0));
 
+/** 计算自动编号
+ *  最新的项目编号最大：seq = total - index
+ *  如果你更喜欢从 1 递增：把下面的 seq 改为 (index + 1)
+ */
+const total = items.length;
+const withSeq = items.map((it, index) => ({
+  ...it,
+  seq: total - index,         // ← 最新编号最大
+  // seq: index + 1,          // ←（可选）从 1 递增
+}));
+
 /** 链接处理：如果项目不是当前语言版本，回退到英文路径 */
 const linkHref = (slug: string, entryLang: string) =>
   entryLang === lang ? `${base}/projects/${slug}` : `/en/projects/${slug}`;
@@ -64,12 +75,11 @@ const isFallback = (entryLang: string) => entryLang !== lang;
     <h1 class="text-4xl font-extrabold mb-3">{t.projects.title}</h1>
     <p class="opacity-70 mb-8">{t.projects.subtitle}</p>
 
-    {items.length === 0 ? (
+    {withSeq.length === 0 ? (
       <p class="opacity-60">No projects yet.</p>
     ) : (
-      // ✅ 使用与 Blog/Docs 相同的卡片结构/类名，保证统一样式
       <ul class="grid gap-6 md:grid-cols-2">
-        {items.map(({ entry: p, slug, entryLang }) => (
+        {withSeq.map(({ entry: p, slug, entryLang, seq }) => (
           <li>
             <a
               href={linkHref(slug, entryLang)}
@@ -88,6 +98,7 @@ const isFallback = (entryLang: string) => entryLang !== lang;
                   )}
 
                   <h2 class="blog-title clamp-2 break-anywhere mt-1 flex items-center gap-2">
+                    <span class="seq">#{seq}</span>
                     <span>{p.data.title}</span>
                     {isFallback(entryLang) && (
                       <span
@@ -140,4 +151,14 @@ const isFallback = (entryLang: string) => entryLang !== lang;
 .blog-tag{ font-size:.75rem; background:var(--tag-bg); color:var(--muted); padding:.3rem .55rem; border-radius:.55rem; border:1px solid var(--border); }
 .clamp-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .break-anywhere{ overflow-wrap:anywhere; word-break:break-word; }
+
+/* 序号样式（可按需调整） */
+.seq{
+  display:inline-block;
+  min-width: 2.2rem;
+  text-align:center;
+  font-variant-numeric: tabular-nums;
+  font-weight:700;
+  color:#6b7280;            /* Gray-500 */
+}
 </style>
