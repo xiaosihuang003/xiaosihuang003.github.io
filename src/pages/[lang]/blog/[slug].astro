@@ -29,7 +29,6 @@ const base = paramsLang === "en" ? "/en" : `/${paramsLang}`;
 // entry 用博客集合的类型
 const { entry } = Astro.props as { entry: CollectionEntry<"blog"> };
 
-
 const alternates = Object.fromEntries(
   languages.map((code) => [code, `${code === "en" ? "/en" : "/" + code}/blog/${slug}`]),
 );
@@ -41,14 +40,17 @@ const { Content } = await entry.render();
 <Layout lang={paramsLang} title={`${entry.data.title} · Xiaosi Huang`} alternates={alternates}>
   <section class="mx-auto max-w-3xl px-4 md:px-6 py-10">
     <div class="post-header">
-      <Breadcrumbs
-        items={[
-          { href: base, label: t.nav.home },
-          { href: `${base}/blog`, label: t.nav.blog },
-          //{ label: entry.data.title },
-        ]}
-      />
-      <p class="backlink"><a href={`${base}/blog`}>← {t.ui.backToBlog}</a></p>
+      <!-- 面包屑 + 返回 同一行 -->
+      <div class="crumb-row">
+        <Breadcrumbs
+          items={[
+            { href: base, label: t.nav.home },
+            { href: `${base}/blog`, label: t.nav.blog },
+            // 不再重复标题
+          ]}
+        />
+        <p class="backlink"><a href={`${base}/blog`}>← {t.ui.backToBlog}</a></p>
+      </div>
 
       {entry.data.kicker && <div class="post-kicker">{entry.data.kicker}</div>}
       <h1 class="post-title">{entry.data.title}</h1>
@@ -75,6 +77,30 @@ const { Content } = await entry.render();
 </Layout>
 
 <style>
+/* 面包屑 + 返回 同行：右侧对齐 */
+.crumb-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .35rem;
+}
+@media (max-width: 640px){
+  .crumb-row{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .25rem;
+  }
+}
+
+.backlink{
+  font-size: .9rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.backlink a{ text-decoration: none; color: inherit; }
+.backlink a:hover{ text-decoration: underline; }
+
 /* 仅博客详情页的排版微调：更克制的小标题、段落与引文 */
 .blog-typo{
   --fs-body: 1rem;
