@@ -1,6 +1,6 @@
 ---
 title: "Statistical Methods for Text Data Analysis_1"
-subtitle: "(September 2, 2025): Introduction and preliminaries 😊"
+subtitle: "Introduction and preliminaries·(September 2, 2025)"
 date: 2025-09-04
 lang: en
 excerpt: "Course overview, logistics, why text analysis matters, key probability & ML preliminaries, and the practical Python/NLP toolkit you’ll use."
