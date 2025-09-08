@@ -1,112 +1,75 @@
 ---
 title: "Anomaly Detection with Multivariate Gaussian Distributions: A Case Study on Bike Sharing Data"
-date: 2025-09-01
-excerpt: "A Gaussian-based anomaly detection case study on Databricks bike sharing data."
+date: "2025-09-01"
+excerpt: "Exploring how Gaussian modeling can help detect unusual demand patterns in bike sharing."
 tags: ["machine-learning", "databricks", "anomaly-detection", "gaussian"]
 draft: false
 ---
 
-<div class="proj-hero">
-  <div class="left">
-    <h3>Bike Sharing Demand Anomaly Detection (Gaussian Model)</h3>
-    <p>I modeled normal demand with a <b>Multivariate Gaussian</b> on <b>temp</b>, <b>hum</b>, and <b>cnt</b>, then flagged hours with unusually low probability. Built and visualized in <b>Databricks</b>.</p>
-    <div class="badges">
-      <span>Python</span><span>Spark</span><span>Databricks</span><span>Gaussian</span><span>Anomaly Detection</span>
-    </div>
-    <div class="cta">
-      <a class="btn" href="https://github.com/yourname/yourrepo" target="_blank">View Code on GitHub</a>
-      <a class="btn ghost" href="/images/projects/bike-anomaly/report.pdf" target="_blank">One-page PDF</a>
-    </div>
-  </div>
-  <div class="right">
-    <ul class="kpis">
-      <li><b>17,379</b><span>hours modeled</span></li>
-      <li><b>5.0%</b><span>flagged anomalies</span></li>
-      <li><b>3</b><span>key features</span></li>
-    </ul>
-  </div>
+## 1️⃣ Introduction
+
+In this project, I wanted to see whether a **simple statistical model** could already spot interesting patterns in real-world data. I picked the **bike sharing dataset** from Databricks because it has both **weather information** and **hourly rental counts**, which makes it perfect for asking the question:
+
+👉 *“Does the demand for bikes match the weather conditions?”*  
+
+Instead of jumping into complex machine learning, I decided to start with a **Multivariate Gaussian**. It’s a clean and explainable way to model what “normal” looks like.
+
+---
+
+## 2️⃣ Technical setup
+
+The dataset I used was stored in: dbfs:/databricks-datasets/bikeSharing/data-001/hour.csv
+
+
+It contains **17,379 hourly records**, including features like temperature (`temp`), humidity (`hum`), and the count of bikes rented (`cnt`). I focused on these three because they are both **continuous** and **intuitively related**: if the temperature and humidity suggest bad weather, the rental count should also reflect that.  
+
+
+The model is simple:
+- 1.Compute the **mean vector μ** and **covariance matrix Σ** from the features.  
+- 2.Score each row using the **multivariate Gaussian PDF**.  
+- 3.Flag rows as anomalies if their probability is **below the 5th percentile**.  
+
+This way, “normal” demand is defined by the joint distribution of weather + rentals, and anything too unlikely gets flagged.
+
+---
+
+## 3️⃣ Workflow
+
+1. **Exploration**  
+   I first browsed the folder to confirm the right file. Then I quickly plotted the distributions of temperature, humidity, and counts to get a feel for the ranges.  
+
+2. **Model fitting**  
+   After computing μ and Σ, I noticed that some combinations of features were strongly correlated (e.g., humidity and demand). The covariance matrix helps account for this.  
+
+3. **Thresholding**  
+   I chose the **5% quantile** as the cutoff. This is easy to explain: “if something happens less than 5% of the time under normal conditions, we treat it as unusual.”  
+
+4. **Visualization**  
+   To check whether the flagged cases made sense, I drew a scatter plot of `temp` vs `cnt`. I used orange “x” marks to highlight anomalies.  
+   What stood out were cases like:
+   - **Rainy and cold hours with unexpectedly high rentals.**  
+   - **Sunny, nice-weather hours with surprisingly low rentals.**  
+
+These matched my intuition and confirmed the method was capturing the right kind of outliers.
+
+---
+
+## 4️⃣ Databricks Workspace
+
+<div class="screenshot-large">
+  <img src="/images/projects/project2/1.png" alt="Databricks notebook full-page screenshot">
 </div>
 
 ---
 
-## Why this project?
+## 5️⃣ Reflections
 
-- Ops teams need an early signal when demand spikes/drops against the weather.
-- A light-weight Gaussian baseline is easy to explain and fast to ship.
-- It’s a clean demo of using Databricks samples + Spark for an end-to-end workflow.
+Working through this project gave me a clearer sense of how much can already be achieved with relatively simple statistical tools. The multivariate Gaussian, although conceptually straightforward, turned out to be surprisingly powerful in highlighting demand patterns that “don’t fit the weather.”  
 
-## What I built (story in 30 seconds)
+One of the first things I noticed is how **correlated features** such as temperature, humidity, and demand interact. By modeling their joint distribution, the Gaussian didn’t just capture each variable in isolation — it actually learned the “shape” of normal conditions. For example, hours with high humidity but still very high rentals stood out immediately, because such combinations are rare in the data. This made me appreciate how covariance structures matter in anomaly detection, and why a univariate approach would have completely missed these cases.  
 
-<div class="grid-2">
-  <div>
-    <h4>1) Load & explore in Databricks</h4>
-    <p>Browsed <code>dbfs:/databricks-datasets/bikeSharing/data-001/</code>. Picked <code>hour.csv</code> for hourly granularity.</p>
-    <img src="/images/projects/bike-anomaly/step1-dataset.png" alt="DBFS exploration screenshot">
-  </div>
-  <div>
-    <h4>2) Model normal demand</h4>
-    <p>Features: <code>temp</code>, <code>hum</code>, <code>cnt</code>. Fitted μ and Σ, scored each hour with the multivariate Gaussian PDF.</p>
-    <img src="/images/projects/bike-anomaly/step3-features.png" alt="Feature table">
-  </div>
-</div>
+The choice of threshold was another interesting learning point. I set the cutoff at the **5th percentile**, which worked well for this dataset: it balanced sensitivity (catching unusual hours) with specificity (not over-flagging normal variation). But in a real production system, this decision would have to involve stakeholders. Operations teams may want fewer false alarms, while product teams might prefer to capture as many anomalies as possible. That trade-off between statistical rigor and business usability is something I became more conscious of through this project.  
 
-<div class="grid-2">
-  <div>
-    <h4>3) Threshold & flag</h4>
-    <p>Used the 5th-percentile probability as a simple, explainable cutoff.</p>
-    <ul class="bullets-tight">
-      <li>Low prob ⇒ demand doesn’t match the weather.</li>
-      <li>Top cases: cold/rainy hours with high rentals; sunny hours with low rentals.</li>
-    </ul>
-  </div>
-  <div>
-    <h4>4) Visualize</h4>
-    <p>Quick sanity-check plot (temp vs. cnt). Orange “x” marks anomalies.</p>
-    <img src="/images/projects/bike-anomaly/step6-results.png" alt="Scatter with anomalies">
-  </div>
-</div>
+From a data engineering perspective, I also realized the importance of **explainability and reproducibility**. A Gaussian baseline is not only easy to implement in Databricks, but it also produces results that can be explained to non-technical stakeholders in a single plot. Compared to deep learning, this is much easier to communicate and maintain, especially if the goal is to deploy a daily monitoring job that flags anomalies automatically.  
 
-## Takeaways
-
-- A Gaussian baseline already spots useful outliers without heavy models.
-- Easy to productionize: daily job computes μ/Σ per season or per station.
-- Clear hand-offs: ops for rebalancing, data team for sensor QA, product for UX experiments.
-
-<details class="accordion">
-  <summary>Show technical notes (μ/Σ, scoring, stability)</summary>
-
-- **Params**: μ from column means; Σ from sample covariance (<code>rowvar=False</code>).  
-- **Scoring**: PDF <code>p(x)</code> with Σ⁻¹ and |Σ|; anomalies = <code>p(x) &lt; quantile<sub>5%</sub></code>.  
-- **Stability**: add small ridge <code>(Σ + λI)</code> if near-singular; recompute by season/hour-of-day.  
-- **Next**: per-weather-cluster Gaussians; add <code>windspeed</code> and <code>weathersit</code>; drift checks.
-</details>
-
-## Links
-
-- Source code: <a href="https://github.com/yourname/yourrepo" target="_blank">GitHub repo</a>  
-- Notebook screenshots: <a href="/images/projects/bike-anomaly/" target="_blank">gallery</a>  
-- One-pager PDF: <a href="/images/projects/bike-anomaly/report.pdf" target="_blank">download</a>
-
-<style>
-  .proj-hero{display:flex;gap:1.25rem;align-items:stretch;flex-wrap:wrap}
-  .proj-hero .left{flex:1 1 520px}
-  .proj-hero .right{flex:0 0 260px}
-  .badges span{display:inline-block;background:#f2f4f7;border:1px solid #e6e8ec;
-    padding:.25rem .5rem;border-radius:.5rem;margin:.15rem;font-size:.85rem}
-  .cta{margin-top:.5rem}
-  .btn{display:inline-block;background:#111;color:#fff;padding:.5rem .9rem;border-radius:.6rem;
-    text-decoration:none;margin-right:.5rem}
-  .btn.ghost{background:#fff;color:#111;border:1px solid #ddd}
-  .kpis{list-style:none;padding:0;margin:0;border:1px solid #eee;border-radius:.75rem}
-  .kpis li{padding:.8rem 1rem;border-bottom:1px solid #eee}
-  .kpis li:last-child{border-bottom:0}
-  .kpis b{display:block;font-size:1.3rem}
-  .kpis span{font-size:.85rem;color:#667085}
-  .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start;margin:.5rem 0}
-  @media (max-width:900px){.grid-2{grid-template-columns:1fr}}
-  .grid-2 img{width:100%;height:auto;border:1px solid #eee;border-radius:.6rem}
-  .bullets-tight{margin:.25rem 0 0 1rem}
-  .bullets-tight li{margin:.15rem 0}
-  .accordion summary{cursor:pointer;font-weight:600;margin:.5rem 0}
-  .accordion{border:1px solid #eee;border-radius:.6rem;padding:.6rem .8rem;background:#fafafa}
-</style>
+In short, this project showed me that anomaly detection doesn’t always require complex models to generate value. Sometimes, **a simple, interpretable statistical approach is the right starting point**, both for quick insights and as a reliable baseline before moving on to more sophisticated techniques.
