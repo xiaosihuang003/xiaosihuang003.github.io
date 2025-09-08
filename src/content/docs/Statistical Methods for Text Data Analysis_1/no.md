@@ -1,6 +1,6 @@
 ---
 title: "Statistiske metoder for tekstanalyse_1"
-subtitle: "(2. september 2025): Introduksjon og grunnleggende 😊"
+subtitle: "Lecture 1 (September 2, 2025): Introduction and preliminaries"
 date: 2025-09-04
 lang: no
 excerpt: "Kursoverblikk, praktisk info, hvorfor tekstanalyse er viktig, nøkkelbegreper i sannsynlighet og maskinlæring, samt Python/NLP-verktøykassen."

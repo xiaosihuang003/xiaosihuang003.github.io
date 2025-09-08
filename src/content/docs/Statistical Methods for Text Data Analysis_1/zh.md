@@ -1,6 +1,6 @@
 ---
 title: "统计方法在文本数据分析中的应用_1"
-subtitle: "(2025年9月2日): 导论与预备知识"
+subtitle: "Lecture 1 (September 2, 2025): Introduction and preliminaries"
 date: 2025-09-04
 lang: zh
 excerpt: "课程概览、课程安排、文本分析的重要性、关键的概率与机器学习基础，以及本课程所需的Python/NLP工具。"

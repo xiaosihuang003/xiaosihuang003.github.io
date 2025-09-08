@@ -1,6 +1,6 @@
 ---
 title: "統計方法分析文字數據_1"
-subtitle: "(2025年9月2號): 介紹同初步"
+subtitle: "Lecture 1 (September 2, 2025): Introduction and preliminaries"
 date: 2025-09-04
 lang: yue
 excerpt: "課程簡介、安排、點解要做文本分析、概率同機器學習基礎、同埋 Python/NLP 工具箱。"

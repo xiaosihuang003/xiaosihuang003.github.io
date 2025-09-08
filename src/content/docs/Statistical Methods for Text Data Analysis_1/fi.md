@@ -1,6 +1,6 @@
 ---
 title: "Tilastolliset menetelmät tekstidatan analysointiin_1"
-subtitle: "(2. syyskuuta 2025): Johdanto ja perusteet 😊"
+subtitle: "Lecture 1 (September 2, 2025): Introduction and preliminaries"
 date: 2025-09-04
 lang: fi
 excerpt: "Kurssin yleiskatsaus, käytännön asiat, miksi tekstianalyysi on tärkeää, todennäköisyyden ja koneoppimisen perusteet sekä Python/NLP-työkalupakki."

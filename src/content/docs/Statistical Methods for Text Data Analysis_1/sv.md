@@ -1,6 +1,6 @@
 ---
 title: "Statistiska metoder för textdataanalys_1"
-subtitle: "(2 september 2025): Introduktion och grunder 😊"
+subtitle: "Lecture 1 (September 2, 2025): Introduction and preliminaries"
 date: 2025-09-04
 lang: sv
 excerpt: "Kursöversikt, praktiska saker, varför textanalys är viktigt, sannolikhets- och ML-grunder samt Python/NLP-verktygslådan."
