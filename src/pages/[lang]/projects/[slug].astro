@@ -11,56 +11,71 @@ export async function getStaticPaths() {
   const all = await getCollection("projects");
   return all.map((entry) => {
     const parts = entry.slug.split("/");
-    const lang = parts.at(-1) || "en";                 // 例如 2024-python-lab/en
+    const lang = parts.at(-1) || "en"; // 例如 2024-python-lab/en
     const slug = parts.slice(0, -1).join("/") || parts[0];
     return { params: { lang, slug }, props: { entry, lang, slug } };
   });
 }
 
-/* 路由参数 & 文案（沿用 blog 的写法） */
 type Params = { lang: string; slug: string };
 const { lang: rawLang, slug } = Astro.params as Params;
 const lang = normalizeLang(rawLang);
 const t = dict[lang];
 const base = lang === "en" ? "/en" : `/${lang}`;
 
-/* 当前项目条目（由 getStaticPaths 的 props 传入）*/
 const { entry } = Astro.props as { entry: CollectionEntry<"projects"> };
 const { Content } = await entry.render();
 
+/** 备用语言链接 */
 const alternates = Object.fromEntries(
   languages.map((code) => [code, `${code === "en" ? "/en" : "/" + code}/projects/${slug}`]),
 );
 
+/** 标签 */
 const tags = (entry.data.tags ?? []) as string[];
+
+/** 当前是否 CJK 语言，用于标题排版差异化 */
+const isCJK = ["zh", "ja", "ko"].includes(lang);
 ---
 
 <Layout lang={lang} title={`${entry.data.title} · Xiaosi Huang`} alternates={alternates}>
   <section class="mx-auto max-w-3xl px-4 md:px-6 py-10">
     <div class="post-header">
-      <Breadcrumbs
-        items={[
-          { href: base, label: t.nav.home },
-          { href: `${base}/projects`, label: t.nav.projects },
-          { label: entry.data.title },
-        ]}
-      />
-      <p class="backlink"><a href={`${base}/projects`}>← {t.ui.backToProjects}</a></p>
+      <!-- 面包屑 + 返回 同一行 -->
+      <div class="crumb-row">
+        <Breadcrumbs
+          items={[
+            { href: base, label: t.nav.home },
+            { href: `${base}/projects`, label: t.nav.projects },
+            //{ label: entry.data.title },
+          ]}
+        />
+        <p class="backlink">
+          <a href={`${base}/projects`}>← {t.ui.backToProjects}</a>
+        </p>
+      </div>
 
-      <h1 class="post-title">{entry.data.title}</h1>
-      {entry.data.subtitle && <p class="post-subtitle">{entry.data.subtitle}</p>}
+      <!-- 标题区 -->
+      <div class="hero-head">
+        <h1 class={`post-title ${isCJK ? "post-title-cjk" : "post-title-latin"}`}>
+          {entry.data.title}
+        </h1>
 
-      <div class="post-meta">
-        {entry.data.date && (
-          <time datetime={(entry.data.date as any).toISOString?.() ?? String(entry.data.date)}>
-            {new Date(entry.data.date as any).toLocaleDateString(lang)}
-          </time>
-        )}
-        {tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
-            {tags.map((tag) => <span class="tag">#{tag}</span>)}
-          </div>
-        )}
+        {entry.data.subtitle && <p class="post-subtitle">{entry.data.subtitle}</p>}
+
+        <!-- Meta（日期 / 标签） -->
+        <div class="post-meta meta-row">
+          {entry.data.date && (
+            <time datetime={(entry.data.date as any).toISOString?.() ?? String(entry.data.date)}>
+              {new Date(entry.data.date as any).toLocaleDateString(lang)}
+            </time>
+          )}
+          {tags.length > 0 && (
+            <div class="tags">
+              {tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+          )}
+        </div>
       </div>
     </div>
 
@@ -71,9 +86,132 @@ const tags = (entry.data.tags ?? []) as string[];
 </Layout>
 
 <style>
-.post-title{ font-size:2rem; font-weight:800; line-height:1.2; margin:.4rem 0 .3rem; }
-.post-subtitle{ color:var(--muted); margin:.2rem 0 .6rem; }
-.post-meta{ font-size:.85rem; color:#6b7280; display:flex; gap:.75rem; align-items:center; }
-.tag{ font-size:.75rem; background:var(--tag-bg); color:var(--muted); padding:.28rem .55rem; border-radius:.55rem; border:1px solid var(--border); }
-.blog-typo .viz iframe{ aspect-ratio:16/9; border-radius:.75rem; }
+/* ================= 基础变量 ================= */
+:root{
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --hairline: color-mix(in srgb, #000 10%, transparent);
+  --tag-bg: #f6f7f9;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --text: #e5e7eb;
+    --muted: #9aa0a6;
+    --border: #1f2937;
+    --hairline: color-mix(in srgb, #fff 12%, transparent);
+    --tag-bg: #101418;
+  }
+}
+
+/* ================= 顶部区块布局 ================= */
+.post-header{
+  max-width: 76ch;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* 面包屑 + 返回 同行：右侧对齐 */
+.crumb-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .35rem;
+}
+@media (max-width: 640px){
+  .crumb-row{
+    flex-direction: column;
+    align-items: flex-start;   /* 小屏回到左侧竖排 */
+    gap: .25rem;
+  }
+}
+
+.hero-head{
+  max-inline-size: 70ch;      /* 控制标题换行数量的关键 */
+  margin: 0;
+}
+@media (min-width: 1280px){ .hero-head{ max-inline-size: 74ch; } }
+@media (max-width: 900px) { .hero-head{ max-inline-size: 64ch; } }
+@media (max-width: 640px) { .hero-head{ max-inline-size: 100%; } }
+
+/* ================= 标题 ================= */
+.post-title{
+  margin: .35rem 0 .5rem;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--text);
+}
+.post-title-latin{
+  font-size: clamp(1.48rem, 1.00rem + 1.00vw, 1.86rem);
+  hyphens: auto;
+  word-break: normal;
+}
+.post-title-cjk{
+  font-size: clamp(1.46rem, .98rem + .90vw, 1.80rem);
+  letter-spacing: 0;
+  hyphens: none;
+  word-break: keep-all;
+  font-feature-settings: "palt";
+}
+
+/* ================= 副标题 ================= */
+.post-subtitle{
+  margin: .15rem 0 .7rem;
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 1.02rem;
+  letter-spacing: .004em;
+}
+
+/* ================= Meta（日期/标签） ================= */
+.meta-row{
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: .9rem;
+  padding-bottom: .55rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.meta-row > * + *::before{
+  content: "·";
+  margin: 0 .3rem 0 0;
+  color: var(--muted);
+}
+.tags{ display: inline-flex; gap: .35rem; flex-wrap: wrap; }
+
+/* ✅ 改成和首页一致的方角标签 */
+.tag{
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  padding: .22rem .5rem;
+  border-radius: .55rem;   /* ← 改回方角 */
+  line-height: 1;
+  letter-spacing: .01em;
+  user-select: none;
+}
+.tag:hover{ filter: brightness(1.03); }
+
+/* ================= 返回链接更克制 ================= */
+.backlink{
+  font-size: .9rem;
+  color: var(--muted);
+  white-space: nowrap; /* 避免在箭头后换行 */
+}
+.backlink a{ text-decoration: none; color: inherit; }
+.backlink a:hover{ text-decoration: underline; }
+
+/* ================= 正文里的可视化 ================= */
+.blog-typo .viz iframe{
+  aspect-ratio: 16 / 9;
+  border-radius: .75rem;
+}
 </style>
