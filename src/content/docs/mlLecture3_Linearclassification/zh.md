@@ -1,5 +1,5 @@
 ---
-title: "第 3 讲：线性分类"
+title: "ML_第 3 讲：线性分类"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025-09-01（周一）· K1704"
 date: 2025-09-02
 lang: zh

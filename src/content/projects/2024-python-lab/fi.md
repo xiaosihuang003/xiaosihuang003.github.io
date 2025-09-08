@@ -8,7 +8,6 @@ tags: ["Python", "Pandas", "CLI", "Utilities"]
 ---
 
 <style>
-/* —— 只影响本页：调正文字号与层级 —— */
 .post-body{
   --p-size: 1.08rem;   /* 正文段落 */
   --h2-size: 1.50rem;  /* H2 */
@@ -16,7 +15,6 @@ tags: ["Python", "Pandas", "CLI", "Utilities"]
   --p-leading: 1.9;    /* 段落行距 */
 }
 
-/* 分隔线、图文等微调（保留原视觉，不改布局） */
 .post-body hr { border: 0; border-top: 1px solid #e5e5e5; margin: 32px 0; }
 
 .post-body figure { margin: 10px auto 24px auto; text-align: center; }

@@ -1,5 +1,5 @@
 ---
-title: "Luento 3: Lineaarinen luokittelu"
+title: "ML_3: Lineaarinen luokittelu"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · ma 1.9.2025 · K1704"
 date: 2025-09-02
 lang: fi

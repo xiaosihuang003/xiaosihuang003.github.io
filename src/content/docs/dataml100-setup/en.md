@@ -1,5 +1,5 @@
 ---
-title: Programming Environment Setup for DATA.ML.100 course (macOS)
+title: ML_Programming Environment Setup for DATA.ML.100 course (macOS)
 subtitle: Introduction to Machine Learning, Autumn 2025
 date: 2025-08-25
 lang: en

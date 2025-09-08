@@ -1,5 +1,5 @@
 ---
-title: Oppsett av programmeringsmiljø for DATA.ML.100-kurset (macOS)
+title: ML_Oppsett av programmeringsmiljø for DATA.ML.100-kurset (macOS)
 subtitle: Introduksjon til maskinlæring, høsten 2025
 date: 2025-08-25
 lang: no

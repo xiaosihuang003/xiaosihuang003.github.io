@@ -1,5 +1,5 @@
 ---
-title: DATA.ML.100 課程編程環境設定 (macOS)
+title: ML_DATA.ML.100 課程編程環境設定 (macOS)
 subtitle: 機器學習導論, 2025年秋季
 date: 2025-08-25
 lang: yue

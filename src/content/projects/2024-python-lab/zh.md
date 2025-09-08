@@ -8,7 +8,6 @@ tags: ["Python", "Pandas", "CLI", "Utilities"]
 ---
 
 <style>
-/* —— 只影响本页：调正文字号与层级 —— */
 .post-body{
   --p-size: 1.08rem;   /* 正文段落 */
   --h2-size: 1.50rem;  /* H2 */
@@ -16,7 +15,6 @@ tags: ["Python", "Pandas", "CLI", "Utilities"]
   --p-leading: 1.9;    /* 段落行距 */
 }
 
-/* 分隔线、图文等微调（保留原视觉，不改布局） */
 .post-body hr { border: 0; border-top: 1px solid #e5e5e5; margin: 32px 0; }
 
 .post-body figure { margin: 10px auto 24px auto; text-align: center; }
@@ -26,7 +24,6 @@ tags: ["Python", "Pandas", "CLI", "Utilities"]
 .post-body a { font-size: 0.95rem; }
 .post-body a:hover { opacity: 0.9; }
 
-/* 项目 Hero 图 */
 .project-hero { width: 100%; margin: 2rem auto; text-align: center; }
 .project-hero__img {
   width: 100%; max-width: none; height: auto; display: block; margin: 0 auto;

@@ -1,5 +1,5 @@
 ---
-title: Programmeringsmiljöinställning för DATA.ML.100-kursen (macOS)
+title: ML_Programmeringsmiljöinställning för DATA.ML.100-kursen (macOS)
 subtitle: Introduktion till maskininlärning, hösten 2025
 date: 2025-08-25
 lang: sv
