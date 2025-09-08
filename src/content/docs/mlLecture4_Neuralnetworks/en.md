@@ -3,7 +3,7 @@ title: "ML_4: Neural networks"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 4.9.2025 TB104 😊"
 date: "2025-09-08"
 lang: "en"
-excerpt: "x 暂时不动这里"
+excerpt: "x"
 tags:
   - "Joni Kämäräinen"
   - "machine-learning"
