@@ -36,14 +36,17 @@ const { Content } = await entry.render();
 <Layout lang={paramsLang} title={`${entry.data.title} · Xiaosi Huang`} alternates={alternates}>
   <section class="mx-auto max-w-3xl px-4 md:px-6 py-10">
     <div class="post-header">
-      <Breadcrumbs
-        items={[
-          { href: base, label: t.nav.home },
-          { href: `${base}/docs`, label: t.nav.docs },
-          //{ label: entry.data.title },
-        ]}
-      />
-      <p class="backlink"><a href={`${base}/docs`}>← {t.ui.backToDocs}</a></p>
+      <!-- 面包屑 + 返回 同一行（右侧对齐） -->
+      <div class="crumb-row">
+        <Breadcrumbs
+          items={[
+            { href: base, label: t.nav.home },
+            { href: `${base}/docs`, label: t.nav.docs },
+            // 不再显示当前标题，避免与 H1 重复
+          ]}
+        />
+        <p class="backlink"><a href={`${base}/docs`}>← {t.ui.backToDocs}</a></p>
+      </div>
 
       {entry.data.kicker && <div class="post-kicker">{entry.data.kicker}</div>}
       <h1 class="post-title">{entry.data.title}</h1>
@@ -74,7 +77,23 @@ const { Content } = await entry.render();
 </Layout>
 
 <style>
-/* 复用博客详情页的排版样式，保证风格一致 */
+/* 与项目页一致：面包屑与返回同排、右侧对齐；小屏折行到下一行 */
+.crumb-row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .35rem;
+}
+@media (max-width: 640px){
+  .crumb-row{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .25rem;
+  }
+}
+
+/* 同博客详情页的排版样式，保证风格一致 */
 .blog-typo{
   --fs-body: 1rem;
   --fs-h2: 1.12rem;
@@ -100,6 +119,28 @@ const { Content } = await entry.render();
 .blog-typo figure figcaption{ color: var(--muted); font-size: .92rem; margin-top: .5rem; }
 .blog-typo .viz iframe{ aspect-ratio: 16/9; border-radius: .75rem; }
 
-/* 详情页标签样式 */
-.tag{ font-size:.75rem; background:var(--tag-bg); color:var(--muted); padding:.3rem .55rem; border-radius:.55rem; border:1px solid var(--border); text-decoration:none; }
+/* 详情页标签样式（与列表页一致的方角 chip） */
+.tag{
+  font-size:.75rem;
+  background:var(--tag-bg);
+  color:var(--muted);
+  padding:.3rem .55rem;
+  border-radius:.55rem;     /* 方形圆角，与列表卡片一致 */
+  border:1px solid var(--border);
+  text-decoration:none;
+}
+
+/* 返回链接更克制 */
+.backlink{
+  font-size: .9rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.backlink a{ text-decoration: none; color: inherit; }
+.backlink a:hover{ text-decoration: underline; }
+
+/* 标题/副标题/Meta（保持现有风格） */
+.post-title{ font-size: clamp(1.48rem, 1.00rem + 1.00vw, 1.86rem); font-weight: 700; line-height: 1.2; margin: .35rem 0 .5rem; }
+.post-subtitle{ margin:.15rem 0 .7rem; color:var(--muted); }
+.post-meta{ font-size:.9rem; color:var(--muted); display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; }
 </style>
