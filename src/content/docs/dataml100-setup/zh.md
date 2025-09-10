@@ -1,5 +1,5 @@
 ---
-title: ML_DATA.ML.100 课程编程环境设置 (macOS)
+title: ML_1:DATA.ML.100 课程编程环境设置 (macOS)
 subtitle: 机器学习导论, 2025年秋季
 date: 2025-08-25
 lang: zh
