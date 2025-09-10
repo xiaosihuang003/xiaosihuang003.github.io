@@ -1,5 +1,5 @@
 ---
-title: "ML_2: 线性回归_(2nd note）"
+title: "Machine Learning 2: 线性回归_(2nd note）"
 subtitle: "线性模型 → 残差 → 平方误差 → MSE → ∂L/∂a=0, ∂L/∂b=0 → 正规方程 → a,b 的闭式解"
 date: 2025-09-01
 lang: zh

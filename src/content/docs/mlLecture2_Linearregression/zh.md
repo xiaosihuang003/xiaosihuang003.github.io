@@ -1,5 +1,5 @@
 --- 
-title: "ML_第 2 讲：线性回归"
+title: "Machine Learning 2：线性回归"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "zh"

@@ -1,6 +1,6 @@
 ---
-title: ML_1:Programmeringsmiljöinställning för DATA.ML.100-kursen (macOS)
-subtitle: Introduktion till maskininlärning, hösten 2025
+title: Machine Learning 1:Programmeringsmiljöinställning för DATA.ML.100-kursen (macOS)
+subtitle: Introduktion till maskininlärning, hösten 2025 | Mon 25.8.2025 K1704
 date: 2025-08-25
 lang: sv
 excerpt: Steg-för-steg-anteckningar om att konfigurera Anaconda, Python och Jupyter för DATA.ML.100 (Joni Kämäräinen).

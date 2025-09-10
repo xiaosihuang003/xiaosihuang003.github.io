@@ -1,5 +1,5 @@
 ---
-title: "ML_4: Neuroverkot"
+title: "Machine Learning 4: Neuroverkot"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · To 4.9.2025 TB104 😊"
 date: "2025-09-08"
 lang: "fi"

@@ -1,5 +1,5 @@
 ---
-title: "ML_2: Linjär regression"
+title: "Machine Learning 2: Linjär regression"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "sv"

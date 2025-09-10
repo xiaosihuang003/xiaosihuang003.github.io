@@ -1,6 +1,6 @@
 ---
-title: ML_1:Ohjelmointiympäristön asennus DATA.ML.100 -kurssille (macOS)
-subtitle: Johdatus koneoppimiseen, syksy 2025
+title: Machine Learning 1:Ohjelmointiympäristön asennus DATA.ML.100 -kurssille (macOS)
+subtitle: Johdatus koneoppimiseen, syksy 2025 | Mon 25.8.2025 K1704
 date: 2025-08-25
 lang: fi
 excerpt: Vaiheittaiset ohjeet Anacondan, Pythonin ja Jupytern asentamiseen DATA.ML.100 -kurssille (Joni Kämäräinen).

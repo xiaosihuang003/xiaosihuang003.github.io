@@ -1,5 +1,5 @@
 ---
-title: "ML_3: Linear classification"
+title: "Machine Learning 3: Linear classification"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Mon 1.9.2025 · K1704 😊"
 date: 2025-09-02
 lang: en

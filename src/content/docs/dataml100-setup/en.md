@@ -1,6 +1,6 @@
 ---
-title: ML_1:Programming Environment Setup for DATA.ML.100 course (macOS)
-subtitle: Introduction to Machine Learning, Autumn 2025
+title: Machine Learning 1:Programming Environment Setup for DATA.ML.100 course (macOS)
+subtitle: Introduction to Machine Learning, Autumn 2025 | Mon 25.8.2025 K1704
 date: 2025-08-25
 lang: en
 excerpt: Step-by-step notes on setting up Anaconda, Python, and Jupyter for DATA.ML.100 (Joni Kämäräinen).

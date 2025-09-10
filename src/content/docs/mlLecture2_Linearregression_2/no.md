@@ -1,5 +1,5 @@
 ---
-title: "ML_2: Lineær regresjon_(2nd note）"
+title: "Machine Learning 2: Lineær regresjon_(2nd note）"
 subtitle: "Lineær modell → residual → kvadratfeil → MSE → ∂L/∂a=0, ∂L/∂b=0 → normallikninger → lukket form for a, b"
 date: 2025-09-01
 lang: no

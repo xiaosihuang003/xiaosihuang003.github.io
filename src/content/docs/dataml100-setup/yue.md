@@ -1,6 +1,6 @@
 ---
-title: ML_1:DATA.ML.100 課程編程環境設定 (macOS)
-subtitle: 機器學習導論, 2025年秋季
+title: Machine Learning 1:DATA.ML.100 課程編程環境設定 (macOS)
+subtitle: 機器學習導論, 2025年秋季 | Mon 25.8.2025 K1704
 date: 2025-08-25
 lang: yue
 excerpt: 為 DATA.ML.100 (Joni Kämäräinen) 配置 Anaconda、Python 同 Jupyter 嘅逐步說明。

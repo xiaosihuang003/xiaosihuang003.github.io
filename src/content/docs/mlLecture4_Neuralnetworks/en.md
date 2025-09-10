@@ -1,5 +1,5 @@
 ---
-title: "ML_4: Neural networks"
+title: "Machine Learning 4: Neural networks"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 4.9.2025 TB104 😊"
 date: "2025-09-08"
 lang: "en"
