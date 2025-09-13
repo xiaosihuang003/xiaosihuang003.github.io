@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 2：線性迴歸"
+title: "機器學習 2：線性迴歸"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Thu 28.8.2025 TB104"
 date: 2025-09-01
 lang: "yue"

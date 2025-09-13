@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 3：线性分类"
+title: "机器学习 3：线性分类"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025-09-01（周一）· K1704"
 date: 2025-09-02
 lang: zh

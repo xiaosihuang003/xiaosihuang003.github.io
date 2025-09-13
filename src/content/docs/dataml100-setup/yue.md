@@ -1,5 +1,5 @@
 ---
-title: Machine Learning 1:DATA.ML.100 課程編程環境設定 (macOS)
+title: 機器學習 1:DATA.ML.100 課程編程環境設定 (macOS)
 subtitle: 機器學習導論, 2025年秋季 | Mon 25.8.2025 K1704
 date: 2025-08-25
 lang: yue

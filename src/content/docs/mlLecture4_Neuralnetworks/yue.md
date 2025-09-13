@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 4：神經網絡"
+title: "機器學習 4：神經網絡"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025年9月4日（四） TB104"
 date: "2025-09-08"
 lang: "yue"

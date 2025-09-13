@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 3: 線性分類"
+title: "機器學習 3: 線性分類"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · 星期一 1.9.2025 · K1704"
 date: 2025-09-02
 lang: yue

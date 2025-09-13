@@ -1,5 +1,5 @@
 ---
-title: Machine Learning 1:DATA.ML.100 课程编程环境设置 (macOS)
+title: 机器学习 1:DATA.ML.100 课程编程环境设置 (macOS)
 subtitle: 机器学习导论, 2025年秋季 | Mon 25.8.2025 K1704
 date: 2025-08-25
 lang: zh

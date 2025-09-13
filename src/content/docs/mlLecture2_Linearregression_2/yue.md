@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 2: 線性回歸_(2nd note）"
+title: "機器學習 2: 線性回歸_(2nd note）"
 subtitle: "線性模型 → 殘差 → 平方誤差 → MSE → ∂L/∂a=0, ∂L/∂b=0 → 正規方程 → a,b 的閉式解"
 date: 2025-09-01
 lang: yue
