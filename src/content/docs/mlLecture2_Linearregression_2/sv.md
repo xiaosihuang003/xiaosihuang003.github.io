@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 2: Linjär regression_(2nd note）"
+title: "Maskininlärning 2: Linjär regression_(2nd note）"
 subtitle: "Linjär modell → residual → kvadratfel → MSE → ∂L/∂a=0, ∂L/∂b=0 → normalekvationer → sluten form för a, b"
 date: 2025-09-01
 lang: sv

@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 4: Neurala nätverk"
+title: "Maskininlärning 4: Neurala nätverk"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Tors 4.9.2025 TB104 😊"
 date: "2025-09-08"
 lang: "sv"

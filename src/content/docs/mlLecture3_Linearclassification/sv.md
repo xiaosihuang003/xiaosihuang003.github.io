@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning 3: Linjär klassificering"
+title: "Maskininlärning 3: Linjär klassificering"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · mån 1.9.2025 · K1704"
 date: 2025-09-02
 lang: sv
