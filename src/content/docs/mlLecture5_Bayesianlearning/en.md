@@ -1,5 +1,5 @@
 ---
-title: "ML_5: Probabilities & Bayesian Thinking"
+title: "Machine Learning 5: Probabilities & Bayesian Thinking"
 subtitle: "DATA.ML.100 · Joni Kämäräinen · Mon 8.9.2025 K1704 😊"
 date: "2025-09-11"
 lang: "en"
