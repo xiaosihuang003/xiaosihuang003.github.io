@@ -1,5 +1,5 @@
 ---
-title: "Poikkeavuuksien havaitseminen monimuuttujaisella Gaussin jakaumalla: Tapaustutkimus kaupunkipyörien kysynnästä"
+title: "(Databricks) Poikkeavuuksien havaitseminen monimuuttujaisella Gaussin jakaumalla: Tapaustutkimus kaupunkipyörien kysynnästä"
 date: "2025-09-01"
 excerpt: "Tutkin, miten Gaussin mallinnusta voi käyttää havaitsemaan epätavallisia kysyntäkuvioita kaupunkipyörien käytössä."
 tags: ["koneoppiminen", "databricks", "poikkeavuuksien-havaitseminen", "gaussi"]

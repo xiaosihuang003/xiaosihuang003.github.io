@@ -1,5 +1,5 @@
 ---
-title: "Avviksdeteksjon med multivariat Gauss-fordeling: En case-studie på etterspørsel etter bysykler"
+title: "(Databricks) Avviksdeteksjon med multivariat Gauss-fordeling: En case-studie på etterspørsel etter bysykler"
 date: "2025-09-01"
 excerpt: "Utforsker hvordan Gauss-modellering kan hjelpe til med å oppdage uvanlige mønstre i etterspørselen etter bysykler."
 tags: ["maskinlæring", "databricks", "avviksdeteksjon", "gauss"]

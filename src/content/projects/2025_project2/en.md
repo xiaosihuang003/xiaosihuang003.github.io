@@ -1,5 +1,5 @@
 ---
-title: "Anomaly Detection with Multivariate Gaussian Distributions: A Case Study on Bike Sharing Data"
+title: "(Databricks) Anomaly Detection with Multivariate Gaussian Distributions: A Case Study on Bike Sharing Data"
 date: "2025-09-01"
 excerpt: "Exploring how Gaussian modeling can help detect unusual demand patterns in bike sharing."
 tags: ["machine-learning", "databricks", "anomaly-detection", "gaussian"]

@@ -1,5 +1,5 @@
 ---
-title: "Avvikelsedetektering med multivariat Gaussfördelning: En fallstudie om efterfrågan på hyrcyklar"
+title: "(Databricks) Avvikelsedetektering med multivariat Gaussfördelning: En fallstudie om efterfrågan på hyrcyklar"
 date: "2025-09-01"
 excerpt: "Utforskar hur Gauss-modellering kan hjälpa till att upptäcka ovanliga mönster i efterfrågan på hyrcyklar."
 tags: ["maskininlärning", "databricks", "avvikelsedetektering", "gauss"]

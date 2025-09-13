@@ -116,17 +116,17 @@ const { Content } = await entry.render();
 .backlink a{ color:inherit; text-decoration:none; }
 .backlink a:hover{ text-decoration:underline; }
 
-/* 标题区域 measure 更宽一些，减少断行 */
-.hero-head{ max-inline-size: 84ch; }
-@media (min-width:1280px){ .hero-head{ max-inline-size: 88ch; } }
-@media (max-width:900px){ .hero-head{ max-inline-size: 76ch; } }
+/* 标题区域加宽一些，减少断行 */
+.hero-head{ max-inline-size: 110ch; }
+@media (min-width:1280px){ .hero-head{ max-inline-size: 120ch; } }
+@media (max-width:900px){ .hero-head{ max-inline-size: 90ch; } }
 @media (max-width:640px){ .hero-head{ max-inline-size: 100%; } }
 
 .post-title{
   margin:.4rem 0 .4rem;
   font-weight:800;
-  font-size: clamp(1.62rem, 1.08rem + 1.4vw, 2.05rem);
-  line-height:1.18;
+  font-size: clamp(1.2rem, 0.85rem + 0.95vw, 1.55rem); /* 明显比之前小 */
+  line-height:1.14;
   letter-spacing:-.012em;
   text-wrap:balance;
   color:var(--text);
@@ -136,8 +136,8 @@ const { Content } = await entry.render();
 /* ✅ 日期 + 副标题强制同一行 */
 .date-subtitle-row{
   display:flex; align-items:center; gap:.5rem;
-  white-space:nowrap;        /* 不换行 */
-  overflow-x:auto;           /* 太长时横向滚动，而不是掉行 */
+  white-space:nowrap;
+  overflow-x:auto;
   -webkit-overflow-scrolling: touch;
   color:var(--muted);
   font-size:1rem;
@@ -177,4 +177,5 @@ const { Content } = await entry.render();
 .blog-typo figure{ margin:1.2rem 0 1.4rem; }
 .blog-typo figure figcaption{ color:var(--muted); font-size:.92rem; margin-top:.5rem; }
 .blog-typo .viz iframe{ aspect-ratio:16/9; border-radius:.75rem; }
+
 </style>

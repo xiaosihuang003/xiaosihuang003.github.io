@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   const all = await getCollection("projects");
   return all.map((entry) => {
     const parts = entry.slug.split("/");
-    const lang = parts.at(-1) || "en"; // 例如 2024-python-lab/en
+    const lang = parts.at(-1) || "en";
     const slug = parts.slice(0, -1).join("/") || parts[0];
     return { params: { lang, slug }, props: { entry, lang, slug } };
   });
@@ -39,15 +39,14 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
 ---
 
 <Layout lang={lang} title={`${entry.data.title} · Xiaosi Huang`} alternates={alternates}>
-  <section class="mx-auto max-w-3xl px-4 md:px-6 py-10">
+  <!-- 保持和 Blog 页一致的宽度，居中 -->
+  <section class="mx-auto max-w-5xl px-4 md:px-6 py-10">
     <div class="post-header">
-      <!-- 面包屑 + 返回 同一行 -->
       <div class="crumb-row">
         <Breadcrumbs
           items={[
             { href: base, label: t.nav.home },
             { href: `${base}/projects`, label: t.nav.projects },
-            //{ label: entry.data.title },
           ]}
         />
         <p class="backlink">
@@ -55,7 +54,6 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
         </p>
       </div>
 
-      <!-- 标题区 -->
       <div class="hero-head">
         <h1 class={`post-title ${isCJK ? "post-title-cjk" : "post-title-latin"}`}>
           {entry.data.title}
@@ -63,7 +61,6 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
 
         {entry.data.subtitle && <p class="post-subtitle">{entry.data.subtitle}</p>}
 
-        <!-- Meta（日期 / 标签） -->
         <div class="post-meta meta-row">
           {entry.data.date && (
             <time datetime={(entry.data.date as any).toISOString?.() ?? String(entry.data.date)}>
@@ -86,7 +83,6 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
 </Layout>
 
 <style>
-/* ================= 基础变量 ================= */
 :root{
   --text: #111827;
   --muted: #6b7280;
@@ -104,14 +100,13 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
   }
 }
 
-/* ================= 顶部区块布局 ================= */
+/* 顶部区块布局：和 section 对齐居中 */
 .post-header{
-  max-width: 76ch;
-  margin-left: 0;
-  margin-right: auto;
+  max-width: 64rem; /* 与 max-w-5xl 保持一致 */
+  margin: 0 auto;
+  width: 100%;
 }
 
-/* 面包屑 + 返回 同行：右侧对齐 */
 .crumb-row{
   display: flex;
   align-items: center;
@@ -122,51 +117,49 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
 @media (max-width: 640px){
   .crumb-row{
     flex-direction: column;
-    align-items: flex-start;   /* 小屏回到左侧竖排 */
+    align-items: flex-start;
     gap: .25rem;
   }
 }
 
+/* 关键：标题容器更宽 */
 .hero-head{
-  max-inline-size: 70ch;      /* 控制标题换行数量的关键 */
-  margin: 0;
+  max-inline-size: 110ch;
+  margin: 0 auto;
 }
-@media (min-width: 1280px){ .hero-head{ max-inline-size: 74ch; } }
-@media (max-width: 900px) { .hero-head{ max-inline-size: 64ch; } }
+@media (min-width: 1280px){ .hero-head{ max-inline-size: 120ch; } }
+@media (max-width: 900px) { .hero-head{ max-inline-size: 90ch; } }
 @media (max-width: 640px) { .hero-head{ max-inline-size: 100%; } }
 
-/* ================= 标题 ================= */
 .post-title{
   margin: .35rem 0 .5rem;
   font-weight: 700;
-  line-height: 1.12;
+  line-height: 1.14;
   letter-spacing: -0.01em;
   text-wrap: balance;
   color: var(--text);
 }
 .post-title-latin{
-  font-size: clamp(1.48rem, 1.00rem + 1.00vw, 1.86rem);
+  font-size: clamp(1.2rem, 0.85rem + 0.95vw, 1.55rem);
   hyphens: auto;
   word-break: normal;
 }
 .post-title-cjk{
-  font-size: clamp(1.46rem, .98rem + .90vw, 1.80rem);
+  font-size: clamp(1.18rem, .85rem + .9vw, 1.50rem);
   letter-spacing: 0;
   hyphens: none;
   word-break: keep-all;
   font-feature-settings: "palt";
 }
 
-/* ================= 副标题 ================= */
 .post-subtitle{
   margin: .15rem 0 .7rem;
   color: var(--muted);
   font-weight: 400;
-  font-size: 1.02rem;
+  font-size: 1rem;
   letter-spacing: .004em;
 }
 
-/* ================= Meta（日期/标签） ================= */
 .meta-row{
   display: flex;
   align-items: center;
@@ -185,7 +178,6 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
 }
 .tags{ display: inline-flex; gap: .35rem; flex-wrap: wrap; }
 
-/* ✅ 改成和首页一致的方角标签 */
 .tag{
   font-size: .8rem;
   font-weight: 500;
@@ -193,23 +185,21 @@ const isCJK = ["zh", "ja", "ko"].includes(lang);
   background: var(--tag-bg);
   border: 1px solid var(--border);
   padding: .22rem .5rem;
-  border-radius: .55rem;   /* ← 改回方角 */
+  border-radius: .55rem;
   line-height: 1;
   letter-spacing: .01em;
   user-select: none;
 }
 .tag:hover{ filter: brightness(1.03); }
 
-/* ================= 返回链接更克制 ================= */
 .backlink{
   font-size: .9rem;
   color: var(--muted);
-  white-space: nowrap; /* 避免在箭头后换行 */
+  white-space: nowrap;
 }
 .backlink a{ text-decoration: none; color: inherit; }
 .backlink a:hover{ text-decoration: underline; }
 
-/* ================= 正文里的可视化 ================= */
 .blog-typo .viz iframe{
   aspect-ratio: 16 / 9;
   border-radius: .75rem;
