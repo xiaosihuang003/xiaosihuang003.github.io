@@ -4,7 +4,7 @@ subtitle: "DATA.ML.100 · Joni Kämäräinen · Mon 8.9.2025 K1704 😊"
 date: "2025-09-11"
 lang: "en"
 excerpt: "From frequentist intuition to Bayes’ rule: conditional probability, priors vs. likelihoods, ML vs. MAP decisions, Monty Hall, non-transitive dice, small-sample pitfalls, and why doctors think like Bayesians."
-tags: ["Joni Kämäräinen", "machine-learning", "probability", "Bayes", "MAP", "ML", "Monty-Hall", "nontransitive-dice"]
+tags: ["Joni Kämäräinen", "machine-learning", "probability", "Bayes"]
 draft: false
 ---
 
