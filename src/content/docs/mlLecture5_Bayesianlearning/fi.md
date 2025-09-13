@@ -1,6 +1,6 @@
 ---
 title: "Koneoppiminen 5: Todennäköisyydet ja Bayesilainen ajattelu"
-subtitle: "DATA.ML.100 · Joni Kämäräinen · Ma 8.9.2025 K1704 😊"
+subtitle: "DATA.ML.100 · Joni Kämäräinen · Ma 8.9.2025 K1704"
 date: "2025-09-11"
 lang: "fi"
 excerpt: "Frekventistisestä intuitiosta Bayesin sääntöön: ehdolliset todennäköisyydet, priorien ja likelihoodien ero, ML- ja MAP-päätökset, Monty Hall, ei-transitiiviset nopat, pienten otosten sudenkuopat ja miksi lääkärit ajattelevat kuin bayesilaiset."
@@ -8,11 +8,6 @@ tags: ["Joni Kämäräinen", "koneoppiminen", "todennäköisyys", "Bayes"]
 draft: false
 ---
 
-## Alkutiedot — käytännön asiat ja KNN-huomio
-- Opettajan **k-NN viiteimplementaatio** vaikuttaa vahvalta; jos harjoituksesi tarkkuus ei yllä samaan, kysy *Exercise 3* -kanavalla.  
-- Myös **liukulukutyyppi ja tarkkuus** voivat vaikuttaa selvästi tuloksiin. Opetus: *numeriikka on tärkeää*.
-
----
 ## Osa 1 — Bayesilainen todennäköisyys ja päättely 
 
 ## 1.1 Johdanto

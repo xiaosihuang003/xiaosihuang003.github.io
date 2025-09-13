@@ -1,6 +1,6 @@
 ---
 title: "機器學習 5：概率同貝葉斯思維"
-subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025年9月8號 星期一 K1704 😊"
+subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025年9月8號 星期一 K1704"
 date: "2025-09-11"
 lang: "yue"
 excerpt: "由頻率派直覺去到貝葉斯公式：條件概率、先驗同似然、ML 同 MAP 決策、蒙提霍爾問題、非傳遞骰仔、小樣本陷阱，仲有點解醫生都係天生貝葉斯派。"

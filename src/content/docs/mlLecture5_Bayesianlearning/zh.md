@@ -1,6 +1,6 @@
 ---
 title: "机器学习 5：概率与贝叶斯思维"
-subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025年9月8日 周一 K1704 😊"
+subtitle: "DATA.ML.100 · Joni Kämäräinen · 2025年9月8日 周一 K1704"
 date: "2025-09-11"
 lang: "zh"
 excerpt: "从频率派直觉到贝叶斯公式：条件概率、先验与似然、ML 与 MAP 决策、蒙提霍尔问题、非传递骰子、小样本陷阱，以及为什么医生天生是贝叶斯派。"
