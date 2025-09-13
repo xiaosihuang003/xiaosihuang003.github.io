@@ -1,5 +1,5 @@
 ---
-title: Machine Learning 1:Ohjelmointiympäristön asennus DATA.ML.100 -kurssille (macOS)
+title: Koneoppiminen 1:Ohjelmointiympäristön asennus DATA.ML.100 -kurssille (macOS)
 subtitle: Johdatus koneoppimiseen, syksy 2025 | Mon 25.8.2025 K1704
 date: 2025-08-25
 lang: fi
