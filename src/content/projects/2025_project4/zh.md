@@ -2,7 +2,7 @@
 title: "(Databricks) Fashion-MNIST：双层 MLP 基线 + MLflow"
 date: 2025-09-14
 tags: ["machine-learning","tensorflow","keras","mlflow","classification","mnist"]
-excerpt: "一个紧凑、可复现的 Fashion-MNIST MLP 基线：数据、模型、训练协议、指标、误差分析与产物。"
+excerpt: "一个紧凑、可复现的 Fashion-MNIST MLP 基线：数据、模型、训练协议、指标、误差分析与交付物。"
 ---
 
 ## 摘要
@@ -10,7 +10,7 @@ excerpt: "一个紧凑、可复现的 Fashion-MNIST MLP 基线：数据、模型
 
 ---
 
-## Databricks Demo
+## Databricks 演示
 
 ![Notebook snapshot & curves](/images/projects/project4/1.png)
 
@@ -32,12 +32,11 @@ excerpt: "一个紧凑、可复现的 Fashion-MNIST MLP 基线：数据、模型
 
 ### 2.2 模型结构
 一个紧凑的带批归一化和 dropout 的 MLP：
-```bash
+    
     Input(784)
      → Dense(256) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(128) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(10, softmax)
-```
 
 ### 2.3 训练协议
 - **优化器**：Adam（初始学习率 1e-3）。  
@@ -101,12 +100,12 @@ excerpt: "一个紧凑、可复现的 Fashion-MNIST MLP 基线：数据、模型
 
 ---
 
-## 7. 选定超参数（参考）
-```bash
+## 7. 选定超参数
+    
     hidden1=256, hidden2=128, dropout=0.2
     optimizer=Adam(lr=1e-3), batch_size=256, epochs=20
     callbacks = ReduceLROnPlateau, EarlyStopping
-```
+
 ---
 
 ## 8. 总结
