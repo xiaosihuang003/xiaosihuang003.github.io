@@ -32,11 +32,12 @@ excerpt: "一個簡潔、可重現嘅 Fashion-MNIST MLP 基線：數據、模型
 
 ### 2.2 模型結構
 一個緊湊嘅帶批歸一化同 dropout 嘅 MLP：
-    
+```bash  
     Input(784)
      → Dense(256) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(128) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(10, softmax)
+```
 
 ### 2.3 訓練流程
 - **優化器**：Adam（初始學習率 1e-3）。  
@@ -101,10 +102,11 @@ excerpt: "一個簡潔、可重現嘅 Fashion-MNIST MLP 基線：數據、模型
 ---
 
 ## 7. 選定超參數
-    
+```bash 
     hidden1=256, hidden2=128, dropout=0.2
     optimizer=Adam(lr=1e-3), batch_size=256, epochs=20
     callbacks = ReduceLROnPlateau, EarlyStopping
+```
 
 ---
 

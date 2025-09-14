@@ -32,11 +32,12 @@ En tvålagers multilagerperceptron (MLP) har implementerats som baslinje för Fa
 
 ### 2.2 Modellarkitektur
 En kompakt MLP med batchnormalisering och dropout:
-    
+```bash    
     Input(784)
      → Dense(256) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(128) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(10, softmax)
+```
 
 ### 2.3 Träningsprotokoll
 - **Optimerare**: Adam (initialt lärandehastighet 1e-3).  
@@ -101,10 +102,11 @@ Dessa kategorier är visuellt lika i lågupplöst gråskala; en CNN- eller inbä
 ---
 
 ## 7. Valda hyperparametrar
-    
+```bash
     hidden1=256, hidden2=128, dropout=0.2
     optimizer=Adam(lr=1e-3), batch_size=256, epochs=20
     callbacks = ReduceLROnPlateau, EarlyStopping
+```
 
 ---
 

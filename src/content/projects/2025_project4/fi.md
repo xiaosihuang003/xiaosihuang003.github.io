@@ -32,11 +32,12 @@ Toteutettiin kaksikerroksinen monikerrosperceptron (MLP) -perusmalli Fashion-MNI
 
 ### 2.2 Mallin arkkitehtuuri
 Kompakti MLP, jossa on batch-normalisointi ja dropout:
-    
+```bash
     Input(784)
      → Dense(256) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(128) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(10, softmax)
+```
 
 ### 2.3 Koulutusprotokolla
 - **Optimointialgoritmi**: Adam (alkuoppimisnopeus 1e-3).  
@@ -101,10 +102,11 @@ Nämä luokat ovat visuaalisesti samankaltaisia matalalla resoluutiolla; CNN- ta
 ---
 
 ## 7. Valitut hyperparametrit
-    
+```bash
     hidden1=256, hidden2=128, dropout=0.2
     optimizer=Adam(lr=1e-3), batch_size=256, epochs=20
     callbacks = ReduceLROnPlateau, EarlyStopping
+```
 
 ---
 

@@ -32,11 +32,12 @@ En to-lags multilayer perceptron (MLP) baseline er implementert for Fashion-MNIS
 
 ### 2.2 Modellarkitektur
 En kompakt MLP med batchnormalisering og dropout:
-    
+```bash   
     Input(784)
      → Dense(256) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(128) → BatchNorm → ReLU → Dropout(0.2)
      → Dense(10, softmax)
+```
 
 ### 2.3 Treningsprotokoll
 - **Optimalisator**: Adam (initial læringsrate = 1e-3).  
@@ -101,10 +102,11 @@ Disse kategoriene er visuelt like i lavoppløselig gråskala; en CNN- eller embe
 ---
 
 ## 7. Valgte hyperparametere
-    
+```bash    
     hidden1=256, hidden2=128, dropout=0.2
     optimizer=Adam(lr=1e-3), batch_size=256, epochs=20
     callbacks = ReduceLROnPlateau, EarlyStopping
+```
 
 ---
 
