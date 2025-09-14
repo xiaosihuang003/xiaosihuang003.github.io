@@ -102,7 +102,7 @@ Confusion matrix (k=5) — darker diagonal is better; off-diagonal cells show co
 
 ---
 
-## What I engineered
+## Summary
 - Memory-safe batching for pairwise distances (avoid a 10k×60k full matrix).  
 - PCA pipeline with randomized SVD; end-to-end timing.  
 - MLflow experiment tracking (k, PCA-d, metrics, artifacts).
