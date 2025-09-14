@@ -2,7 +2,7 @@
 title: "(Databricks) Fashion-MNIST：雙層 MLP 基線 + MLflow"
 date: 2025-09-14
 tags: ["machine-learning","tensorflow","keras","mlflow","classification","mnist"]
-excerpt: "一個簡潔、可重現嘅 Fashion-MNIST MLP 基線：數據、模型、訓練流程、指標、錯誤分析同交付物。"
+excerpt: "Fashion-MNIST 嘅 MLP 基線：數據、模型、訓練流程、指標、錯誤分析同交付物。"
 ---
 
 ## 摘要

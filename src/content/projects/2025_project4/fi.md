@@ -2,7 +2,7 @@
 title: "(Databricks) Fashion-MNIST: Kaksikerroksinen MLP-perusmalli + MLflow"
 date: 2025-09-14
 tags: ["machine-learning","tensorflow","keras","mlflow","classification","mnist"]
-excerpt: "Kompakti ja toistettavissa oleva MLP-perusmalli Fashion-MNISTille: data, malli, koulutusprotokolla, metriikat, virheanalyysi ja tuotokset."
+excerpt: "MLP-peruslinja Fashion-MNISTille: data, malli, koulutusprotokolla, mittarit, virheanalyysi ja tuotokset."
 ---
 
 ## Tiivistelmä

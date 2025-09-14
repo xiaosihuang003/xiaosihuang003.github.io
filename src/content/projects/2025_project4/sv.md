@@ -2,7 +2,7 @@
 title: "(Databricks) Fashion-MNIST: Tvålagers MLP-baslinje med MLflow"
 date: 2025-09-14
 tags: ["machine-learning","tensorflow","keras","mlflow","classification","mnist"]
-excerpt: "En kompakt och reproducerbar MLP-baslinje för Fashion-MNIST: data, modell, träningsprotokoll, mätvärden, felanalys och leverabler."
+excerpt: "MLP-baslinje för Fashion-MNIST: data, modell, träningsprotokoll, mätvärden, felanalys och leverabler."
 ---
 
 ## Sammanfattning

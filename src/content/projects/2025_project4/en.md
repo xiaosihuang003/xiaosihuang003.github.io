@@ -2,7 +2,7 @@
 title: "(Databricks) Fashion-MNIST: Two-Layer MLP Baseline with MLflow"
 date: 2025-09-14
 tags: ["machine-learning","tensorflow","keras","mlflow","classification","mnist"]
-excerpt: "A compact, reproducible MLP baseline for Fashion-MNIST: data, model, training protocol, metrics, error analysis, and deliverables."
+excerpt: "MLP baseline for Fashion-MNIST: data, model, training protocol, metrics, error analysis, and deliverables."
 ---
 
 ## Abstract
