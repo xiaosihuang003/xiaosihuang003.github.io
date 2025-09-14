@@ -1,5 +1,5 @@
 ---
-title: "(Databricks) Fashion-MNIST k-NN-perusmalli"
+title: "(Databricks) Fashion-MNIST: k-NN-perusmalli + PCA-nopeutukset"
 date: 2025-09-13
 tags: ["machine-learning","databricks","knn","pca"]
 excerpt: "Yksinkertainen, läpinäkyvä kuvien luokittelun perusmalli ja käytännöllinen nopeus–tarkkuus -tarkastelu."

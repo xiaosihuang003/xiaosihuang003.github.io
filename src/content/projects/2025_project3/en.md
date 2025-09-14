@@ -1,5 +1,5 @@
 ---
-title: "(Databricks) Fashion-MNIST k-NN Baseline"
+title: "(Databricks) Fashion-MNIST: k-NN Baseline + PCA Speedups"
 date: 2025-09-13
 tags: ["machine-learning","databricks","knn","pca"]
 excerpt: "A simple, transparent image-classification baseline and a practical speed-vs-accuracy study."

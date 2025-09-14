@@ -1,5 +1,5 @@
 ---
-title: "(Databricks) Fashion-MNIST k-NN-baslinje"
+title: "(Databricks) Fashion-MNIST: k-NN-baslinje + PCA-accelerationer"
 date: 2025-09-13
 tags: ["machine-learning","databricks","knn","pca"]
 excerpt: "En enkel och transparent baslinje för bildklassificering samt en praktisk studie av hastighet kontra noggrannhet."

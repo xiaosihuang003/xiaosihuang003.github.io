@@ -1,5 +1,5 @@
 ---
-title: "(Databricks) Fashion-MNIST k-NN 基线"
+title: "(Databricks) Fashion-MNIST：k-NN 基线 + PCA 加速"
 date: 2025-09-13
 tags: ["machine-learning","databricks","knn","pca"]
 excerpt: "一个简单透明的图像分类基线，并进行速度与准确率的实用权衡研究。"
