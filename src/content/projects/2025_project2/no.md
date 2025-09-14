@@ -6,7 +6,7 @@ tags: ["maskinlæring", "databricks", "avviksdeteksjon", "gauss"]
 draft: false
 ---
 
-## 1️⃣ Introduksjon
+## 1. Introduksjon
 
 I dette prosjektet ville jeg teste om en **enkel statistisk modell** allerede kunne oppdage interessante mønstre i ekte data. Jeg valgte **bysykkel-datasettet** fra Databricks, fordi det både har **værinformasjon** og **timevise utleietall**, noe som gjør det perfekt for å stille spørsmålet:
 
@@ -16,7 +16,7 @@ I stedet for å hoppe rett til kompleks maskinlæring bestemte jeg meg for å st
 
 ---
 
-## 2️⃣ Teknisk oppsett
+## 2. Teknisk oppsett
 
 Datasettet jeg brukte lå lagret på: dbfs:/databricks-datasets/bikeSharing/data-001/hour.csv  
 
@@ -31,7 +31,7 @@ På denne måten defineres “normal etterspørsel” av den felles fordelingen 
 
 ---
 
-## 3️⃣ Arbeidsflyt
+## 3. Arbeidsflyt
 
 1. **Utforskning**  
    Jeg sjekket først mappen for å bekrefte at jeg hadde riktig fil. Deretter plottet jeg raskt fordelinger for temperatur, fuktighet og utleie for å få en følelse av variasjonene.  
@@ -52,7 +52,7 @@ Disse stemte med magefølelsen min og bekreftet at metoden faktisk fanget riktig
 
 ---
 
-## 4️⃣ Databricks-arbeidsområde
+## 4. Databricks-arbeidsområde
 
 <div class="screenshot-large">
   <img src="/images/projects/project2/1.png" alt="Databricks notebook fullskjerm-skjermdump">
@@ -60,7 +60,7 @@ Disse stemte med magefølelsen min og bekreftet at metoden faktisk fanget riktig
 
 ---
 
-## 5️⃣ Refleksjoner
+## 5. Refleksjoner
 
 Å jobbe med dette prosjektet ga meg en tydeligere forståelse av hvor mye man kan få til med ganske enkle statistiske verktøy. Den multivariate Gauss-fordelingen, selv om den er teoretisk enkel, viste seg å være overraskende effektiv for å finne mønstre i etterspørsel som “ikke passer med været”.  
 

@@ -6,7 +6,7 @@ tags: ["koneoppiminen", "databricks", "poikkeavuuksien-havaitseminen", "gaussi"]
 draft: false
 ---
 
-## 1️⃣ Johdanto
+## 1. Johdanto
 
 Tässä projektissa halusin kokeilla, voiko **yksinkertainen tilastollinen malli** jo paljastaa kiinnostavia ilmiöitä oikeasta datasta. Valitsin **kaupunkipyöräaineiston** Databricksista, koska siinä on sekä **säädataa** että **tuntikohtaiset vuokramäärät**. Se on täydellinen yhdistelmä kysymykseen:
 
@@ -16,7 +16,7 @@ Sen sijaan, että olisin hypännyt suoraan monimutkaisiin koneoppimismalleihin, 
 
 ---
 
-## 2️⃣ Tekninen asettelu
+## 2. Tekninen asettelu
 
 Käyttämäni datasetti löytyi polusta: dbfs:/databricks-datasets/bikeSharing/data-001/hour.csv  
 
@@ -31,7 +31,7 @@ Näin “normaali kysyntä” määritellään sään ja vuokramäärän yhteisj
 
 ---
 
-## 3️⃣ Työnkulku
+## 3. Työnkulku
 
 1. **Explorointi**  
    Selasin ensin kansiota varmistaakseni, että valitsin oikean tiedoston. Sen jälkeen piirsin nopeasti lämpötilan, kosteuden ja vuokramäärien jakaumat, jotta sain käsityksen datan vaihtelusta.  
@@ -52,7 +52,7 @@ Nämä vastasivat hyvin omaa intuitiotani ja vahvistivat, että menetelmä nappa
 
 ---
 
-## 4️⃣ Databricks-ympäristö
+## 4. Databricks-ympäristö
 
 <div class="screenshot-large">
   <img src="/images/projects/project2/1.png" alt="Databricks-muistikirjan koko sivun kuvakaappaus">
@@ -60,7 +60,7 @@ Nämä vastasivat hyvin omaa intuitiotani ja vahvistivat, että menetelmä nappa
 
 ---
 
-## 5️⃣ Pohdinnat
+## 5. Pohdinnat
 
 Projektin aikana opin, kuinka paljon voi jo saada irti melko yksinkertaisilla tilastollisilla työkaluilla. Monimuuttujainen Gauss, vaikka on teoreettisesti suoraviivainen, osoittautui yllättävän tehokkaaksi löytämään tilanteet, joissa kysyntä ei vastannut säätä.  
 

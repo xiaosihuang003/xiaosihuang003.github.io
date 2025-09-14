@@ -6,7 +6,7 @@ tags: ["機器學習", "databricks", "異常偵測", "高斯分佈"]
 draft: false
 ---
 
-## 1️⃣ 引言
+## 1. 引言
 
 呢個project主要想驗證一個直覺：**係咪用一個好簡單嘅統計模型，都已經可以喺真實數據度發現有意思嘅模式？** 我揀咗 Databricks 提供嘅 **共享單車數據集**，因為佢同時包含 **天氣資訊** 同 **每小時嘅租賃數量**，啱晒去問呢條問題：
 
@@ -16,7 +16,7 @@ draft: false
 
 ---
 
-## 2️⃣ 技術設定
+## 2. 技術設定
 
 用嘅數據喺呢度：`dbfs:/databricks-datasets/bikeSharing/data-001/hour.csv`
 
@@ -31,7 +31,7 @@ draft: false
 
 ---
 
-## 3️⃣ 工作流程
+## 3. 工作流程
 
 ### 數據探索（Exploration）  
 我先瀏覽咗資料夾，確定攞嘅檔案冇錯；之後快手畫咗溫度、濕度同租賃數嘅分佈圖，先有個範圍上嘅感覺。
@@ -51,7 +51,7 @@ draft: false
 
 ---
 
-## 4️⃣ Databricks 工作畫面
+## 4. Databricks 工作畫面
 
 <div class="screenshot-large">
   <img src="/images/projects/project2/1.png" alt="Databricks notebook 全頁截圖">
@@ -59,7 +59,7 @@ draft: false
 
 ---
 
-## 5️⃣ 反思同總結
+## 5. 反思同總結
 
 做完呢個project，我更加肯定：**好多時候，簡單嘅統計工具已經好夠用**。多元高斯分佈概念上唔複雜，但喺「找出唔匹配天氣嘅需求模式」呢件事上，表現出奇地唔錯。  
 

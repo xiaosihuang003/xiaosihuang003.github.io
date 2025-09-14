@@ -6,7 +6,7 @@ tags: ["machine-learning", "databricks", "anomaly-detection", "gaussian"]
 draft: false
 ---
 
-## 1️⃣ Introduction
+## 1. Introduction
 
 In this project, I wanted to see whether a **simple statistical model** could already spot interesting patterns in real-world data. I picked the **bike sharing dataset** from Databricks because it has both **weather information** and **hourly rental counts**, which makes it perfect for asking the question:
 
@@ -16,7 +16,7 @@ Instead of jumping into complex machine learning, I decided to start with a **Mu
 
 ---
 
-## 2️⃣ Technical setup
+## 2. Technical setup
 
 The dataset I used was stored in: dbfs:/databricks-datasets/bikeSharing/data-001/hour.csv
 
@@ -33,7 +33,7 @@ This way, “normal” demand is defined by the joint distribution of weather + 
 
 ---
 
-## 3️⃣ Workflow
+## 3. Workflow
 
 1. **Exploration**  
    I first browsed the folder to confirm the right file. Then I quickly plotted the distributions of temperature, humidity, and counts to get a feel for the ranges.  
@@ -54,7 +54,7 @@ These matched my intuition and confirmed the method was capturing the right kind
 
 ---
 
-## 4️⃣ Databricks Workspace
+## 4. Databricks Workspace
 
 <div class="screenshot-large">
   <img src="/images/projects/project2/1.png" alt="Databricks notebook full-page screenshot">
@@ -62,7 +62,7 @@ These matched my intuition and confirmed the method was capturing the right kind
 
 ---
 
-## 5️⃣ Reflections
+## 5. Reflections
 
 Working through this project gave me a clearer sense of how much can already be achieved with relatively simple statistical tools. The multivariate Gaussian, although conceptually straightforward, turned out to be surprisingly powerful in highlighting demand patterns that “don’t fit the weather.”  
 

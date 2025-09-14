@@ -6,7 +6,7 @@ tags: ["maskininlärning", "databricks", "avvikelsedetektering", "gauss"]
 draft: false
 ---
 
-## 1️⃣ Introduktion
+## 1. Introduktion
 
 I det här projektet ville jag undersöka om en **enkel statistisk modell** redan kunde avslöja intressanta mönster i verklig data. Jag valde **hyrcykeldatat** från Databricks eftersom det innehåller både **väderinformation** och **timvisa uthyrningsantal**, vilket gör det perfekt för att ställa frågan:
 
@@ -16,7 +16,7 @@ Istället för att hoppa direkt till komplex maskininlärning bestämde jag mig 
 
 ---
 
-## 2️⃣ Teknisk setup
+## 2. Teknisk setup
 
 Datasetet jag använde låg i: dbfs:/databricks-datasets/bikeSharing/data-001/hour.csv  
 
@@ -31,7 +31,7 @@ På så sätt definieras “normal efterfrågan” av den gemensamma fördelning
 
 ---
 
-## 3️⃣ Arbetsflöde
+## 3. Arbetsflöde
 
 1. **Utforskning**  
    Jag bläddrade först igenom mappen för att vara säker på att jag valt rätt fil. Sedan plottade jag snabbt fördelningarna av temperatur, luftfuktighet och uthyrningar för att få en känsla för intervallen.  
@@ -52,7 +52,7 @@ De här matchade min intuition och bekräftade att metoden verkligen fångade r�
 
 ---
 
-## 4️⃣ Databricks-miljö
+## 4. Databricks-miljö
 
 <div class="screenshot-large">
   <img src="/images/projects/project2/1.png" alt="Databricks notebook helsides skärmdump">
@@ -60,7 +60,7 @@ De här matchade min intuition och bekräftade att metoden verkligen fångade r�
 
 ---
 
-## 5️⃣ Reflektioner
+## 5. Reflektioner
 
 Att arbeta med det här projektet gav mig en tydligare bild av hur mycket man faktiskt kan uppnå med ganska enkla statistiska verktyg. Den multivariata Gaussfördelningen, även om den är teoretiskt enkel, visade sig vara överraskande effektiv på att peka ut efterfrågemönster som inte matchade vädret.  
 
