@@ -3,7 +3,7 @@ title: "Statistical Methods for Text Data Analysis 2 : Text Processing Stages & 
 subtitle: "Acquisition, Cleanup, Tokenization, Encoding, Statistics, and Zipf’s Law"
 date: 2025-09-14
 lang: en
-excerpt: "Faithful class notes on a practical text-processing pipeline: acquisition, cleanup, tokenization, stemming vs. lemmatization with POS, unified vocabulary & indexing, corpus statistics, and Zipf’s law."
+excerpt: "Practical text-processing pipeline: acquisition, cleanup, tokenization, stemming vs. lemmatization with POS, unified vocabulary & indexing, corpus statistics, and Zipf’s law."
 tags: [NLP, text-processing, crawling, tokenization, stemming, lemmatization, POS-tagging, vocabulary, statistics, Zipf]
 draft: false
 ---
