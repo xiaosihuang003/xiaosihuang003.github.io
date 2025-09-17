@@ -315,3 +315,119 @@ python make_report.py
 
 - Public-domain texts courtesy of **Project Gutenberg**. Terms of use: https://www.gutenberg.org/policy/permission.html  
 - Code & data pipeline: https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg
+
+
+
+
+---
+
+## Processing pipeline (as in the lecture)
+
+This section follows the three-stage pipeline used in the lecture slides:
+**(1) Data acquisition → (2) Data cleanup → (3) Information extraction & encoding**.
+I implement each stage with a dedicated script and persist intermediate artifacts
+for full reproducibility.
+
+---
+
+### 1) Data acquisition
+- **Goal in lecture:** collect text data from diverse sources.
+- **What I do here:** crawl Project Gutenberg’s “Top 100 — Last 30 Days”, take the
+    first **k=20** books, resolve each book’s **Plain Text (UTF-8)** link, and download
+    the raw `.txt` files.
+- **Script / functions:** `crawl_and_download.py` → `fetch_top_page()`,
+    `parse_last_30_days()`, `resolve_plaintext_url()`, `download_txt()`.
+- **Outputs:**
+    - Raw texts: `data/raw/*.txt`
+    - Index CSV with titles, book-page URLs, TXT URLs, local paths:
+    `outputs/top20_books.csv`
+- **Command:**
+    ```bash
+    python crawl_and_download.py
+    ```
+
+### 2) Data cleanup
+- **Goal in lecture:** remove boilerplate and normalize the content.
+- **What I do here:** strip Project Gutenberg headers/footers using the official
+    markers and keep only the core book content.
+    - Start marker: `*** START OF THIS PROJECT GUTENBERG EBOOK ... ***`
+    - End marker:   `*** END OF THIS PROJECT GUTENBERG EBOOK ... ***`
+    Normalize whitespace and ensure UTF-8 text.
+- **Script / functions:** `clean_and_vocab.py` → `read_text()`,
+    `strip_gutenberg_header_footer(text)`.
+- **Outputs:** cleaned plain text per book in `data/clean/*.txt`
+    (git-ignored; re-generable).
+
+### 3) Information extraction & encoding
+- **Goal in lecture:** turn text into analysable linguistic units / features.
+- **What I do here:** tokenization → POS tagging → lemmatization → stopword removal,
+    then build per-book and global statistics.
+    - **Tokenization:** `nltk.word_tokenize(text, preserve_line=True)`
+    - **Normalization:** lowercase; keep alphabetic tokens only (`str.isalpha()`).
+    - **POS tagging:** `nltk.pos_tag(tokens)`
+    - **Lemmatization:** WordNet-aware; map POS to {n, v, a, r} before lemmatizing
+    (`WordNetLemmatizer()`).
+    - **Stopwords:** remove NLTK English stopwords.
+    - **Aggregation:** count total tokens & unique tokens per book; build a **unified
+    vocabulary** across all books and export the **Top-100** words.
+- **Script / functions:** `clean_and_vocab.py` → `tokenize_and_lemmatize(text)`,
+    `nltk_pos_to_wordnet_pos(tag)`, `accumulate_counts(tokens)`.
+- **Outputs:**
+    - `outputs/per_book_token_counts.csv` — per-book totals & unique types
+    - `outputs/top100_words.csv` — global Top-100 words with frequencies
+- **Command:**
+    ```bash
+    python clean_and_vocab.py
+    ```
+
+---
+
+### Why these choices (brief)
+- **NLTK** provides reliable tokenization, POS tagging and WordNet lemmatization.
+    Using `preserve_line=True` reduces dependency on sentence models and avoids
+    `punkt_tab` issues; I still download the necessary NLTK models on first run.
+- **Header/footer stripping** exactly follows Gutenberg’s documented markers to
+    avoid counting license text.
+- **Alphabetic filter** (`isalpha()`) simplifies the vocabulary for this assignment;
+    for downstream tasks we could keep hyphenations/numerals or switch to a custom
+    tokenizer.
+
+### Reproduce end-to-end
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python crawl_and_download.py
+python clean_and_vocab.py
+python make_report.py
+```
+
+*Artifacts to check:*
+- `outputs/top20_books.csv`
+- `outputs/per_book_token_counts.csv`
+- `outputs/top100_words.csv`
+- Markdown report: `outputs/report.md`
+
+## Zipf’s law (Top-20 Gutenberg corpus)
+
+Let $p(r)$ be the empirical frequency of the word at rank $r$ (token count divided by the total number of tokens). On log–log axes, Zipf’s law predicts a power-law decay:
+$$
+p(r;a)=\frac{r^{-a}}{\sum_{k=1}^{V} k^{-a}},\qquad r=1,\dots,V.
+$$
+
+**Method.** Using the cleaned tokens from the Top-20 books, I built a rank–frequency table and plotted $p(r)$ vs. $r$ on log–log axes. I overlaid theoretical Zipf curves $p(r)\propto r^{-a}$ for $a\in\{0.80,1.00,1.20\}$, and fitted $a$ by OLS on $(\log r,\ \log p(r))$ over ranks $10$–$3000$ to avoid head/tail artifacts.
+
+**Key outputs**
+- CSV: [`outputs/zipf_freqs.csv`](outputs/zipf_freqs.csv) — rank, word, raw count, normalized probability.
+- Figures:
+  - Empirical rank–frequency:  
+    <img src="/images/projects/project5/zipf_rank_freq.png" alt="Zipf empirical rank–frequency" width="720">
+  - Empirical vs. Zipf overlays (with fitted slope):  
+    <img src="/images/projects/project5/zipf_overlay.png" alt="Zipf empirical vs models" width="720">
+
+### Findings
+
+1. **Heavy tail.** The most frequent word (“say”) takes ~1.1% of all tokens; probabilities drop rapidly with rank — a classic heavy-tail signature.
+2. **Power-law regime.** The mid-range (roughly ranks $10$–$3000$) is close to a straight line in log–log space $\rightarrow$ power-law behavior. The very top is flatter (function words / genre mixing), and the far tail bends down (finite-sample effects).
+3. **Best exponent.** The fitted exponent on the mid-range is **$a \approx 0.964$**, very close to the canonical Zipf value $1$. The model with $a=1.0$ tracks the data closely; $a=0.8$ is too shallow and $a=1.2$ too steep.
+
+**Conclusion.** The unified vocabulary of the Top-20 books follows **Zipf’s law** to a good approximation with exponent **$a\approx0.96$**. Deviations at the head and tail are expected.
