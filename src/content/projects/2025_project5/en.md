@@ -423,6 +423,8 @@ $$
     <img src="/images/projects/project5/zipf_rank_freq.png" alt="Zipf empirical rank–frequency" width="720">
   - Empirical vs. Zipf overlays (with fitted slope):  
     <img src="/images/projects/project5/zipf_overlay.png" alt="Zipf empirical vs models" width="720">
+  - Artifacts (CSV and generated figures in repo):  
+    <img src="/images/projects/project5/3.png" alt="VS Code view of zipf_freqs.csv and output figures" width="880">
 
 ### Findings
 
