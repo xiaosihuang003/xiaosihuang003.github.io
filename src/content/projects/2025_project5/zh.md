@@ -1,13 +1,13 @@
 ---
-title: "(Python) Data acquisition and processing from Project Gutenberg"
+title: "(Python) 来自古登堡计划的文本获取与处理"
 date: 2025-09-17
 tags: ["Python", "NLP", "Web Scraping", "NLTK", "Text Mining"]
-excerpt: "A NLP pipeline: crawl the last-30-days top downloads on Project Gutenberg, clean texts, tokenize & lemmatize with NLTK, and build a unified vocabulary with a Top-100 frequency table."
+excerpt: "一个 NLP 流水线：抓取古登堡计划最近 30 天下载榜的前 30 名，清洗文本，用 NLTK 进行分词与词形还原，并构建统一词表与 Top-100 词频表。"
 ---
 
-> I built a NLP pipeline that crawls Project Gutenberg’s **Top-20** most downloaded public-domain ebooks (last 30 days), removes boilerplate, tokenizes & lemmatizes the texts, and produces a **unified vocabulary** with a **Top-100** frequency list.
+> 我构建了一个 NLP 流水线：抓取古登堡计划最近 30 天**下载量最高的前 20 本**公共领域电子书，去除页眉页脚样板，进行分词与词形还原（lemmatize），并产出一个**统一词表**和**Top-100**词频列表。
 
-Source list on Gutenberg: https://www.gutenberg.org/browse/scores/top-en.php
+来源列表（Gutenberg）：https://www.gutenberg.org/browse/scores/top-en.php
 
 <!-- Table styles -->
 <style>
@@ -28,80 +28,80 @@ Source list on Gutenberg: https://www.gutenberg.org/browse/scores/top-en.php
 
 ---
 
-## Tasks list
+## 任务清单
 
-> (a) Create a variant of the web crawler intended to download the top-k most downloaded ebooks of the last 30 days from Project Gutenberg in `.TXT` format.  
-> (b) Using the crawler, download the top-20 ebooks (k=20). Report the names and addresses of the books.  
-> (c) Use the processing pipeline described in the lecture to tokenize and lemmatize the downloaded books.  
-> (d) Create a unified vocabulary from the ebooks; report the top-100 words.
-
----
-
-## Overview
-
-This project crawls the “Top 100 — Last 30 Days” list from Project Gutenberg, downloads the **top-20** TXT ebooks, cleans out Gutenberg headers/footers, tokenizes and lemmatizes with **NLTK**, and aggregates a **global vocabulary** across all books. I publish both the **report** and the **code** for full reproducibility.
-
-- **Repo**: https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg  
-- **Generated report (Markdown)**: `outputs/report.md`  
-- **Key outputs**:  
-    - `outputs/top20_books.csv` — titles, book-page URLs, TXT URLs, local paths  
-    - `outputs/per_book_token_counts.csv` — per-book total & unique token counts  
-    - `outputs/top100_words.csv` — global Top-100 words with frequencies
+> (a) 创建一个爬虫变体，用于下载古登堡计划最近 30 天下载量最高的前 k 本电子书的 `.TXT` 格式。  
+> (b) 使用爬虫下载前 20 本（k=20）。报告书名与地址。  
+> (c) 使用课堂讲述的处理流程，对下载的图书进行分词与词形还原。  
+> (d) 从电子书构建一个统一词表；报告 Top-100 词。
 
 ---
 
-## Methods
+## 概览
 
-### 1) Crawling
-- Parse the “Top 100 — Last 30 Days” section.
-- Take the first **20** book entries and resolve their **Plain Text (UTF-8)** links.
-- Save raw `.txt` files under `data/raw/` and write `outputs/top20_books.csv`.
+本项目从古登堡计划的“最近 30 天 Top 100”页面抓取**前 20**本 TXT 电子书，去掉 Gutenberg 的页眉/页脚，用 **NLTK** 做分词与词形还原，然后在所有书上汇总为一个**全局词表**。我同时发布**报告**与**代码**，以保证完全可复现。
 
-### 2) Cleaning
-- Remove Project Gutenberg boilerplate using markers:
+- **代码仓库**: https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg  
+- **生成的报告（Markdown）**: `outputs/report.md`  
+- **关键产物**:  
+    - `outputs/top20_books.csv` — 书名、书籍页面 URL、TXT URL、本地路径  
+    - `outputs/per_book_token_counts.csv` — 每本书的总 token 与唯一 token 数  
+    - `outputs/top100_words.csv` — 全局 Top-100 词及其频次
+
+---
+
+## 方法
+
+### 1）爬取
+- 解析“最近 30 天 Top 100”板块。
+- 取**前 20**条书目并解析其**纯文本（UTF-8）**链接。
+- 将原始 `.txt` 保存到 `data/raw/`，并写出 `outputs/top20_books.csv`。
+
+### 2）清洗
+- 使用以下标记移除古登堡的页眉/页脚：
     - `*** START OF THIS PROJECT GUTENBERG EBOOK ... ***`
     - `*** END OF THIS PROJECT GUTENBERG EBOOK ... ***`
-- Keep only the content between those markers.
+- 仅保留这两个标记之间的正文内容。
 
-### 3) Tokenization & Lemmatization
-- `nltk.word_tokenize(text, preserve_line=True)`; lowercase; keep **alphabetic** tokens only.
-- POS-tag tokens; map to WordNet POS {**n**, **v**, **a**, **r**}; lemmatize with `WordNetLemmatizer`.
-- Remove English **stopwords**.
+### 3）分词与词形还原
+- 使用 `nltk.word_tokenize(text, preserve_line=True)`；统一转小写；仅保留**字母**词元。
+- 对词元做词性标注（POS）；映射到 WordNet 词性 {**n**, **v**, **a**, **r**}；用 `WordNetLemmatizer` 词形还原。
+- 去除英语**停用词**。
 
-### 4) Vocabulary & Statistics
-- Build a **global Counter** across all books; export **Top-100** (`outputs/top100_words.csv`).
-- For each book, record `total_tokens` and `unique_tokens` (`outputs/per_book_token_counts.csv`).
+### 4）词表与统计
+- 在所有书上构建**全局 Counter**；导出**Top-100**（`outputs/top100_words.csv`）。
+- 对每本书记录 `total_tokens` 和 `unique_tokens`（`outputs/per_book_token_counts.csv`）。
 
 ---
 
-## Reproducibility
+## 可复现性
 
 ```bash
-# 1) Setup
+# 1) 环境搭建
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# 2) Crawl & download top-20
+# 2) 爬取并下载前 20 本
 python crawl_and_download.py
 
-# 3) Clean, tokenize, lemmatize, and aggregate stats
+# 3) 清洗、分词、词形还原并聚合统计
 python clean_and_vocab.py
 
-# 4) Build the Markdown report
+# 4) 生成 Markdown 报告
 python make_report.py
 ```
 
-> **Notes**
-> - The pipeline auto-downloads required NLTK data. If you ever run into a `punkt_tab` lookup error:
+> **备注**
+> - 该流水线会自动下载所需的 NLTK 数据。如遇 `punkt_tab` 查找错误：
 >   ```bash
 >   python -c "import nltk; [nltk.download(x) for x in ['punkt','punkt_tab','stopwords','wordnet','omw-1.4']]"
 >   ```
-> - `data/raw/` and `data/clean/` are git-ignored to keep the repo small; they can be re-generated.
+> - `data/raw/` 与 `data/clean/` 已加入 git ignore 以保持仓库体积较小；可随时再生成。
 
 ---
 
-## Top-20 Books (Last 30 Days)
+## 最近 30 天 Top-20 图书
 
 1. [Moby Dick; Or, The Whale by Herman Melville (120117)](https://www.gutenberg.org/ebooks/2701)  
 2. [Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley (117668)](https://www.gutenberg.org/ebooks/84)  
@@ -126,15 +126,15 @@ python make_report.py
 
 ---
 
-## Token statistics per book
+## 每本书的词元统计
 
 <div class="table-wrap">
 <table class="table-compact">
     <thead>
     <tr>
-        <th>Book</th>
-        <th style="text-align:right">Unique&nbsp;Tokens</th>
-        <th style="text-align:right">Total&nbsp;Tokens</th>
+        <th>书名</th>
+        <th style="text-align:right">唯一词元</th>
+        <th style="text-align:right">总词元</th>
     </tr>
     </thead>
     <tbody>
@@ -162,11 +162,11 @@ python make_report.py
 </table>
 </div>
 
-> **Observation** — Shakespeare’s *Complete Works* dominates raw counts (expected). Vocabulary richness varies widely across titles.
+> **观察** — 莎士比亚《全集》在原始计数上占优（符合预期）。不同书目的词汇丰富度差异很大。
 
 ---
 
-## Global Top-100 words (unified vocabulary)
+## 全局 Top-100 词（统一词表）
 
 <!-- Left-aligned & width-limited table -->
 <div style="width:100%; max-width:720px; margin:1rem 0;">
@@ -178,9 +178,9 @@ python make_report.py
     </colgroup>
     <thead>
         <tr>
-        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:right;">Rank</th>
-        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">Word</th>
-        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:right;">Count</th>
+        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:right;">排名</th>
+        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">词</th>
+        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:right;">计数</th>
         </tr>
     </thead>
     <tbody>
@@ -255,7 +255,7 @@ python make_report.py
         <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">69</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem;">poor</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,524</td></tr>
         <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">70</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem;">nothing</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,519</td></tr>
         <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">71</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem;">men</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,505</td></tr>
-        <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">72</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem;">many</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,502</td></tr>
+        <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">72</td><td style="border:1px solid; padding:.55rem .65rem;">many</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,502</td></tr>
         <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">73</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem;">turn</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,493</td></tr>
         <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">74</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem;">dear</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,492</td></tr>
         <tr><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">75</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem;">cry</td><td style="border:1px solid #e5e7eb; padding:.55rem .65rem; text-align:right;">2,475</td></tr>
@@ -291,108 +291,98 @@ python make_report.py
 
 ---
 
-## Implementation details — why these choices?
+## 实现细节 —— 为什么这样选？
 
-- **Requests + BeautifulSoup + lxml**: lightweight and robust for HTML scraping.  
-- **Retry & politeness**: basic rate limiting, tolerant of transient 5xx/429 errors.  
-- **Header/footer stripping**: exact markers from Gutenberg documentation; fail-safe fallback.  
-- **NLTK**: widely used; `preserve_line=True` avoids sentence-model dependency (`punkt_tab`).  
-- **Normalization**: lowercase, keep alphabetic tokens, POS-aware lemmatization, stopword removal.
-
----
-
-## Limitations & next steps
-
-- Generic **stopword** list; for stylistics you may keep function words instead.  
-- `isalpha()` drops hyphenations & numerals; custom tokenization can be added per task.  
-- **Book imbalance** (e.g., *Complete Works of Shakespeare*) skews counts → consider per-book normalization or TF-IDF.  
-- English-only pipeline; add language detection for multilingual corpora.  
-- Future work: visualizations (e.g., diversity curves), per-author comparisons, collocations.
+- **Requests + BeautifulSoup + lxml**：轻量且稳定的 HTML 抓取组合。  
+- **重试与礼貌性**：基础的限频，对瞬时 5xx/429 友好。  
+- **页眉/页脚剥离**：严格按 Gutenberg 文档的标记；提供安全回退。  
+- **NLTK**：广泛使用；`preserve_line=True` 避免对句子模型（`punkt_tab`）的依赖。  
+- **标准化**：小写，仅字母词，基于 POS 的词形还原，停用词过滤。
 
 ---
 
-## How to cite & license
+## 局限与下一步
 
-- Public-domain texts courtesy of **Project Gutenberg**. Terms of use: https://www.gutenberg.org/policy/permission.html  
-- Code & data pipeline: https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg
+- 使用通用**停用词**列表；做风格学研究时可保留功能词。  
+- `isalpha()` 会丢弃连字符与数字；可按任务切换到自定义分词。  
+- **书目不平衡**（如《莎士比亚全集》）会拉偏计数 → 可考虑按书归一化或 TF-IDF。  
+- 仅面向英文；可添加语言识别以处理多语言语料。  
+- 后续：可视化（如多样性曲线）、按作者比较、搭配（collocations）。
+
+---
+
+## 如何引用与许可
+
+- **Project Gutenberg** 提供的公共领域文本。使用条款：https://www.gutenberg.org/policy/permission.html  
+- 代码与数据流水线：https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg
+
 
 
 
 
 ---
 
-## Processing pipeline (as in the lecture)
+## 处理流水线（与课堂一致）
 
-This section follows the three-stage pipeline used in the lecture slides:
-**(1) Data acquisition → (2) Data cleanup → (3) Information extraction & encoding**.
-I implement each stage with a dedicated script and persist intermediate artifacts
-for full reproducibility.
+本节遵循课件中的三阶段流程：**(1) 数据获取 → (2) 数据清洗 → (3) 信息抽取与编码**。我为每一阶段分别实现脚本，并持久化中间产物，确保可复现。
 
 ---
 
-### 1) Data acquisition
-- **Goal in lecture:** collect text data from diverse sources.
-- **What I do here:** crawl Project Gutenberg’s “Top 100 — Last 30 Days”, take the
-    first **k=20** books, resolve each book’s **Plain Text (UTF-8)** link, and download
-    the raw `.txt` files.
-- **Script / functions:** `crawl_and_download.py` → `fetch_top_page()`,
-    `parse_last_30_days()`, `resolve_plaintext_url()`, `download_txt()`.
-- **Outputs:**
-    - Raw texts: `data/raw/*.txt`
-    - Index CSV with titles, book-page URLs, TXT URLs, local paths:
+### 1）数据获取
+- **课堂目标：** 从多源收集文本数据。
+- **本项目做法：** 爬取古登堡计划“最近 30 天 Top 100”，取**k=20**本，解析每本的**纯文本（UTF-8）**链接并下载原始 `.txt`。
+- **脚本 / 函数：** `crawl_and_download.py` → `fetch_top_page()`、
+    `parse_last_30_days()`、`resolve_plaintext_url()`、`download_txt()`。
+- **输出：**
+    - 原始文本：`data/raw/*.txt`
+    - 索引 CSV（书名、书籍页 URL、TXT URL、本地路径）：
     `outputs/top20_books.csv`
-- **Command:**
+- **命令：**
     ```bash
     python crawl_and_download.py
     ```
 
-### 2) Data cleanup
-- **Goal in lecture:** remove boilerplate and normalize the content.
-- **What I do here:** strip Project Gutenberg headers/footers using the official
-    markers and keep only the core book content.
-    - Start marker: `*** START OF THIS PROJECT GUTENBERG EBOOK ... ***`
-    - End marker:   `*** END OF THIS PROJECT GUTENBERG EBOOK ... ***`
-    Normalize whitespace and ensure UTF-8 text.
-- **Script / functions:** `clean_and_vocab.py` → `read_text()`,
-    `strip_gutenberg_header_footer(text)`.
-- **Outputs:** cleaned plain text per book in `data/clean/*.txt`
-    (git-ignored; re-generable).
+### 2）数据清洗
+- **课堂目标：** 去除样板并规范化内容。
+- **本项目做法：** 按官方标记剥离 Project Gutenberg 页眉/页脚，仅保留正文：
+    - 起始标记：`*** START OF THIS PROJECT GUTENBERG EBOOK ... ***`
+    - 结束标记：  `*** END OF THIS PROJECT GUTENBERG EBOOK ... ***`
+    归一化空白并确保 UTF-8。
+- **脚本 / 函数：** `clean_and_vocab.py` → `read_text()`、
+    `strip_gutenberg_header_footer(text)`。
+- **输出：** 每本书清洗后的纯文本 `data/clean/*.txt`
+    （已 git ignore，可再生成）。
 
-### 3) Information extraction & encoding
-- **Goal in lecture:** turn text into analysable linguistic units / features.
-- **What I do here:** tokenization → POS tagging → lemmatization → stopword removal,
-    then build per-book and global statistics.
-    - **Tokenization:** `nltk.word_tokenize(text, preserve_line=True)`
-    - **Normalization:** lowercase; keep alphabetic tokens only (`str.isalpha()`).
-    - **POS tagging:** `nltk.pos_tag(tokens)`
-    - **Lemmatization:** WordNet-aware; map POS to {n, v, a, r} before lemmatizing
-    (`WordNetLemmatizer()`).
-    - **Stopwords:** remove NLTK English stopwords.
-    - **Aggregation:** count total tokens & unique tokens per book; build a **unified
-    vocabulary** across all books and export the **Top-100** words.
-- **Script / functions:** `clean_and_vocab.py` → `tokenize_and_lemmatize(text)`,
-    `nltk_pos_to_wordnet_pos(tag)`, `accumulate_counts(tokens)`.
-- **Outputs:**
-    - `outputs/per_book_token_counts.csv` — per-book totals & unique types
-    - `outputs/top100_words.csv` — global Top-100 words with frequencies
-- **Command:**
+### 3）信息抽取与编码
+- **课堂目标：** 将文本转为可分析的语言单位 / 特征。
+- **本项目做法：** 分词 → 词性标注 → 词形还原 → 停用词移除，再做逐书与全局统计。
+    - **分词：** `nltk.word_tokenize(text, preserve_line=True)`
+    - **规范化：** 小写；仅字母词（`str.isalpha()`）。
+    - **词性标注：** `nltk.pos_tag(tokens)`
+    - **词形还原：** 先将 POS 映射到 {n, v, a, r} 后再用
+    `WordNetLemmatizer()`。
+    - **停用词：** 删除 NLTK 英文停用词。
+    - **聚合：** 统计每本书的总词与唯一词；构建**统一词表**并导出**Top-100**。
+- **脚本 / 函数：** `clean_and_vocab.py` → `tokenize_and_lemmatize(text)`、
+    `nltk_pos_to_wordnet_pos(tag)`、`accumulate_counts(tokens)`。
+- **输出：**
+    - `outputs/per_book_token_counts.csv` — 每书总量与唯一类型数
+    - `outputs/top100_words.csv` — 全局 Top-100 及频次
+- **命令：**
     ```bash
     python clean_and_vocab.py
     ```
 
 ---
 
-### Why these choices (brief)
-- **NLTK** provides reliable tokenization, POS tagging and WordNet lemmatization.
-    Using `preserve_line=True` reduces dependency on sentence models and avoids
-    `punkt_tab` issues; I still download the necessary NLTK models on first run.
-- **Header/footer stripping** exactly follows Gutenberg’s documented markers to
-    avoid counting license text.
-- **Alphabetic filter** (`isalpha()`) simplifies the vocabulary for this assignment;
-    for downstream tasks we could keep hyphenations/numerals or switch to a custom
-    tokenizer.
+### 选择说明（简）
+- **NLTK** 提供稳定的分词、POS 与 WordNet 词形还原。
+    使用 `preserve_line=True` 可降低对句子模型的依赖并避免
+    `punkt_tab` 问题；首次运行仍会下载必要资源。
+- **页眉/页脚剥离** 严格遵循 Gutenberg 文档，避免统计到许可文本。
+- **仅字母过滤**（`isalpha()`）简化了本次作业的词表；若用于下游任务，可保留连字符/数字或改用自定义分词器。
 
-### Reproduce end-to-end
+### 端到端复现
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -401,35 +391,35 @@ python clean_and_vocab.py
 python make_report.py
 ```
 
-*Artifacts to check:*
+*可检查的产物：*
 - `outputs/top20_books.csv`
 - `outputs/per_book_token_counts.csv`
 - `outputs/top100_words.csv`
-- Markdown report: `outputs/report.md`
+- Markdown 报告：`outputs/report.md`
 
-## Zipf’s law (Top-20 Gutenberg corpus)
+## 齐普夫定律（Top-20 Gutenberg 语料）
 
-Let $p(r)$ be the empirical frequency of the word at rank $r$ (token count divided by the total number of tokens). On log–log axes, Zipf’s law predicts a power-law decay:
+设 $p(r)$ 为排名为 $r$ 的词的经验频率（该词计数除以总词数）。在对数–对数坐标下，齐普夫定律预测幂律衰减：
 $$
 p(r;a)=\frac{r^{-a}}{\sum_{k=1}^{V} k^{-a}},\qquad r=1,\dots,V.
 $$
 
-**Method.** Using the cleaned tokens from the Top-20 books, I built a rank–frequency table and plotted $p(r)$ vs. $r$ on log–log axes. I overlaid theoretical Zipf curves $p(r)\propto r^{-a}$ for $a\in\{0.80,1.00,1.20\}$, and fitted $a$ by OLS on $(\log r,\ \log p(r))$ over ranks $10$–$3000$ to avoid head/tail artifacts.
+**方法。** 基于 Top-20 书目的清洗词元，我构建了一个词频排名表，并在对数–对数坐标绘制 $p(r)$ 与 $r$。叠加三条理论齐普夫曲线 $p(r)\propto r^{-a}$，其中 $a\in\{0.80,1.00,1.20\}$，并在秩 $10$–$3000$ 上对 $(\log r,\ \log p(r))$ 做 OLS 拟合，以规避头/尾伪影。
 
-**Key outputs**
-- CSV: [`outputs/zipf_freqs.csv`](outputs/zipf_freqs.csv) — rank, word, raw count, normalized probability.
-- Figures:
-  - Empirical rank–frequency:  
+**关键产物**
+- CSV：[`outputs/zipf_freqs.csv`](outputs/zipf_freqs.csv) — 排名、词、原始计数、归一化概率。
+- 图像：
+  - 经验秩–频率：  
     <img src="/images/projects/project5/zipf_rank_freq.png" alt="Zipf empirical rank–frequency" width="720">
-  - Empirical vs. Zipf overlays (with fitted slope):  
+  - 经验 vs. 齐普夫叠加（含拟合斜率）：  
     <img src="/images/projects/project5/zipf_overlay.png" alt="Zipf empirical vs models" width="720">
-  - Artifacts (CSV and generated figures in repo):  
+  - 产物（CSV 与输出图像在仓库中）：  
     <img src="/images/projects/project5/3.png" alt="VS Code view of zipf_freqs.csv and output figures" width="880">
 
-### Findings
+### 发现
 
-1. **Heavy tail:** The most frequent word (“say”) takes ~1.1% of all tokens; probabilities drop rapidly with rank — a classic heavy-tail signature.
-2. **Power-law regime:** The mid-range (roughly ranks $10$–$3000$) is close to a straight line in log–log space $\rightarrow$ power-law behavior. The very top is flatter (function words / genre mixing), and the far tail bends down (finite-sample effects).
-3. **Best exponent:** The fitted exponent on the mid-range is **$a \approx 0.964$**, very close to the canonical Zipf value $1$. The model with $a=1.0$ tracks the data closely; $a=0.8$ is too shallow and $a=1.2$ too steep.
+1. **重尾:** 最频繁的词（“say”）约占全部词元的 ~1.1%；随排名迅速下降——典型重尾特征。
+2. **幂律区段:** 中段（约秩 $10$–$3000$）在对数–对数坐标近似直线 → 幂律；最头部更平（功能词/体裁混合），远尾下弯（有限样本效应）。
+3. **最佳指数:** 在中段拟合的指数为 **$a \approx 0.964$**，与经典的 $1$ 很接近。$a=1.0$ 模型与数据贴合；$a=0.8$ 偏浅、$a=1.2$ 偏陡。
 
-**Conclusion:** The unified vocabulary of the Top-20 books follows **Zipf’s law** to a good approximation with exponent **$a\approx0.96$**. Deviations at the head and tail are expected.
+**结论:** 该 Top-20 统一词表总体上较好地服从**齐普夫定律**，指数 **$a\approx0.96$**。头尾的偏差在预期之内。
