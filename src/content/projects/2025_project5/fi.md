@@ -1,13 +1,13 @@
 ---
-title: "(Python) 来自古登堡计划的文本获取与处理"
+title: "(Python) Datan hankinta ja käsittely Project Gutenbergistä"
 date: 2025-09-17
 tags: ["Python", "NLP", "Web Scraping", "NLTK", "Text Mining"]
-excerpt: "一个 NLP 流水线：抓取古登堡计划最近 30 天下载榜的前 30 名，清洗文本，用 NLTK 进行分词与词形还原，并构建统一词表与 Top-100 词频表。"
+excerpt: "NLP-putki: indeksoi Project Gutenbergin viimeisten 30 päivän ladatuimmat teokset, puhdista tekstit, tokenisoi ja lemmatisoi NLTK:lla, ja rakenna yhtenäinen sanasto Top-100-taajuustaulukolla."
 ---
 
-> 我构建了一个 NLP 流水线：抓取古登堡计划最近 30 天**下载量最高的前 20 本**公共领域电子书，去除页眉页脚样板，进行分词与词形还原（lemmatize），并产出一个**统一词表**和**Top-100**词频列表。
+> Rakensin NLP-putken, joka indeksoi Project Gutenbergin viimeisten 30 päivän **Top-20** -lataukset (public domain -e-kirjat), poistaa boilerplate-tekstin, tokenisoi ja lemmatisoi tekstit sekä tuottaa **yhdistetyn sanaston** ja **Top-100** -taajuuslistan.
 
-来源列表（Gutenberg）：https://www.gutenberg.org/browse/scores/top-en.php
+Lähdeluettelo Gutenbergissa: https://www.gutenberg.org/browse/scores/top-en.php
 
 <!-- Table styles -->
 <style>
@@ -28,80 +28,80 @@ excerpt: "一个 NLP 流水线：抓取古登堡计划最近 30 天下载榜的�
 
 ---
 
-## 任务清单
+## Tehtävälista
 
-> (a) 创建一个爬虫变体，用于下载古登堡计划最近 30 天下载量最高的前 k 本电子书的 `.TXT` 格式。  
-> (b) 使用爬虫下载前 20 本（k=20）。报告书名与地址。  
-> (c) 使用课堂讲述的处理流程，对下载的图书进行分词与词形还原。  
-> (d) 从电子书构建一个统一词表；报告 Top-100 词。
-
----
-
-## 概览
-
-本项目从古登堡计划的“最近 30 天 Top 100”页面抓取**前 20**本 TXT 电子书，去掉 Gutenberg 的页眉/页脚，用 **NLTK** 做分词与词形还原，然后在所有书上汇总为一个**全局词表**。我同时发布**报告**与**代码**，以保证完全可复现。
-
-- **代码仓库**: https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg  
-- **生成的报告（Markdown）**: `outputs/report.md`  
-- **关键产物**:  
-    - `outputs/top20_books.csv` — 书名、书籍页面 URL、TXT URL、本地路径  
-    - `outputs/per_book_token_counts.csv` — 每本书的总 token 与唯一 token 数  
-    - `outputs/top100_words.csv` — 全局 Top-100 词及其频次
+> (a) Luo verkkorobottista (crawler) versio, joka lataa viimeisten 30 päivän ladatuimmat k kappaletta Project Gutenbergin e-kirjoja `.TXT`-muodossa.  
+> (b) Käytä crawleria ja lataa **20** suosituinta (k=20). Raportoi kirjojen nimet ja osoitteet.  
+> (c) Käytä luennolla kuvattua käsittelyputkea tokenisoimaan ja lemmatisoimaan ladatut kirjat.  
+> (d) Rakenna kirjoista **yhdistetty sanasto** ja raportoi **Top-100** -sanat.
 
 ---
 
-## 方法
+## Yleiskatsaus
 
-### 1）爬取
-- 解析“最近 30 天 Top 100”板块。
-- 取**前 20**条书目并解析其**纯文本（UTF-8）**链接。
-- 将原始 `.txt` 保存到 `data/raw/`，并写出 `outputs/top20_books.csv`。
+Tämä projekti indeksoi Project Gutenbergin “Top 100 — Last 30 Days” -listan, lataa **20 suosituinta** teksti-e-kirjaa, puhdistaa Gutenbergin alku-/loppubannerit, tokenisoi ja lemmatisoi **NLTK:lla** sekä kokoaa **globaalin sanaston** kaikista kirjoista. Julkaisen sekä **raportin** että **koodin** täydellisen toistettavuuden takaamiseksi.
 
-### 2）清洗
-- 使用以下标记移除古登堡的页眉/页脚：
+- **Repo**: https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg  
+- **Generoitu raportti (Markdown)**: `outputs/report.md`  
+- **Keskeiset tulosteet**:  
+    - `outputs/top20_books.csv` — nimet, kirjasivujen URL:t, TXT-URL:t, paikalliset polut  
+    - `outputs/per_book_token_counts.csv` — kirjakohtaiset tokenien kokonaismäärät ja uniikkien tokenien määrät  
+    - `outputs/top100_words.csv` — globaalit Top-100 -sanat frekvensseineen
+
+---
+
+## Menetelmät
+
+### 1) Crawl
+- Jäsennä “Top 100 — Last 30 Days” -osio.
+- Ota ensimmäiset **20** kirjaosiot ja ratkaise niiden **Plain Text (UTF-8)** -linkit.
+- Tallenna raakatekstit `.txt`-tiedostoihin `data/raw/`-hakemistoon ja kirjoita `outputs/top20_books.csv`.
+
+### 2) Puhdistus
+- Poista Project Gutenbergin boilerplate-merkkiosuudet:
     - `*** START OF THIS PROJECT GUTENBERG EBOOK ... ***`
     - `*** END OF THIS PROJECT GUTENBERG EBOOK ... ***`
-- 仅保留这两个标记之间的正文内容。
+- Säilytä vain näiden merkkien välinen sisältö.
 
-### 3）分词与词形还原
-- 使用 `nltk.word_tokenize(text, preserve_line=True)`；统一转小写；仅保留**字母**词元。
-- 对词元做词性标注（POS）；映射到 WordNet 词性 {**n**, **v**, **a**, **r**}；用 `WordNetLemmatizer` 词形还原。
-- 去除英语**停用词**。
+### 3) Tokenisointi & lemmatisointi
+- `nltk.word_tokenize(text, preserve_line=True)`; pienet kirjaimet; pidä vain **aakkos**tokenit.
+- POS-tägää tokenit; mapppaa WordNet-POS:iin {**n**, **v**, **a**, **r**}; lemmatisoi `WordNetLemmatizer`-luokalla.
+- Poista englannin **stop-sanat**.
 
-### 4）词表与统计
-- 在所有书上构建**全局 Counter**；导出**Top-100**（`outputs/top100_words.csv`）。
-- 对每本书记录 `total_tokens` 和 `unique_tokens`（`outputs/per_book_token_counts.csv`）。
+### 4) Sanasto & tilastot
+- Rakenna **globaali Counter** kaikkien kirjojen yli; vie **Top-100** (`outputs/top100_words.csv`).
+- Kirjakohtaisesti tallenna `total_tokens` ja `unique_tokens` (`outputs/per_book_token_counts.csv`).
 
 ---
 
-## 可复现性
+## Toistettavuus
 
 ```bash
-# 1) 环境搭建
+# 1) Ympäristö
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# 2) 爬取并下载前 20 本
+# 2) Crawl & lataa top-20
 python crawl_and_download.py
 
-# 3) 清洗、分词、词形还原并聚合统计
+# 3) Puhdista, tokenisoi, lemmatisoi ja kokoa tilastot
 python clean_and_vocab.py
 
-# 4) 生成 Markdown 报告
+# 4) Rakenna Markdown-raportti
 python make_report.py
 ```
 
-> **备注**
-> - 该流水线会自动下载所需的 NLTK 数据。如遇 `punkt_tab` 查找错误：
+> **Huomioita**
+> - Putki lataa automaattisesti tarvittavat NLTK-datat. Jos kohtaat `punkt_tab`-hakulatausvirheen:
 >   ```bash
 >   python -c "import nltk; [nltk.download(x) for x in ['punkt','punkt_tab','stopwords','wordnet','omw-1.4']]"
 >   ```
-> - `data/raw/` 与 `data/clean/` 已加入 git ignore 以保持仓库体积较小；可随时再生成。
+> - `data/raw/` ja `data/clean/` on jätetty gitin ulkopuolelle repo-koon pitämiseksi pienenä; ne voidaan luoda uudelleen.
 
 ---
 
-## 最近 30 天 Top-20 图书
+## Top-20 kirjaa (viimeiset 30 päivää)
 
 1. [Moby Dick; Or, The Whale by Herman Melville (120117)](https://www.gutenberg.org/ebooks/2701)  
 2. [Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley (117668)](https://www.gutenberg.org/ebooks/84)  
@@ -126,14 +126,61 @@ python make_report.py
 
 ---
 
-## 每本书的词元统计
+## Token-tilastot per kirja
 
 <div class="table-wrap">
 <table class="table-compact">
+    <thead>
+    <tr>
+        <th>Book</th>
+        <th style="text-align:right">Uniikit&nbsp;tokenit</th>
+        <th style="text-align:right">Tokenit&nbsp;yhteensä</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr><td class="book">A Room with a View by E. M. Forster <span class="muted">57478</span></td><td class="num">4,891</td><td class="num">28,298</td></tr>
+    <tr><td class="book">Alice's Adventures in Wonderland by Lewis Carroll <span class="muted">60624</span></td><td class="num">2,076</td><td class="num">12,461</td></tr>
+    <tr><td class="book">Beowulf: An Anglo-Saxon Epic Poem <span class="muted">52640</span></td><td class="num">3,921</td><td class="num">18,116</td></tr>
+    <tr><td class="book">Cranford by Elizabeth Cleghorn Gaskell <span class="muted">40784</span></td><td class="num">4,854</td><td class="num">31,905</td></tr>
+    <tr><td class="book">Dracula by Bram Stoker <span class="muted">47752</span></td><td class="num">6,857</td><td class="num">65,156</td></tr>
+    <tr><td class="book">Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley <span class="muted">117668</span></td><td class="num">5,268</td><td class="num">33,175</td></tr>
+    <tr><td class="book">History of Tom Jones, a Foundling by Henry Fielding <span class="muted">39646</span></td><td class="num">9,201</td><td class="num">151,809</td></tr>
+    <tr><td class="book">How to Observe: Morals and Manners by Harriet Martineau <span class="muted">51437</span></td><td class="num">5,696</td><td class="num">30,610</td></tr>
+    <tr><td class="book">Little Women; Or, Meg, Jo, Beth, and Amy by Louisa May Alcott <span class="muted">53318</span></td><td class="num">7,813</td><td class="num">87,560</td></tr>
+    <tr><td class="book">Middlemarch by George Eliot <span class="muted">55252</span></td><td class="num">11,119</td><td class="num">133,697</td></tr>
+    <tr><td class="book">Moby Dick; Or, The Whale by Herman Melville <span class="muted">120117</span></td><td class="num">12,463</td><td class="num">99,529</td></tr>
+    <tr><td class="book">Pride and Prejudice by Jane Austen <span class="muted">71294</span></td><td class="num">4,941</td><td class="num">53,363</td></tr>
+    <tr><td class="book">Romeo and Juliet by William Shakespeare <span class="muted">81275</span></td><td class="num">3,050</td><td class="num">13,324</td></tr>
+    <tr><td class="book">The Adventures of Ferdinand Count Fathom — Complete by T. Smollett <span class="muted">40314</span></td><td class="num">8,134</td><td class="num">73,203</td></tr>
+    <tr><td class="book">The Blue Castle: a novel by L. M. Montgomery <span class="muted">45401</span></td><td class="num">5,043</td><td class="num">30,099</td></tr>
+    <tr><td class="book">The Complete Works of William Shakespeare by William Shakespeare <span class="muted">56211</span></td><td class="num">18,274</td><td class="num">425,521</td></tr>
+    <tr><td class="book">The Enchanted April by Elizabeth Von Arnim <span class="muted">45511</span></td><td class="num">4,545</td><td class="num">32,830</td></tr>
+    <tr><td class="book">The Expedition of Humphry Clinker by T. Smollett <span class="muted">40226</span></td><td class="num">9,504</td><td class="num">68,230</td></tr>
+    <tr><td class="book">The Strange Case of Dr. Jekyll and Mr. Hyde by Robert Louis Stevenson <span class="muted">44586</span></td><td class="num">3,205</td><td class="num">12,136</td></tr>
+    <tr><td class="book">Twenty years after by Alexandre Dumas and Auguste Maquet <span class="muted">39708</span></td><td class="num">7,787</td><td class="num">106,487</td></tr>
+    </tbody>
+</table>
+</div>
+
+> **Havainto** — Shakespearen *Complete Works* dominoi raakafrekvenssejä (odotetusti). Sanaston rikkaus vaihtelee paljon nimikkeiden välillä.
+
+---
+
+## Globaalit Top-100 sanat (yhdistetty sanasto)
+
+<!-- Left-aligned & width-limited table -->
+<div style="width:100%; max-width:720px; margin:1rem 0;">
+    <table style="width:100% !important; table-layout:fixed !important; border-collapse:separate !important; border-spacing:0 !important; font-size:0.95rem;">
+    <colgroup>
+        <col style="width:18% !important;">
+        <col style="width:52% !important;">
+        <col style="width:30% !important;">
+    </colgroup>
+     <thead>
         <tr>
-        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">排名</th>
-        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">詞</th>
-        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">計數</th>
+        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">Sija</th>
+        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">Sana</th>
+        <th style="border:1px solid #e5e7eb; padding:.55rem .65rem; background:#f8fafc; font-weight:600; white-space:nowrap; text-align:left;">Lukumäärä</th>
         </tr>
     </thead>
     <tbody>
@@ -244,30 +291,30 @@ python make_report.py
 
 ---
 
-## 实现细节 —— 为什么这样选？
+## Toteutuksen yksityiskohdat — miksi nämä valinnat?
 
-- **Requests + BeautifulSoup + lxml**：轻量且稳定的 HTML 抓取组合。  
-- **重试与礼貌性**：基础的限频，对瞬时 5xx/429 友好。  
-- **页眉/页脚剥离**：严格按 Gutenberg 文档的标记；提供安全回退。  
-- **NLTK**：广泛使用；`preserve_line=True` 避免对句子模型（`punkt_tab`）的依赖。  
-- **标准化**：小写，仅字母词，基于 POS 的词形还原，停用词过滤。
-
----
-
-## 局限与下一步
-
-- 使用通用**停用词**列表；做风格学研究时可保留功能词。  
-- `isalpha()` 会丢弃连字符与数字；可按任务切换到自定义分词。  
-- **书目不平衡**（如《莎士比亚全集》）会拉偏计数 → 可考虑按书归一化或 TF-IDF。  
-- 仅面向英文；可添加语言识别以处理多语言语料。  
-- 后续：可视化（如多样性曲线）、按作者比较、搭配（collocations）。
+- **Requests + BeautifulSoup + lxml**: kevyt ja kestävä HTML-scrapingiin.  
+- **Uudelleenyritykset & kohteliaisuus**: perusnopeuden rajoitus, sietää tilapäisiä 5xx/429-virheitä.  
+- **Otsikon/alatunnisteen poisto**: Gutenbergin dokumentaation täsmämerkit; varmistava fallback.  
+- **NLTK**: laajasti käytetty; `preserve_line=True` vähentää riippuvuutta lausemalleista (`punkt_tab`).  
+- **Normalisointi**: pienennys, aakkostokenit, POS-tietoinen lemmatisointi, stop-sanojen poisto.
 
 ---
 
-## 如何引用与许可
+## Rajoitteet & jatkotoimet
 
-- **Project Gutenberg** 提供的公共领域文本。使用条款：https://www.gutenberg.org/policy/permission.html  
-- 代码与数据流水线：https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg
+- Geneerinen **stop-sanalista**; tyylianalyyseihin voit halutessasi säilyttää funktiosanat.  
+- `isalpha()` tiputtaa yhdysmerkit ja numerot; tarvittaessa lisää mukautettu tokenisaatio.  
+- **Kirjaepätasapaino** (esim. *Complete Works of Shakespeare*) vinouttaa frekvenssejä → harkitse kirjakohtaista normalisointia tai TF-IDF:ää.  
+- Vain englanti; lisää kielentunnistus monikielistä korpusta varten.  
+- Jatkokehitys: visualisoinnit (esim. diversiteettikäyrät), tekijävertailut, kollokaatiot.
+
+---
+
+## Lähteet & lisenssi
+
+- Public domain -tekstit: **Project Gutenberg**. Käyttöehdot: https://www.gutenberg.org/policy/permission.html  
+- Koodi & dataputki: https://github.com/xiaosihuang003/Data-acquisition-and-processing-from-Gutenberg
 
 
 
@@ -275,67 +322,78 @@ python make_report.py
 
 ---
 
-## 处理流水线（与课堂一致）
+## Käsittelyputki (luennon mukaisesti)
 
-本节遵循课件中的三阶段流程：**(1) 数据获取 → (2) 数据清洗 → (3) 信息抽取与编码**。我为每一阶段分别实现脚本，并持久化中间产物，确保可复现。
+Tämä osio noudattaa luentodiojen kolmiportaista putkea:
+**(1) Datan hankinta → (2) Datan puhdistus → (3) Tiedon irrotus & koodaus**.
+Toteutan jokaisen vaiheen erillisellä skriptillä ja talletan välituotokset
+täyden toistettavuuden varmistamiseksi.
 
 ---
 
-### 1）数据获取
-- **课堂目标：** 从多源收集文本数据。
-- **本项目做法：** 爬取古登堡计划“最近 30 天 Top 100”，取**k=20**本，解析每本的**纯文本（UTF-8）**链接并下载原始 `.txt`。
-- **脚本 / 函数：** `crawl_and_download.py` → `fetch_top_page()`、
-    `parse_last_30_days()`、`resolve_plaintext_url()`、`download_txt()`。
-- **输出：**
-    - 原始文本：`data/raw/*.txt`
-    - 索引 CSV（书名、书籍页 URL、TXT URL、本地路径）：
+### 1) Datan hankinta
+- **Luennon tavoite:** kerätä tekstidataa monista lähteistä.
+- **Tässä työssä:** indeksoi Project Gutenbergin “Top 100 — Last 30 Days”, ota
+    ensimmäiset **k=20** kirjaa, ratkaise kunkin **Plain Text (UTF-8)** -linkki ja lataa
+    raakatekstit `.txt`-tiedostoina.
+- **Skriptit / funktiot:** `crawl_and_download.py` → `fetch_top_page()`,
+    `parse_last_30_days()`, `resolve_plaintext_url()`, `download_txt()`.
+- **Tulosteet:**
+    - Raakatekstit: `data/raw/*.txt`
+    - Indeksi-CSV otsikoilla, kirjasivujen URL:illa, TXT-URL:illa ja paikallispoluilla:
     `outputs/top20_books.csv`
-- **命令：**
+- **Komento:**
     ```bash
     python crawl_and_download.py
     ```
 
-### 2）数据清洗
-- **课堂目标：** 去除样板并规范化内容。
-- **本项目做法：** 按官方标记剥离 Project Gutenberg 页眉/页脚，仅保留正文：
-    - 起始标记：`*** START OF THIS PROJECT GUTENBERG EBOOK ... ***`
-    - 结束标记：  `*** END OF THIS PROJECT GUTENBERG EBOOK ... ***`
-    归一化空白并确保 UTF-8。
-- **脚本 / 函数：** `clean_and_vocab.py` → `read_text()`、
-    `strip_gutenberg_header_footer(text)`。
-- **输出：** 每本书清洗后的纯文本 `data/clean/*.txt`
-    （已 git ignore，可再生成）。
+### 2) Datan puhdistus
+- **Luennon tavoite:** poistaa boilerplate ja normalisoida sisältö.
+- **Tässä työssä:** poista Project Gutenbergin alku-/loppumerkinnät virallisilla
+    markkereilla ja säilytä vain varsinainen kirjan sisältö.
+    - Start marker: `*** START OF THIS PROJECT GUTENBERG EBOOK ... ***`
+    - End marker:   `*** END OF THIS PROJECT GUTENBERG EBOOK ... ***`
+    Normalisoi välilyönnit ja varmista UTF-8.
+- **Skriptit / funktiot:** `clean_and_vocab.py` → `read_text()`,
+    `strip_gutenberg_header_footer(text)`.
+- **Tulosteet:** puhdistetut tekstit per kirja `data/clean/*.txt`
+    (git-ignoroitu; voidaan tuottaa uudelleen).
 
-### 3）信息抽取与编码
-- **课堂目标：** 将文本转为可分析的语言单位 / 特征。
-- **本项目做法：** 分词 → 词性标注 → 词形还原 → 停用词移除，再做逐书与全局统计。
-    - **分词：** `nltk.word_tokenize(text, preserve_line=True)`
-    - **规范化：** 小写；仅字母词（`str.isalpha()`）。
-    - **词性标注：** `nltk.pos_tag(tokens)`
-    - **词形还原：** 先将 POS 映射到 {n, v, a, r} 后再用
-    `WordNetLemmatizer()`。
-    - **停用词：** 删除 NLTK 英文停用词。
-    - **聚合：** 统计每本书的总词与唯一词；构建**统一词表**并导出**Top-100**。
-- **脚本 / 函数：** `clean_and_vocab.py` → `tokenize_and_lemmatize(text)`、
-    `nltk_pos_to_wordnet_pos(tag)`、`accumulate_counts(tokens)`。
-- **输出：**
-    - `outputs/per_book_token_counts.csv` — 每书总量与唯一类型数
-    - `outputs/top100_words.csv` — 全局 Top-100 及频次
-- **命令：**
+### 3) Tiedon irrotus & koodaus
+- **Luennon tavoite:** muuntaa teksti analysoitaviksi lingvistisiksi yksiköiksi/piirteiksi.
+- **Tässä työssä:** tokenisointi → POS-tägäys → lemmatisointi → stop-sanojen poisto,
+    ja sen jälkeen kirjakohtaiset ja globaalit tilastot.
+    - **Tokenisointi:** `nltk.word_tokenize(text, preserve_line=True)`
+    - **Normalisointi:** pienet kirjaimet; vain aakkoset (`str.isalpha()`).
+    - **POS-tägäys:** `nltk.pos_tag(tokens)`
+    - **Lemmatisointi:** WordNet-tietoinen; mapppaa POS joukkoon {n, v, a, r} ennen
+    lemmatisointia (`WordNetLemmatizer()`).
+    - **Stop-sanat:** poista NLTK:n englannin stop-sanat.
+    - **Aggregointi:** laske tokenit & uniikit per kirja; rakenna **yhdistetty sanasto**
+    kaikkien kirjojen yli ja vie **Top-100** -sanat.
+- **Skriptit / funktiot:** `clean_and_vocab.py` → `tokenize_and_lemmatize(text)`,
+    `nltk_pos_to_wordnet_pos(tag)`, `accumulate_counts(tokens)`.
+- **Tulosteet:**
+    - `outputs/per_book_token_counts.csv` — kirjakohtaiset summat & uniikit tyypit
+    - `outputs/top100_words.csv` — globaalit Top-100 sanat frekvensseineen
+- **Komento:**
     ```bash
     python clean_and_vocab.py
     ```
 
 ---
 
-### 选择说明（简）
-- **NLTK** 提供稳定的分词、POS 与 WordNet 词形还原。
-    使用 `preserve_line=True` 可降低对句子模型的依赖并避免
-    `punkt_tab` 问题；首次运行仍会下载必要资源。
-- **页眉/页脚剥离** 严格遵循 Gutenberg 文档，避免统计到许可文本。
-- **仅字母过滤**（`isalpha()`）简化了本次作业的词表；若用于下游任务，可保留连字符/数字或改用自定义分词器。
+### Miksi nämä valinnat (lyhyesti)
+- **NLTK** tarjoaa luotettavan tokenisoinnin, POS-tägäyksen ja WordNet-lemmatisoinnin.
+    `preserve_line=True` vähentää riippuvuutta lausemalleista ja välttää
+    `punkt_tab`-ongelmia; tarvittavat mallit ladataan ensimmäisellä ajolla.
+- **Header/footer -poisto** seuraa tarkasti Gutenbergin dokumentoituja markkereita,
+    jotta lisenssiteksti ei tule lasketuksi.
+- **Aakkossuodatin** (`isalpha()`) yksinkertaistaa sanastoa tätä tehtävää varten;
+    jatkossa voidaan säilyttää yhdysmerkit/numerot tai vaihtaa mukautettuun
+    tokenisaattoriin.
 
-### 端到端复现
+### Toista päästä päähän
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -344,35 +402,36 @@ python clean_and_vocab.py
 python make_report.py
 ```
 
-*可检查的产物：*
+*Tarkistettavat artefaktit:*
 - `outputs/top20_books.csv`
 - `outputs/per_book_token_counts.csv`
 - `outputs/top100_words.csv`
-- Markdown 报告：`outputs/report.md`
+- Markdown-raportti: `outputs/report.md`
 
-## 齐普夫定律（Top-20 Gutenberg 语料）
+## Zipfin laki (Top-20 Gutenberg -korpus)
 
-设 $p(r)$ 为排名为 $r$ 的词的经验频率（该词计数除以总词数）。在对数–对数坐标下，齐普夫定律预测幂律衰减：
+Olkoon $p(r)$ empiirinen todennäköisyys sanalle sijalla $r$ (tokenien määrä jaettuna
+tokenien kokonaismäärällä). Log–log-akseleilla Zipfin laki ennustaa potenssilain kaltaisen vähenemän:
 $$
 p(r;a)=\frac{r^{-a}}{\sum_{k=1}^{V} k^{-a}},\qquad r=1,\dots,V.
 $$
 
-**方法。** 基于 Top-20 书目的清洗词元，我构建了一个词频排名表，并在对数–对数坐标绘制 $p(r)$ 与 $r$。叠加三条理论齐普夫曲线 $p(r)\propto r^{-a}$，其中 $a\in\{0.80,1.00,1.20\}$，并在秩 $10$–$3000$ 上对 $(\log r,\ \log p(r))$ 做 OLS 拟合，以规避头/尾伪影。
+**Menetelmä.** Käyttämällä Top-20-kirjoista puhdistettuja tokeneita rakensin sija–frekvenssi -taulukon ja piirsin $p(r)$ vs. $r$ log–log-akseleilla. Päällekkäin piirsin teoreettiset Zipf-käyrät $p(r)\propto r^{-a}$ arvoille $a\in\{0.80,1.00,1.20\}$ ja sovitin $a$:n OLS:llä $(\log r,\ \log p(r))$ -pisteisiin sijoilla $10$–$3000$ välttääkseni pään/hännän artefaktit.
 
-**关键产物**
-- CSV：[`outputs/zipf_freqs.csv`](outputs/zipf_freqs.csv) — 排名、词、原始计数、归一化概率。
-- 图像：
-  - 经验秩–频率：  
+**Keskeiset tulosteet**
+- CSV: [`outputs/zipf_freqs.csv`](outputs/zipf_freqs.csv) — sija, sana, raakafrekvenssi, normalisoitu todennäköisyys.
+- Kuviot:
+  - Empiirinen sija–frekvenssi:  
     <img src="/images/projects/project5/zipf_rank_freq.png" alt="Zipf empirical rank–frequency" width="720">
-  - 经验 vs. 齐普夫叠加（含拟合斜率）：  
+  - Empiirinen vs. Zipf -päällekkäin (sovitettu kulmakerroin):  
     <img src="/images/projects/project5/zipf_overlay.png" alt="Zipf empirical vs models" width="720">
-  - 产物（CSV 与输出图像在仓库中）：  
+  - Artefaktit (CSV ja generoidut kuvat repossa):  
     <img src="/images/projects/project5/3.png" alt="VS Code view of zipf_freqs.csv and output figures" width="880">
 
-### 发现
+### Havainnot
 
-1. **重尾:** 最频繁的词（“say”）约占全部词元的 ~1.1%；随排名迅速下降——典型重尾特征。
-2. **幂律区段:** 中段（约秩 $10$–$3000$）在对数–对数坐标近似直线 → 幂律；最头部更平（功能词/体裁混合），远尾下弯（有限样本效应）。
-3. **最佳指数:** 在中段拟合的指数为 **$a \approx 0.964$**，与经典的 $1$ 很接近。$a=1.0$ 模型与数据贴合；$a=0.8$ 偏浅、$a=1.2$ 偏陡。
+1. **Paksu häntä.** Yleisin sana (“say”) kattaa ~1.1 % kaikista tokeneista; todennäköisyydet putoavat nopeasti sijan kasvaessa — klassinen paksun hännän signatuuri.
+2. **Potenssilaki-alue.** Keskialue (noin sijat $10$–$3000$) on lähes suora viiva log–log-koordinaatistossa → potenssilakikäyttäytyminen. Kärki on loivempi (funktiosanat / genrejen sekoitus) ja kaukohäntä taittuu alas (äärellisen otoksen vaikutus).
+3. **Paras eksponentti.** Keskialueelle sovitettu eksponentti on **$a \approx 0.964$**, hyvin lähellä kanonista Zipf-arvoa $1$. Malli $a=1.0$ seuraa dataa tarkasti; $a=0.8$ on liian loiva ja $a=1.2$ liian jyrkkä.
 
-**结论:** 该 Top-20 统一词表总体上较好地服从**齐普夫定律**，指数 **$a\approx0.96$**。头尾的偏差在预期之内。
+**Johtopäätös.** Top-20-kirjojen yhdistetty sanasto noudattaa **Zipfin lakia** hyvällä tarkkuudella eksponentilla **$a\approx0.96$**. Poikkeamat kärjessä ja hännässä ovat odotettuja.
