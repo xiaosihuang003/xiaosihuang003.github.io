@@ -1,5 +1,5 @@
 ---
-title: "Veckovisualisering 1: För tio år sedan, världens lyckligaste länder 2015"
+title: "För tio år sedan, världens lyckligaste länder 2015"
 subtitle: "En Tableau-blick tio år tillbaka"
 date: "2025-08-15"
 lang: "sv"

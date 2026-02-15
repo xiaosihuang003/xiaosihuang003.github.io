@@ -1,5 +1,5 @@
 ---
-title: "Ukentlig visualisering 1: For ti år siden, verdens lykkeligste land i 2015"
+title: "For ti år siden, verdens lykkeligste land i 2015"
 subtitle: "Et Tableau-blikk ti år tilbake"
 date: "2025-08-15"
 lang: "no"

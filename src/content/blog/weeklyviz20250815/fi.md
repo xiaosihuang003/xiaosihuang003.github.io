@@ -1,5 +1,5 @@
 ---
-title: "Viikkovisualisointi 1: Kymmenen vuotta sitten, maailman onnellisimmat maat 2015"
+title: "Kymmenen vuotta sitten, maailman onnellisimmat maat 2015"
 subtitle: "Tableau-katsaus kymmenen vuoden taakse"
 date: "2025-08-15"
 lang: "fi"

@@ -1,5 +1,5 @@
 ---
-title: "Weekly Visualization 1: A Decade Ago, The World’s Happiest Countries in 2015"
+title: "A Decade Ago, The World’s Happiest Countries in 2015"
 subtitle: "A Tableau look at the happiest countries ten years ago"
 date: "2025-08-15"
 lang: "en"
