@@ -107,12 +107,12 @@ const education: Edu[] = [
 ];
 
 const profileByLang: Record<string, { speak: string[]; studied: string[] }> = {
-  en:  { speak: ["English", "Cantonese", "Mandarin"],                      studied: ["Japanese", "Korean", "Finnish"] },
-  zh:  { speak: ["英语", "粤语", "普通话"],                                  studied: ["日语", "韩语", "芬兰语"] },
-  yue: { speak: ["英語", "廣東話", "普通話"],                                studied: ["日文", "韓文", "芬蘭文"] },
-  fi:  { speak: ["englanti", "kantoninkiina", "mandariinikiina"],           studied: ["japani", "korea", "suomi"] },
-  no:  { speak: ["engelsk", "kantonesisk", "mandarin"],                    studied: ["japansk", "koreansk", "finsk "] },
-  sv:  { speak: ["engelska", "kantonesiska", "mandarin"],                  studied: ["japanska", "koreanska", "finska "] },
+  en:  { speak: ["English", "Cantonese", "Mandarin"], studied: ["Japanese", "Finnish"] },
+  zh:  { speak: ["英语", "粤语", "普通话"],            studied: ["日语", "芬兰语"] },
+  yue: { speak: ["英語", "廣東話", "普通話"],          studied: ["日語", "芬蘭語"] },
+  fi:  { speak: ["englanti", "kantoninkiina", "mandariinikiina"], studied: ["japani", "suomi"] },
+  no:  { speak: ["engelsk", "kantonesisk", "mandarin"], studied: ["japansk", "finsk"] },
+  sv:  { speak: ["engelska", "kantonesiska", "mandarin"], studied: ["japanska", "finska"] },
 };
 const langData = profileByLang[lang] ?? profileByLang.en;
 
@@ -359,24 +359,26 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
     #about .count{ font-size:12.5px; color:var(--subtle); }
 
     /* ✅ 语言行：用 grid 固定 label 宽度，chips 自然换行且顶部对齐 */
-    #about .lang-row{
-      display: grid;
-      grid-template-columns: 7.5rem 1fr;
-      gap: .4rem;
-      align-items: start;
-      margin-bottom: .5rem;
-    }
-    #about .lang-label{
-      font-size: 14.5px;
-      color: var(--muted);
-      line-height: 1.7;
-      white-space: nowrap;
-    }
-    #about .lang-chips{
-      display: flex;
-      flex-wrap: wrap;
-      gap: .24rem .32rem;
-    }
+   #about .lang-row{
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  margin-bottom: .55rem;
+}
+#about .lang-label{
+  flex: 0 0 auto;
+  min-width: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  white-space: nowrap;
+}
+#about .lang-chips{
+  flex: 1 1 0%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .28rem .35rem;
+}
 
     #about .chips-wrap{ display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
     #about .pill{ display:inline-block; padding:.16rem .42rem; font-size:.76rem; line-height:1; border-radius:9999px; background:var(--tag-bg); color:var(--tag-text); border:1px solid var(--border); }
