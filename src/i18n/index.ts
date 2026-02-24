@@ -344,7 +344,7 @@ export const dict: Record<Lang, Copy> = {
       links: '連結',
       education: '教育背景',
       languages: '語言',
-      countriesVisited: '去過嘅地方',
+      countriesVisited: '去過嘅國家',
       speak: '我識講',
       studied: '我學過',
       hobbies: '興趣愛好',
