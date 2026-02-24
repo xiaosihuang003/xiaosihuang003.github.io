@@ -40,7 +40,7 @@ const BY_LANG: Record<string, Caps> = {
 };
 const CAPS: Caps = BY_LANG[lang] ?? (CAPS_EN as Caps);
 
-// 年份：把“英文 + 当前语言”的 key 合并，再倒序
+// 年份：把"英文 + 当前语言"的 key 合并，再倒序
 const years = Array.from(new Set([
   ...Object.keys(CAPS_EN as Caps),
   ...Object.keys(CAPS),
@@ -72,7 +72,7 @@ const seasonLabelMap: Record<string, Record<SeasonKey, string>> = {
 const S = seasonLabelMap[lang] ?? seasonLabelMap.en;
 const ORDER: SeasonKey[] = ["Spring", "Summer", "Autumn", "Winter"];
 
-// “年度高光” i18n（页面内自带回退，不改你 i18n 文件）
+// "年度高光" i18n
 const HIGHLIGHTS_LABEL: Record<string, string> = {
   en: "Highlights",
   zh: "年度高光",
@@ -83,7 +83,7 @@ const HIGHLIGHTS_LABEL: Record<string, string> = {
 };
 const HLabel = HIGHLIGHTS_LABEL[lang] ?? HIGHLIGHTS_LABEL.en;
 
-// 序号补零（001、002…），匹配 /Highlights/001.jpg 命名
+// 序号补零（001、002…）
 const pad3 = (n: number) => String(n).padStart(3, "0");
 
 /* ─────────────────────────────────────────
@@ -92,31 +92,30 @@ const pad3 = (n: number) => String(n).padStart(3, "0");
 const avatar = "/images/about/avatar.jpg";
 
 const links: Array<{ label: string; href: string; sub?: string; ext?: boolean }> = [
-  { label: "GitHub",         href: "https://github.com/xiaosihuang003", ext: true },
-  { label: "LinkedIn",       href: "https://www.linkedin.com/in/xiaosi-huang-387559251/", ext: true },
-  { label: "Tableau Public", href: "https://public.tableau.com/app/profile/xiaosi.huang/vizzes", ext: true },
-  { label: "Resume & CV (Updating)",    href: "/resume.pdf", ext: true },
-  { label: "Email :",        href: "mailto:huang.xiaosi@outlook.com", sub: "huang.xiaosi@outlook.com" },
+  { label: "GitHub",                  href: "https://github.com/xiaosihuang003", ext: true },
+  { label: "LinkedIn",                href: "https://www.linkedin.com/in/xiaosi-huang-387559251/", ext: true },
+  { label: "Tableau Public",          href: "https://public.tableau.com/app/profile/xiaosi.huang/vizzes", ext: true },
+  { label: "Resume & CV (Updating)",  href: "/resume.pdf", ext: true },
+  { label: "Email :",                 href: "mailto:huang.xiaosi@outlook.com", sub: "huang.xiaosi@outlook.com" },
 ];
 
 const thesisUrl = "https://www.theseus.fi/handle/10024/885903";
 type Edu = { title: string; school: string; period: string; gpa?: string; thesis?: { label: string; href: string } };
 const education: Edu[] = [
   { title: "M.Sc. in Data Science (ongoing)", school: "Tampere University", period: "Aug 2025 – present" },
-  { title: "B.Eng. in Software Engineering",  school: "Tampere University of Applied Sciences", period: "Aug 2021 – May 2025", gpa: "GPA: 4.63 / 5", thesis: { label: "Bachelor’s Thesis", href: thesisUrl } },
+  { title: "B.Eng. in Software Engineering",  school: "Tampere University of Applied Sciences", period: "Aug 2021 – May 2025", gpa: "GPA: 4.63 / 5", thesis: { label: "Bachelor's Thesis", href: thesisUrl } },
 ];
 
-const profileByLang: Record<string, { speak: string[]; studied: string[]; learning: string[] }> = {
-  en: { speak: ["English", "Cantonese", "Mandarin"], studied: ["Japanese", "Korean", "Finnish"], learning: ["Norwegian", "Swedish"] },
-  zh: { speak: ["英语", "粤语", "普通话"],             studied: ["日语", "韩语", "芬兰语"],     learning: ["挪威语", "瑞典语"] },
-  yue:{ speak: ["英語", "廣東話", "普通話"],           studied: ["日文", "韓文", "芬蘭文"],     learning: ["挪威文", "瑞典文"] },
-  fi: { speak: ["englanti", "kantoninkiina", "mandariinikiina"], studied: ["japani", "korea", "suomi"], learning: ["norja", "ruotsi"] },
-  no: { speak: ["engelsk", "kantonesisk", "mandarin"],           studied: ["japansk", "koreansk", "finsk"], learning: ["norsk", "svensk"] },
-  sv: { speak: ["engelska", "kantonesiska", "mandarin"],         studied: ["japanska", "koreanska", "finska"], learning: ["norska", "svenska"] },
+const profileByLang: Record<string, { speak: string[]; studied: string[] }> = {
+  en:  { speak: ["English", "Cantonese", "Mandarin"],                      studied: ["Japanese", "Korean", "Finnish"] },
+  zh:  { speak: ["英语", "粤语", "普通话"],                                  studied: ["日语", "韩语", "芬兰语"] },
+  yue: { speak: ["英語", "廣東話", "普通話"],                                studied: ["日文", "韓文", "芬蘭文"] },
+  fi:  { speak: ["englanti", "kantoninkiina", "mandariinikiina"],           studied: ["japani", "korea", "suomi"] },
+  no:  { speak: ["engelsk", "kantonesisk", "mandarin"],                    studied: ["japansk", "koreansk", "finsk "] },
+  sv:  { speak: ["engelska", "kantonesiska", "mandarin"],                  studied: ["japanska", "koreanska", "finska "] },
 };
 const langData = profileByLang[lang] ?? profileByLang.en;
 
-// ✅ 多语言国家名称（按语言显示，缺失时回退英文）
 const VISITED = [
   "FR","JP","RU","TR","FI","LV","NO","HU","AT","LT",
   "IT","CZ","SK","BE","EE","SE","ES","PT","CH","DE",
@@ -171,17 +170,17 @@ const countryNames: Record<string, Record<CC, string>> = {
   },
 };
 
-// 生成最终展示数组（带国旗），若当前语言缺失则回退英文
 const countries = VISITED.map((cc) => `${flags[cc]}${countryNames[lang]?.[cc] ?? countryNames.en[cc]}`);
 
-
+// ✅ 更新后的技能（基于实际背景）
 const skills = [
-  "Tableau","Data Visualization","Dashboard Design",
-  "SQL","Python","Pandas","Excel","Statistics",
-  "A/B Testing","Storytelling","ETL","Data Cleaning"
+  "Python", "SQL", "PySpark",
+  "Databricks", "Azure", "AWS",
+  "Data Visualization", "Tableau", "Dashboard Design",
+  "Pandas", "Statistics", "Machine Learning",
+  "ETL", "Data Cleaning", "Storytelling",
 ];
 
-// goodAt 标题的 i18n 回退
 const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at?";
 ---
 
@@ -240,7 +239,7 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
 
         <div class="md:col-span-2 md:col-start-2">
           <h2 class="col-title">{goodAtTitle}</h2>
-          <div class="countries-chips">
+          <div class="chips-wrap">
             {skills.map((s) => <span class="pill">{s}</span>)}
           </div>
         </div>
@@ -255,17 +254,16 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
 
           <div class="lang-row">
             <span class="lang-label">{t.about.speak}</span>
-            <div class="lang-chips">{langData.speak.map((x) => <span class="pill">{x}</span>)}</div>
+            <div class="lang-chips">
+              {langData.speak.map((x) => <span class="pill">{x}</span>)}
+            </div>
           </div>
 
           <div class="lang-row">
             <span class="lang-label">{t.about.studied}</span>
-            <div class="lang-chips">{langData.studied.map((x) => <span class="pill">{x}</span>)}</div>
-          </div>
-
-          <div class="lang-row">
-            <span class="lang-label">{t.about.learning}</span>
-            <div class="lang-chips">{langData.learning.map((x) => <span class="pill">{x}</span>)}</div>
+            <div class="lang-chips">
+              {langData.studied.map((x) => <span class="pill">{x}</span>)}
+            </div>
           </div>
         </div>
 
@@ -273,12 +271,12 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
           <h2 class="sec-title flex items-baseline gap-2">
             {t.about.countriesVisited} <span class="count">({countries.length})</span>
           </h2>
-          <div class="countries-chips">{countries.map((c) => <span class="pill">{c}</span>)}</div>
+          <div class="chips-wrap">{countries.map((c) => <span class="pill">{c}</span>)}</div>
         </div>
       </div>
     </section>
 
-    <!-- 照片墙：若有 Highlights 先展示；四季也用与 Highlights 相同的 masonry 尺寸 -->
+    <!-- 照片墙 -->
     <section class="mt-4">
       <h2 class="text-xl font-semibold">{t.about.fourSeasonsTitle}</h2>
       <p class="text-zinc-600 dark:text-zinc-300 mb-3 text-[15px]">{t.about.fourSeasonsSubtitle}</p>
@@ -291,7 +289,6 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
               {year} · {S.Spring} • {S.Summer} • {S.Autumn} • {S.Winter}
             </h3>
 
-            {/* 年度高光（可选） */}
             {H.length > 0 && (
               <div class="mb-3">
                 <div class="text-[15px] font-semibold mb-2">{HLabel}</div>
@@ -316,7 +313,6 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
               </div>
             )}
 
-            {/* 四季：与高光相同的 masonry 尺寸与样式 */}
             <div class="masonry">
               {ORDER.map((s) => (
                 <figure class="masonry-item rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/60 overflow-hidden">
@@ -362,27 +358,33 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
     #about .sec-title{ font-size:1rem; font-weight:700; margin-bottom:.35rem; }
     #about .count{ font-size:12.5px; color:var(--subtle); }
 
-    #about .lang-row{ display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin-bottom:.40rem; }
-    #about .lang-label{ flex:0 0 auto; white-space:nowrap; font-size:14.5px; color:var(--muted); line-height:1.2; margin:0; }
-    #about .lang-chips{ flex:1 1 0%; min-width:0; display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
+    /* ✅ 语言行：用 grid 固定 label 宽度，chips 自然换行且顶部对齐 */
+    #about .lang-row{
+      display: grid;
+      grid-template-columns: 7.5rem 1fr;
+      gap: .4rem;
+      align-items: start;
+      margin-bottom: .5rem;
+    }
+    #about .lang-label{
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.7;
+      white-space: nowrap;
+    }
+    #about .lang-chips{
+      display: flex;
+      flex-wrap: wrap;
+      gap: .24rem .32rem;
+    }
 
-    #about .countries-chips{ display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
+    #about .chips-wrap{ display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
     #about .pill{ display:inline-block; padding:.16rem .42rem; font-size:.76rem; line-height:1; border-radius:9999px; background:var(--tag-bg); color:var(--tag-text); border:1px solid var(--border); }
 
-    /* ================ Masonry（用于“年度高光”和“四季”） ================ */
-    #about .masonry{
-      column-count: 1;
-      column-gap: .875rem; /* ≈ gap-3.5 */
-    }
-    @media (min-width:640px){
-      #about .masonry{ column-count: 2; }
-    }
-    @media (min-width:1024px){
-      #about .masonry{ column-count: 4; }
-    }
-    #about .masonry-item{
-      break-inside: avoid;
-      margin-bottom: .875rem;
-    }
+    /* Masonry */
+    #about .masonry{ column-count:1; column-gap:.875rem; }
+    @media (min-width:640px){ #about .masonry{ column-count:2; } }
+    @media (min-width:1024px){ #about .masonry{ column-count:4; } }
+    #about .masonry-item{ break-inside:avoid; margin-bottom:.875rem; }
   </style>
 </Layout>

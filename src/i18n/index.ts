@@ -25,16 +25,12 @@ export const htmlLangMap = hreflangMap;
 
 type Card = { title: string; desc: string };
 type Copy = {
-  /** nav 里新增 docs，不影响现有键 */
   nav: { home: string; projects: string; blog: string; about: string; docs: string };
   ui: {
     backToBlog: string;
     backToProjects: string;
-    /** 新增返回文档 */
     backToDocs: string;
     breadcrumbs: { home: string; blog: string };
-
-    /** 标签筛选的本地化 */
     tags: {
       placeholder: string;
       clear: string;
@@ -52,9 +48,7 @@ type Copy = {
   };
   blog: { title: string; subtitle: string; empty: string };
   projects: { title: string; subtitle: string };
-  /** 新增 docs 文案分组 */
   docs: { title: string; subtitle: string; empty: string };
-  // about 增加 seasons 字段（季节名本地化）
   about: {
     title: string;
     subtitle: string;
@@ -64,7 +58,6 @@ type Copy = {
     countriesVisited: string;
     speak: string;
     studied: string;
-    learning: string;
     fourSeasonsTitle: string;
     fourSeasonsSubtitle: string;
     goodAtTitle: string;
@@ -112,10 +105,9 @@ export const dict: Record<Lang, Copy> = {
       languages: 'Languages',
       countriesVisited: 'Countries visited',
       speak: 'I speak',
-      studied: 'I have studied',
-      learning: 'I’m learning',
+      studied: 'I have learned',
       fourSeasonsTitle: 'Four Seasons',
-      fourSeasonsSubtitle: 'A tiny photo diary, four seasons each year. I’ll keep it updated.',
+      fourSeasonsSubtitle: 'A tiny photo diary, four seasons each year. I\'ll keep it updated.',
       goodAtTitle: 'What I am good at?',
       seasons: { spring: 'Spring', summer: 'Summer', autumn: 'Autumn', winter: 'Winter' },
     },
@@ -160,8 +152,7 @@ export const dict: Record<Lang, Copy> = {
       languages: 'Kielet',
       countriesVisited: 'Käydyt maat',
       speak: 'Puhun',
-      studied: 'Olen opiskellut',
-      learning: 'Opiskelen',
+      studied: 'Olen oppinut',
       fourSeasonsTitle: 'Neljä vuodenaikaa',
       fourSeasonsSubtitle: 'Pieni kuvapäiväkirja, neljä vuodenaikaa vuodessa. Päivitän sitä.',
       goodAtTitle: 'Missä olen hyvä?',
@@ -208,8 +199,7 @@ export const dict: Record<Lang, Copy> = {
       languages: 'Språk',
       countriesVisited: 'Land jeg har besøkt',
       speak: 'Jeg snakker',
-      studied: 'Jeg har studert',
-      learning: 'Jeg lærer',
+      studied: 'Jeg har lært',
       fourSeasonsTitle: 'Fire årstider',
       fourSeasonsSubtitle: 'En liten fotodagbok, fire årstider hvert år. Jeg holder den oppdatert.',
       goodAtTitle: 'Hva er jeg god på?',
@@ -256,8 +246,7 @@ export const dict: Record<Lang, Copy> = {
       languages: 'Språk',
       countriesVisited: 'Länder jag besökt',
       speak: 'Jag talar',
-      studied: 'Jag har studerat',
-      learning: 'Jag lär mig',
+      studied: 'Jag har lärt mig',
       fourSeasonsTitle: 'Fyra årstider',
       fourSeasonsSubtitle: 'En liten fotodagbok, fyra årstider varje år. Jag håller den uppdaterad.',
       goodAtTitle: 'Vad är jag bra på?',
@@ -305,7 +294,6 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: '去过的国家',
       speak: '我会说',
       studied: '我学过',
-      learning: '我正在学',
       fourSeasonsTitle: '我的一年四季',
       fourSeasonsSubtitle: '一个小小的照片日记, 每年四季各一张，我会持续更新。',
       goodAtTitle: '我擅长什么？',
@@ -353,7 +341,6 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: '去過嘅國家',
       speak: '我識講',
       studied: '我學過',
-      learning: '我而家學緊',
       fourSeasonsTitle: '四季',
       fourSeasonsSubtitle: '一個細細嘅相簿日記, 每年四季各一張，我會持續更新。',
       goodAtTitle: '我擅長乜嘢？',
