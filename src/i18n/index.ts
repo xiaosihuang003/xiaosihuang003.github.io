@@ -58,6 +58,7 @@ type Copy = {
     countriesVisited: string;
     speak: string;
     studied: string;
+    hobbies: string;
     fourSeasonsTitle: string;
     fourSeasonsSubtitle: string;
     goodAtTitle: string;
@@ -106,6 +107,7 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: 'Countries visited',
       speak: 'I speak',
       studied: 'I have learned',
+      hobbies: 'Hobbies',
       fourSeasonsTitle: 'Four Seasons',
       fourSeasonsSubtitle: 'A tiny photo diary, four seasons each year. I\'ll keep it updated.',
       goodAtTitle: 'What I am good at?',
@@ -153,6 +155,7 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: 'Käydyt maat',
       speak: 'Puhun',
       studied: 'Olen oppinut',
+      hobbies: 'Harrastukset',
       fourSeasonsTitle: 'Neljä vuodenaikaa',
       fourSeasonsSubtitle: 'Pieni kuvapäiväkirja, neljä vuodenaikaa vuodessa. Päivitän sitä.',
       goodAtTitle: 'Missä olen hyvä?',
@@ -200,6 +203,7 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: 'Land jeg har besøkt',
       speak: 'Jeg snakker',
       studied: 'Jeg har lært',
+      hobbies: 'Hobbyer',
       fourSeasonsTitle: 'Fire årstider',
       fourSeasonsSubtitle: 'En liten fotodagbok, fire årstider hvert år. Jeg holder den oppdatert.',
       goodAtTitle: 'Hva er jeg god på?',
@@ -247,6 +251,7 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: 'Länder jag besökt',
       speak: 'Jag talar',
       studied: 'Jag har lärt mig',
+      hobbies: 'Hobbyer',
       fourSeasonsTitle: 'Fyra årstider',
       fourSeasonsSubtitle: 'En liten fotodagbok, fyra årstider varje år. Jag håller den uppdaterad.',
       goodAtTitle: 'Vad är jag bra på?',
@@ -294,6 +299,7 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: '去过的国家',
       speak: '我会说',
       studied: '我学过',
+      hobbies: '兴趣爱好',
       fourSeasonsTitle: '我的一年四季',
       fourSeasonsSubtitle: '一个小小的照片日记, 每年四季各一张，我会持续更新。',
       goodAtTitle: '我擅长什么？',
@@ -341,6 +347,7 @@ export const dict: Record<Lang, Copy> = {
       countriesVisited: '去過嘅國家',
       speak: '我識講',
       studied: '我學過',
+      hobbies: '興趣愛好',
       fourSeasonsTitle: '四季',
       fourSeasonsSubtitle: '一個細細嘅相簿日記, 每年四季各一張，我會持續更新。',
       goodAtTitle: '我擅長乜嘢？',
