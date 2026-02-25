@@ -99,7 +99,7 @@ export const dict: Record<Lang, Copy> = {
     docs: { title: 'Docs', subtitle: 'Technical notes and how-to commands.', empty: 'No docs yet.' },
     about: {
       title: 'About me',
-      subtitle: 'I am Xiaosi. I love my life.',
+      subtitle: 'Hi, I am Xiaosi, and I love my life.',
       links: 'Links',
       education: 'Education',
       languages: 'Languages',
@@ -148,7 +148,7 @@ export const dict: Record<Lang, Copy> = {
     docs: { title: 'Dokumentit', subtitle: 'Tekniset muistiinpanot ja komennot.', empty: 'Ei vielä dokumentteja.' },
     about: {
       title: 'Tietoa minusta',
-      subtitle: 'Olen Xiaosi. Rakastan elämääni.',
+      subtitle: 'Hei, olen Xiaosi, ja rakastan elämääni.',
       links: 'Linkit',
       education: 'Koulutus',
       languages: 'Kielet',
@@ -197,7 +197,7 @@ export const dict: Record<Lang, Copy> = {
     docs: { title: 'Dokumenter', subtitle: 'Tekniske notater og kommandoer.', empty: 'Ingen dokumenter ennå.' },
     about: {
       title: 'Om meg',
-      subtitle: 'Jeg er Xiaosi. Jeg elsker livet mitt.',
+      subtitle: 'Hei, jeg er Xiaosi, og jeg elsker livet mitt.',
       links: 'Lenker',
       education: 'Utdanning',
       languages: 'Språk',
@@ -246,7 +246,7 @@ export const dict: Record<Lang, Copy> = {
     docs: { title: 'Dokument', subtitle: 'Tekniska anteckningar och kommandon.', empty: 'Inga dokument ännu.' },
     about: {
       title: 'Om mig',
-      subtitle: 'Jag är Xiaosi. Jag älskar mitt liv.',
+      subtitle: 'Hej, jag är Xiaosi, och jag älskar mitt liv.',
       links: 'Länkar',
       education: 'Utbildning',
       languages: 'Språk',
@@ -295,7 +295,7 @@ export const dict: Record<Lang, Copy> = {
     docs: { title: '文档', subtitle: '技术记录与操作命令。', empty: '暂无文档' },
     about: {
       title: '关于我',
-      subtitle: '我是晓思。我很热爱我的生活。',
+      subtitle: 'Hi，我是晓思，我热爱我的生活。',
       links: '链接',
       education: '教育经历',
       languages: '语言',
@@ -344,7 +344,7 @@ export const dict: Record<Lang, Copy> = {
     docs: { title: '文檔', subtitle: '技術筆記同操作指令。', empty: '暫時未有文檔' },
     about: {
       title: '關於我',
-      subtitle: '我係曉思。我好熱愛我嘅生活。',
+      subtitle: 'Hi，我係曉思，我好熱愛我嘅生活。',
       links: '連結',
       education: '教育背景',
       languages: '語言',
