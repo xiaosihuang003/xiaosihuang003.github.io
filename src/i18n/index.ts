@@ -85,8 +85,8 @@ export const dict: Record<Lang, Copy> = {
     home: {
       line1: 'Tell stories with data,',
       line2: 'turn insights into impact',
-      lead1: 'Focused on Data visualization, dashboard design, and business analytics.',
-      lead2: 'Here are my selected projects, methods, and notes.',
+      lead1: 'From raw data to clear decisions — with Python, SQL, PySpark and cloud platforms.',
+      lead2: 'Exploring data engineering, analytics, and machine learning.',
       btnProjects: 'View Projects', btnAbout: 'About Me',
       cards: [
         { title: 'Dashboards', desc: 'Growth, operations, and marketing KPIs' },
@@ -134,8 +134,8 @@ export const dict: Record<Lang, Copy> = {
     home: {
       line1: 'Kerro tarinoita datalla,',
       line2: 'muuta oivallukset vaikutukseksi',
-      lead1: 'Keskittyy Data-visualisointeihin, kojelautojen suunnitteluun ja liiketoiminta-analytiikkaan.',
-      lead2: 'Täältä löytyvät valikoidut projektit, menetelmät ja muistiinpanot.',
+      lead1: 'Raaasta datasta selkeisiin päätöksiin — Pythonilla, SQL:llä, PySparkilla ja pilvialustoilla.',
+      lead2: 'Tutkin data-insinöörityötä, analytiikkaa ja koneoppimista.',
       btnProjects: 'Katso projektit', btnAbout: 'Tietoa minusta',
       cards: [
         { title: 'Kojelaudat', desc: 'Kasvun, operaatioiden ja markkinoinnin KPI:t' },
@@ -183,8 +183,8 @@ export const dict: Record<Lang, Copy> = {
     home: {
       line1: 'Fortell historier med data,',
       line2: 'gjør innsikt om til effekt',
-      lead1: 'Fokus på Data-visualisering, dashboards og forretningsanalyse.',
-      lead2: 'Her finner du utvalgte prosjekter, metoder og notater.',
+      lead1: 'Fra rådata til klare beslutninger — med Python, SQL, PySpark og skyplattformer.',
+      lead2: 'Utforsker dataingeniørarbeid, analyse og maskinlæring.',
       btnProjects: 'Se prosjekter', btnAbout: 'Om meg',
       cards: [
         { title: 'Dashboards', desc: 'KPI-er for vekst, drift og markedsføring' },
@@ -232,8 +232,8 @@ export const dict: Record<Lang, Copy> = {
     home: {
       line1: 'Berätta historier med data,',
       line2: 'förvandla insikter till påverkan',
-      lead1: 'Fokuserar på Data-visualisering, instrumentpaneler och affärsanalys.',
-      lead2: 'Här är utvalda projekt, metoder och anteckningar.',
+      lead1: 'Från rådata till tydliga beslut — med Python, SQL, PySpark och molnplattformar.',
+      lead2: 'Utforskar datateknik, analys och maskininlärning.',
       btnProjects: 'Visa projekt', btnAbout: 'Om mig',
       cards: [
         { title: 'Instrumentpaneler', desc: 'Tillväxt, drift och marknadsförings-KPI:er' },
@@ -281,8 +281,8 @@ export const dict: Record<Lang, Copy> = {
     home: {
       line1: '用数据讲故事，',
       line2: '将洞察化作影响',
-      lead1: '专注 Data 可视化、仪表板设计与业务分析。',
-      lead2: '这里可以看到我精选的项目、方法与笔记。',
+      lead1: '从原始数据到清晰决策 — 运用 Python、SQL、PySpark 与云平台。',
+      lead2: '专注于数据工程、分析与机器学习。',
       btnProjects: '查看项目', btnAbout: '关于我',
       cards: [
         { title: '可视化仪表板', desc: '增长、运营与市场关键指标' },
@@ -330,8 +330,8 @@ export const dict: Record<Lang, Copy> = {
     home: {
       line1: '用數據講故事，',
       line2: '將洞察化為影響力',
-      lead1: '專注數據可視化、儀表板設計同商業分析。',
-      lead2: '呢度有我精選嘅項目、方法同筆記。',
+      lead1: '由原始數據到清晰決策 — 運用 Python、SQL、PySpark 同雲端平台。',
+      lead2: '專注數據工程、分析同機器學習。',
       btnProjects: '睇項目', btnAbout: '關於我',
       cards: [
         { title: '數據儀表板', desc: '增長、運營同市場關鍵指標' },
