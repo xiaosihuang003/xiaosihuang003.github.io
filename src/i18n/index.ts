@@ -7,7 +7,6 @@ export function normalizeLang(input?: string): Lang {
   return (languages as readonly string[]).includes(v) ? (v as Lang) : 'en';
 }
 
-/** 下拉菜单：国旗 + 文案 + 徽标 */
 export const langMeta: Record<Lang, { flag: string; label: string; badge: string }> = {
   en:  { flag: '🇬🇧', label: 'English',   badge: 'EN'  },
   fi:  { flag: '🇫🇮', label: 'Suomi',     badge: 'FI'  },
@@ -17,7 +16,6 @@ export const langMeta: Record<Lang, { flag: string; label: string; badge: string
   yue: { flag: '🇨🇳', label: 'Cantonese', badge: '粤'  },
 };
 
-/** hreflang / html lang */
 export const hreflangMap = {
   en: 'en', fi: 'fi', no: 'no', sv: 'sv', zh: 'zh-Hans', yue: 'yue-Hant',
 } as const;
@@ -59,6 +57,7 @@ type Copy = {
     speak: string;
     studied: string;
     hobbies: string;
+    hobbyList: string[];
     fourSeasonsTitle: string;
     fourSeasonsSubtitle: string;
     goodAtTitle: string;
@@ -108,8 +107,9 @@ export const dict: Record<Lang, Copy> = {
       speak: 'I speak',
       studied: 'I have learned',
       hobbies: 'Hobbies',
+      hobbyList: ['🎹 Piano', '🎵 Kalimba', '🎬 Video Editing', '✈️ Travel'],
       fourSeasonsTitle: 'Four Seasons',
-      fourSeasonsSubtitle: 'A tiny photo diary, four seasons each year. I\'ll keep it updated.',
+      fourSeasonsSubtitle: "A tiny photo diary, four seasons each year. I'll keep it updated.",
       goodAtTitle: 'What I am good at?',
       seasons: { spring: 'Spring', summer: 'Summer', autumn: 'Autumn', winter: 'Winter' },
     },
@@ -156,6 +156,7 @@ export const dict: Record<Lang, Copy> = {
       speak: 'Puhun',
       studied: 'Olen oppinut',
       hobbies: 'Harrastukset',
+      hobbyList: ['🎹 Piano', '🎵 Kalimba', '🎬 Videoeditointi', '✈️ Matkustaminen'],
       fourSeasonsTitle: 'Neljä vuodenaikaa',
       fourSeasonsSubtitle: 'Pieni kuvapäiväkirja, neljä vuodenaikaa vuodessa. Päivitän sitä.',
       goodAtTitle: 'Missä olen hyvä?',
@@ -204,6 +205,7 @@ export const dict: Record<Lang, Copy> = {
       speak: 'Jeg snakker',
       studied: 'Jeg har lært',
       hobbies: 'Hobbyer',
+      hobbyList: ['🎹 Piano', '🎵 Kalimba', '🎬 Videoredigering', '✈️ Reising'],
       fourSeasonsTitle: 'Fire årstider',
       fourSeasonsSubtitle: 'En liten fotodagbok, fire årstider hvert år. Jeg holder den oppdatert.',
       goodAtTitle: 'Hva er jeg god på?',
@@ -252,6 +254,7 @@ export const dict: Record<Lang, Copy> = {
       speak: 'Jag talar',
       studied: 'Jag har lärt mig',
       hobbies: 'Hobbyer',
+      hobbyList: ['🎹 Piano', '🎵 Kalimba', '🎬 Videoredigering', '✈️ Resande'],
       fourSeasonsTitle: 'Fyra årstider',
       fourSeasonsSubtitle: 'En liten fotodagbok, fyra årstider varje år. Jag håller den uppdaterad.',
       goodAtTitle: 'Vad är jag bra på?',
@@ -300,6 +303,7 @@ export const dict: Record<Lang, Copy> = {
       speak: '我会说',
       studied: '我学过',
       hobbies: '兴趣爱好',
+      hobbyList: ['🎹 钢琴', '🎵 卡林巴', '🎬 视频剪辑', '✈️ 旅游'],
       fourSeasonsTitle: '我的一年四季',
       fourSeasonsSubtitle: '一个小小的照片日记，每年四季各一张，我会持续更新。',
       goodAtTitle: '我擅长什么？',
@@ -344,10 +348,11 @@ export const dict: Record<Lang, Copy> = {
       links: '連結',
       education: '教育背景',
       languages: '語言',
-      countriesVisited: '去過嘅國家',
+      countriesVisited: '去過嘅地方',
       speak: '我識講',
       studied: '我學過',
       hobbies: '興趣愛好',
+      hobbyList: ['🎹 鋼琴', '🎵 卡林巴', '🎬 影片剪輯', '✈️ 旅遊'],
       fourSeasonsTitle: '四季日記',
       fourSeasonsSubtitle: '一本小小嘅相片日記，每年四季各一張，會持續更新。',
       goodAtTitle: '我擅長咩？',

@@ -268,10 +268,7 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
 
            <h2 class="sec-title mt-4">{t.about.hobbies}</h2>
             <div class="lang-chips">
-              <span class="pill">🎹 Piano</span>
-              <span class="pill">🎵 Kalimba</span>
-              <span class="pill">🎬 Video Editing</span>
-              <span class="pill">✈️ Travel</span>
+              {t.about.hobbyList.map((h) => <span class="pill">{h}</span>)}
             </div>
         </div>
 
