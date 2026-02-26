@@ -258,11 +258,9 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
           </div>
 
           <!-- Hobbies -->
-          <div class="lang-row">
-            <span class="lang-label">{t.about.hobbies}</span>
-            <div class="lang-chips">
-              {t.about.hobbyList.map((h) => <span class="pill">{h}</span>)}
-            </div>
+          <h2 class="sec-title mt-3">{t.about.hobbies}</h2>
+          <div class="chips-wrap">
+            {t.about.hobbyList.map((h) => <span class="pill">{h}</span>)}
           </div>
         </div>
 
@@ -359,16 +357,17 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
 
     #about .lang-row{
       display: grid;
-      grid-template-columns: 7.5rem 1fr;
+      grid-template-columns: auto 1fr;
       gap: .4rem;
       align-items: start;
-      margin-bottom: .5rem;
+      margin-bottom: .3rem;
     }
     #about .lang-label{
       font-size: 14.5px;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.6;
       white-space: nowrap;
+      padding-top: .1rem;
     }
     #about .lang-chips{
       display: flex;
