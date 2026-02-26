@@ -3,7 +3,6 @@
 import Layout from "../../layouts/Layout.astro";
 import { dict, normalizeLang, languages } from "../../i18n";
 
-// 动态路由
 export const prerender = true;
 export function getStaticPaths() {
   return (languages as readonly string[]).map((lang) => ({ params: { lang } }));
@@ -12,9 +11,9 @@ export function getStaticPaths() {
 const lang = normalizeLang(Astro.params.lang as string);
 const t = dict[lang];
 
-/* ─────────────────────────────────────────
+/* ────────────────────────────────────────────
    ① 照片墙数据：静态导入 JSON
-   ───────────────────────────────────────── */
+   ──────────────────────────────────────────── */
 import CAPS_EN from "../../data/albums.en.json";
 import CAPS_ZH from "../../data/albums.zh.json";
 import CAPS_YUE from "../../data/albums.yue.json";
@@ -22,14 +21,10 @@ import CAPS_FI from "../../data/albums.fi.json";
 import CAPS_NO from "../../data/albums.no.json";
 import CAPS_SV from "../../data/albums.sv.json";
 
-/** 四季键 */
 type SeasonKey = "Spring" | "Summer" | "Autumn" | "Winter";
-
-/** 每年的文案结构：四季 + 可选的 Highlights（按 001/002… 对应） */
 type YearCaps = Partial<Record<SeasonKey, string>> & { Highlights?: string[] };
 type Caps = Record<string, YearCaps>;
 
-// 当前语言的 caption 映射（没有则回退到英文）
 const BY_LANG: Record<string, Caps> = {
   en: CAPS_EN as Caps,
   zh: CAPS_ZH as Caps,
@@ -40,7 +35,6 @@ const BY_LANG: Record<string, Caps> = {
 };
 const CAPS: Caps = BY_LANG[lang] ?? (CAPS_EN as Caps);
 
-// 年份：把"英文 + 当前语言"的 key 合并，再倒序
 const years = Array.from(new Set([
   ...Object.keys(CAPS_EN as Caps),
   ...Object.keys(CAPS),
@@ -48,19 +42,16 @@ const years = Array.from(new Set([
   .map((y) => Number(y))
   .sort((a, b) => b - a);
 
-// 先取当前语言 caption，缺失则回退英文
 const captionOf = (year: number, s: SeasonKey) =>
   CAPS[String(year)]?.[s] ??
   (CAPS_EN as Caps)[String(year)]?.[s] ??
   "";
 
-// 取某年的 Highlights（若无则空数组）
 const highlightsOf = (year: number): string[] =>
   (CAPS[String(year)]?.Highlights ??
    (CAPS_EN as Caps)[String(year)]?.Highlights ??
    []) as string[];
 
-// 各语言的季节名
 const seasonLabelMap: Record<string, Record<SeasonKey, string>> = {
   en: { Spring: "Spring", Summer: "Summer", Autumn: "Autumn", Winter: "Winter" },
   zh: { Spring: "春", Summer: "夏", Autumn: "秋", Winter: "冬" },
@@ -72,7 +63,6 @@ const seasonLabelMap: Record<string, Record<SeasonKey, string>> = {
 const S = seasonLabelMap[lang] ?? seasonLabelMap.en;
 const ORDER: SeasonKey[] = ["Spring", "Summer", "Autumn", "Winter"];
 
-// "年度高光" i18n
 const HIGHLIGHTS_LABEL: Record<string, string> = {
   en: "Highlights",
   zh: "年度高光",
@@ -83,20 +73,19 @@ const HIGHLIGHTS_LABEL: Record<string, string> = {
 };
 const HLabel = HIGHLIGHTS_LABEL[lang] ?? HIGHLIGHTS_LABEL.en;
 
-// 序号补零（001、002…）
 const pad3 = (n: number) => String(n).padStart(3, "0");
 
-/* ─────────────────────────────────────────
+/* ────────────────────────────────────────────
    ② 其余数据（头像/链接/教育/语言/国家/技能）
-   ───────────────────────────────────────── */
+   ──────────────────────────────────────────── */
 const avatar = "/images/about/avatar.jpg";
 
 const links: Array<{ label: string; href: string; sub?: string; ext?: boolean }> = [
-  { label: "GitHub",                  href: "https://github.com/xiaosihuang003", ext: true },
-  { label: "LinkedIn",                href: "https://www.linkedin.com/in/xiaosi-huang-387559251/", ext: true },
-  { label: "Tableau Public",          href: "https://public.tableau.com/app/profile/xiaosi.huang/vizzes", ext: true },
-  { label: "Resume & CV (Updating)",  href: "/resume.pdf", ext: true },
-  { label: "Email :",                 href: "mailto:huang.xiaosi@outlook.com", sub: "huang.xiaosi@outlook.com" },
+  { label: "GitHub",                 href: "https://github.com/xiaosihuang003", ext: true },
+  { label: "LinkedIn",               href: "https://www.linkedin.com/in/xiaosi-huang-387559251/", ext: true },
+  { label: "Tableau Public",         href: "https://public.tableau.com/app/profile/xiaosi.huang/vizzes", ext: true },
+  { label: "Resume & CV (Updating)", href: "/resume.pdf", ext: true },
+  { label: "Email :",                href: "mailto:huang.xiaosi@outlook.com", sub: "huang.xiaosi@outlook.com" },
 ];
 
 const thesisUrl = "https://www.theseus.fi/handle/10024/885903";
@@ -107,12 +96,12 @@ const education: Edu[] = [
 ];
 
 const profileByLang: Record<string, { speak: string[]; studied: string[] }> = {
-  en:  { speak: ["English", "Cantonese", "Mandarin"], studied: ["Japanese", "Finnish"] },
-  zh:  { speak: ["英语", "粤语", "普通话"],            studied: ["日语", "芬兰语"] },
-  yue: { speak: ["英語", "廣東話", "普通話"],          studied: ["日語", "芬蘭語"] },
-  fi:  { speak: ["englanti", "kantoninkiina", "mandariinikiina"], studied: ["japani", "suomi"] },
-  no:  { speak: ["engelsk", "kantonesisk", "mandarin"], studied: ["japansk", "finsk"] },
-  sv:  { speak: ["engelska", "kantonesiska", "mandarin"], studied: ["japanska", "finska"] },
+  en:  { speak: ["English", "Cantonese", "Mandarin"],               studied: ["Japanese", "Finnish"] },
+  zh:  { speak: ["英语", "粤语", "普通话"],                           studied: ["日语", "芬兰语"] },
+  yue: { speak: ["英語", "廣東話", "普通話"],                         studied: ["日文", "芬蘭文"] },
+  fi:  { speak: ["englanti", "kantoninkiina", "mandariinikiina"],   studied: ["japani", "suomi"] },
+  no:  { speak: ["engelsk", "kantonesisk", "mandarin"],             studied: ["japansk", "finsk"] },
+  sv:  { speak: ["engelska", "kantonesiska", "mandarin"],           studied: ["japanska", "finska"] },
 };
 const langData = profileByLang[lang] ?? profileByLang.en;
 
@@ -172,11 +161,11 @@ const countryNames: Record<string, Record<CC, string>> = {
 
 const countries = VISITED.map((cc) => `${flags[cc]}${countryNames[lang]?.[cc] ?? countryNames.en[cc]}`);
 
-// ✅ 更新后的技能（基于实际背景）
+// ✅ Power BI added, ETL removed
 const skills = [
   "Python", "SQL", "PySpark",
   "Databricks", "Azure", "AWS",
-  "Data Visualization", "Tableau", "Dashboard Design",
+  "Data Visualization", "Tableau", "Power BI", "Dashboard Design",
   "Pandas", "Statistics", "Machine Learning",
   "Data Cleaning", "Storytelling",
 ];
@@ -252,6 +241,7 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
         <div class="md:col-span-1">
           <h2 class="sec-title">{t.about.languages}</h2>
 
+          <!-- I speak -->
           <div class="lang-row">
             <span class="lang-label">{t.about.speak}</span>
             <div class="lang-chips">
@@ -259,6 +249,7 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
             </div>
           </div>
 
+          <!-- I have learned -->
           <div class="lang-row">
             <span class="lang-label">{t.about.studied}</span>
             <div class="lang-chips">
@@ -266,9 +257,13 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
             </div>
           </div>
 
-           <div class="lang-chips">
+          <!-- Hobbies -->
+          <div class="lang-row">
+            <span class="lang-label">{t.about.hobbies}</span>
+            <div class="lang-chips">
               {t.about.hobbyList.map((h) => <span class="pill">{h}</span>)}
             </div>
+          </div>
         </div>
 
         <div class="md:col-span-2">
@@ -362,27 +357,24 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
     #about .sec-title{ font-size:1rem; font-weight:700; margin-bottom:.35rem; }
     #about .count{ font-size:12.5px; color:var(--subtle); }
 
-    /* ✅ 语言行：用 grid 固定 label 宽度，chips 自然换行且顶部对齐 */
-   #about .lang-row{
-  display: flex;
-  align-items: flex-start;
-  gap: .5rem;
-  margin-bottom: .55rem;
-}
-#about .lang-label{
-  flex: 0 0 auto;
-  min-width: 0;
-  font-size: 14.5px;
-  color: var(--muted);
-  line-height: 1.7;
-  white-space: nowrap;
-}
-#about .lang-chips{
-  flex: 1 1 0%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: .28rem .35rem;
-}
+    #about .lang-row{
+      display: grid;
+      grid-template-columns: 7.5rem 1fr;
+      gap: .4rem;
+      align-items: start;
+      margin-bottom: .5rem;
+    }
+    #about .lang-label{
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.7;
+      white-space: nowrap;
+    }
+    #about .lang-chips{
+      display: flex;
+      flex-wrap: wrap;
+      gap: .24rem .32rem;
+    }
 
     #about .chips-wrap{ display:flex; flex-wrap:wrap; gap:.24rem .32rem; }
     #about .pill{ display:inline-block; padding:.16rem .42rem; font-size:.76rem; line-height:1; border-radius:9999px; background:var(--tag-bg); color:var(--tag-text); border:1px solid var(--border); }
