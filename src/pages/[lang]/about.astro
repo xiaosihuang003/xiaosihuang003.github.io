@@ -161,7 +161,6 @@ const countryNames: Record<string, Record<CC, string>> = {
 
 const countries = VISITED.map((cc) => `${flags[cc]}${countryNames[lang]?.[cc] ?? countryNames.en[cc]}`);
 
-// ✅ Power BI added, ETL removed
 const skills = [
   "Python", "SQL", "PySpark",
   "Databricks", "Azure", "AWS",
@@ -181,11 +180,20 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
     <!-- 顶部：头像 / Links / 教育 / 技能 -->
     <section class="card card--tight">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
-        <figure class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/70 p-4 overflow-hidden self-start md:self-stretch md:row-span-2 max-w-[240px] w-full">
+
+        <!-- 头像 + 爱好 -->
+
+        <div class="self-start md:row-span-2">
+        <figure class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/70 p-4 overflow-hidden max-w-[240px] w-full">
           <div class="aspect-[4/5] w-full overflow-hidden rounded-xl">
             <img src={avatar} alt="Portrait" class="w-full h-full object-cover" style="object-position:center 22%;" loading="eager" onerror="this.src='/placeholder.jpg'" />
           </div>
         </figure>
+        <h2 class="col-title mt-3">{t.about.hobbies}</h2>
+        <div class="chips-wrap">
+          {t.about.hobbyList.map((h) => <span class="pill">{h}</span>)}
+        </div>
+      </div>
 
         <div class="self-start">
           <h2 class="col-title">{t.about.links}</h2>
@@ -231,47 +239,42 @@ const goodAtTitle: string = (t as any)?.about?.goodAtTitle ?? "What I am good at
           <div class="chips-wrap">
             {skills.map((s) => <span class="pill">{s}</span>)}
           </div>
+          <h2 class="col-title mt-3">{t.about.prevSkillsTitle}</h2>
+          <div class="chips-wrap">
+            {t.about.skillList.map((s) => <span class="pill">{s}</span>)}
+          </div>
         </div>
+
       </div>
     </section>
 
     <!-- 语言 & 国家 -->
     <section class="card mt-5">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-        <div class="md:col-span-1">
-          <h2 class="sec-title">{t.about.languages}</h2>
-
-          <!-- I speak -->
-          <div class="lang-row">
-            <span class="lang-label">{t.about.speak}</span>
-            <div class="lang-chips">
-              {langData.speak.map((x) => <span class="pill">{x}</span>)}
-            </div>
-          </div>
-
-          <!-- I have learned -->
-          <div class="lang-row">
-            <span class="lang-label">{t.about.studied}</span>
-            <div class="lang-chips">
-              {langData.studied.map((x) => <span class="pill">{x}</span>)}
-            </div>
-          </div>
-
-          <!-- Hobbies -->
-          <h2 class="sec-title mt-3">{t.about.hobbies}</h2>
-          <div class="chips-wrap">
-            {t.about.hobbyList.map((h) => <span class="pill">{h}</span>)}
-          </div>
-        </div>
-
-        <div class="md:col-span-2">
-          <h2 class="sec-title flex items-baseline gap-2">
-            {t.about.countriesVisited} <span class="count">({countries.length})</span>
-          </h2>
-          <div class="chips-wrap">{countries.map((c) => <span class="pill">{c}</span>)}</div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+    <div class="md:col-span-1">
+      <h2 class="sec-title">{t.about.languages}</h2>
+      <div class="lang-row">
+        <span class="lang-label">{t.about.speak}</span>
+        <div class="lang-chips">
+          {langData.speak.map((x) => <span class="pill">{x}</span>)}
         </div>
       </div>
-    </section>
+      <div class="lang-row">
+        <span class="lang-label">{t.about.studied}</span>
+        <div class="lang-chips">
+          {langData.studied.map((x) => <span class="pill">{x}</span>)}
+        </div>
+      </div>
+    </div>
+
+    <div class="md:col-span-2">
+      <h2 class="sec-title flex items-baseline gap-2">
+        {t.about.countriesVisited} <span class="count">({countries.length})</span>
+      </h2>
+      <div class="chips-wrap">{countries.map((c) => <span class="pill">{c}</span>)}</div>
+    </div>
+  </div>
+</section>
 
     <!-- 照片墙 -->
     <section class="mt-4">
