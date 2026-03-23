@@ -1,49 +1,49 @@
 {
-  "2025": {
-    "Highlights": [
-      "02.06.2025 Onnea minulle 🏆, tänään valmistuin Tampereen ammattikorkeakoulun Software Engineering -ohjelmasta. Tein sen!",
-      "02.06.2025 Yhden lempiopeistani, Petteri Jekusen, kanssa. Hän on ollut erittäin ammattimainen ja on ollut tukenamme neljän vuoden ajan 🫂.",
-      "02.06.2025 Software Engineeringin kansainvälisessä opiskelijaryhmässä olin ainoa, joka sai Vuoden opiskelija 2025 -tunnustuksen ja valmistumisstipendin. Olen todella kiitollinen TAMKille saamastani tuesta koko opintojeni ajan 💶.",
-      "02.06.2025 Luokkakaverini ovat todella erinomaisia. Toivon, että jokainen loistaa tulevaisuudessa omalla alallaan. Toivotan kaikille menestystä ❤️ ja valoisaa tulevaisuutta 💎."
-    ],
-    "Spring": "02.2025 Palautin opinnäytetyösuunnitelmani. Tänä keväänä olin kiireinen kandidaatin opinnäytetyöni kirjoittamisen kanssa. Tämä kissa on juuri se fiilis, kun kirjoitan opinnäytettä.",
-    "Summer": "06.06.2025 Yksi lempihedelmistäni: pitahaya. Jos asuu pitkään Pohjoismaissa, veikkaan ettei sitä ole juuri maistanut – tai vain harvoin – koska se on trooppinen hedelmä.",
-    "Autumn": "19.08.2025 Aloitin Data Science -maisteriopinnot. Tampereen yliopistossa on paljon uusia opiskelijoita, ja ikävöin jo TAMKin kandiluokkakavereita.",
-    "Winter": "?"
-  },
-  "2024": {
-    "Highlights": [],
-    "Spring": "20.03.2024 Puin iltapuvun ja juhlin ystävien kanssa.",
-    "Summer": "06.07.2024 🇵🇹 Lissabon on yksi lempikaupungeistani. Nautin auringosta niin paljon, että ihoni paloi.",
-    "Autumn": "13.09.2024 🇨🇭 Vierailin Zürichin yliopistossa (University of Zurich, UZH). Aivan kadun toisella puolella on ETH Zürich, Albert Einsteinin koulu.",
-    "Winter": "02.12.2024 Tähän mennessä Eteläinen Kiinanmeri on eteläisin meri, jossa olen käynyt – lähellä päiväntasaajaa. 🌊 Aallot olivat voimakkaat. Tämän kuvan otti äitini."
-  },
-  "2023": {
-    "Highlights": [],
-    "Spring": "02.03.2023 Tämä taisi olla ensimmäinen virallinen juhlani. Onko sininen mekkoni hieno?",
-    "Summer": "23.07.2023 Kukat loistivat kaikkialla.",
-    "Autumn": "30.09.2023 Niin hauskaa: valtava kukkaruukku ja minikokoinen minä.",
-    "Winter": "29.12.2023 Suomen talvi: valkoinen lumi, valkoinen takki, valkoiset talvisaappaat. Leikin lumessa pitkään ❄️."
-  },
-  "2022": {
-    "Highlights": [],
-    "Spring": "04.03.2022 🇫🇮 Suomen kevät toi vihdoin auringon. Nautin auringonpaisteesta ☀️, vaikka suomalainen kevät tuntuu joskus talveakin kylmemmältä 🥶.",
-    "Summer": "07.07.2022 🇦🇹 Wien on kaupunki, jossa olen käynyt yli viisi kertaa. En ole hyvä piirtämisessä enkä musiikissa 🎨🎵, mutta pidän taiteesta ja nautin siitä.",
-    "Autumn": "18.10.2022 Tuuli kasvoilla, syystuuli vastassa.",
-    "Winter": "22.12.2022 Ensimmäinen kerta, kun tein lumiukon ⛄️ – en yksin, vaan yhdessä kansainvälisen vaihto-opiskelijan kanssa. Milloin minäkin lähden vaihtoon? Jotkut sanovat, että kun opiskelen Suomessa, olen jo kansainvälinen opiskelija, joten ei tarvitse vaihtoa – mutta se on silti pieni haaveeni."
-  },
+"2025": {
+  "Highlights": [
+    "02.06.2025 Onnittelut itselleni 🏆, tänään valmistuin Software Engineering -ohjelmasta Tampereen ammattikorkeakoulusta. Tein sen!",
+    "02.06.2025 Yksi suosikkiopettajistani, Petteri Jekunen, niin ammattimainen ja vierellämme neljä vuotta.",
+    "02.06.2025 Software Engineering -kansainvälisten opiskelijoiden ryhmässä olin ainoa, joka sai vuoden 2025 Best Student of the Year -palkinnon ja valmistumisstipendin. Olen todella kiitollinen TAMKille tuesta koko opintojen ajan.",
+    "02.06.2025 Luokkatoverini ovat todella upeita. Neljä vuotta yhdessä opiskelua toi niin paljon arvokkaita muistoja. Toivon, että jokainen loistaa omalla alallaan tulevaisuudessa. Sydämelliset onnittelut teille kaikille ❤️ ja kirkas tulevaisuus 💎."
+  ],
+  "Spring": "02.2025 Palautin kandidaatintutkielmani suunnitelman. Koko tämän lukukauden olen ollut kiireinen kirjoittaen tutkielmaani. Tämän kissan ilme on täsmälleen sama kuin minulla tutkielmaa kirjoittaessa.",
+  "Summer": "06.06.2025 Lohikäärmehedelmä on yksi suosikkihedelmistäni. Se voi olla punainen, valkoinen tai keltainen. Jos asut pitkään Pohjoismaissa, et ehkä ole koskaan maistanut tai nähnyt sitä, koska se on trooppinen hedelmä.",
+  "Autumn": "19.08.2025 Aloitin Data Science -maisterin opintomatkani. Tampereen yliopistossa on niin paljon uusia opiskelijoita. Ikävöin jo TAMK-luokkatovereitani ja opettajiani.",
+  "Winter": "?"
+},
+ "2024": {
+  "Highlights": [],
+  "Spring": "20.03.2024 Pukeuduin iltapukuun ja vietin iloisen juhlaillan ystävieni kanssa.",
+  "Summer": "06.07.2024 🇵🇹 Lissabon, Portugali on yksi suosikkikaupungeistani. Otin niin paljon aurinkoa, että ihoni paloi.",
+  "Autumn": "13.09.2024 🇨🇭 Kävin Zürichin yliopistossa (UZH). Aivan vastapäätä on ETH Zürich, Albert Einsteinin koulu.",
+  "Winter": "02.12.2024 Tähän mennessä Etelä-Kiinan meri on matalin leveysaste, jolla olen koskaan käynyt. 🌊 Aallot vyöryivät. Tämän kuvan otti äitini."
+},
+ "2023": {
+  "Highlights": [],
+  "Spring": "02.03.2023 Kävin virallisessa illassa, ja rakastan tätä sinistä mekkoa 👗.",
+  "Summer": "23.07.2023 Kukkien loisto.",
+  "Autumn": "30.09.2023 Niin hauska, valtava kukkaruukku ja pikkuruinen minä.",
+  "Winter": "29.12.2023 Tämä on suomalainen talvi! Pukeuduin valkoiseen takkiin ja valkoisiin lumisaappaisiin ja leikkin valkoisessa lumessa kaksi tuntia ❄️, haha."
+},
+ "2022": {
+  "Highlights": [],
+  "Spring": "04.03.2022 🇫🇮 Suomen kevät toi vihdoin auringon. Nautin auringonpaisteesta ☀️ — vaikka Suomen kevät on jotenkin vielä kylmempi kuin talvi 🥶.",
+  "Summer": "07.07.2022 🇦🇹 Wien on kaupunki, jossa olen käynyt yli viisi kertaa. Pariisissa tuntee romantiikan 🌹, mutta Wienissä voi upota kokonaan taiteen maailmaan 🎵.",
+  "Autumn": "18.10.2022 Syystuuli kasvoillani.",
+  "Winter": "22.12.2022 Ensimmäinen lumiukko ⛄️, jonka tein yhdessä kansainvälisen vaihto-opiskelijan kanssa. Milloin pääsen itse vaihtoon? Ihmiset sanovat, että opiskelu Suomessa tekee minusta jo kansainvälisen opiskelijan, joten vaihtoon ei tarvitse lähteä — mutta se on silti pieni haaveeni."
+},
   "2021": {
-    "Highlights": [],
-    "Spring": "02.04.2021 Kevään vihreys on todella kaunis.",
-    "Summer": "11.08.2021 Isä sanoi, että hiukseni ovat liian pitkät ja kesä on liian kuuma, joten pitäisi leikata. Sanoin ei, pidän pitkistä hiuksista.",
-    "Autumn": "01.09.2021 Kyllä, sää oli liian kuuma, joten kävin leikkauttamassa hiukseni VIP jäsenkortilla. Olen hyvin tyytyväinen tähän pituuteen. Lempityylini, lyhyt poninhäntä, näyttää energiseltä.",
-    "Winter": "22.10.2021 Haha, innostuin hiustenleikkuusta. Tämä on äitini lempparilyhyt tukka. Hän sanoo aina, että lyhyt sopii minulle parhaiten. Itse pidän silti pitkistä hiuksista, joten alan kasvattaa niitä taas."
-  },
+  "Highlights": [],
+  "Spring": "02.04.2021 Kevään vihreä, todella kaunista.",
+  "Summer": "11.08.2021 Isäni sanoi, että hiukseni ovat liian pitkät ja kysyi, haluaisinko leikata ne lyhyeksi kun kesä on niin kuuma. Sanoin ei, pidän pitkistä hiuksista.",
+  "Autumn": "01.09.2021 Isä oli oikeassa, oli aivan liian kuuma. En enää jaksanut, joten käytin lopulta perheen VIP-jäsenkorttia ja kävin leikkuuttamassa hiukset. Olen todella tyytyväinen pituuteen — tämä lyhyt hännys vie minut takaisin koulupäiviin.",
+  "Winter": "22.10.2021 Haha, kun kerran leikkaat lyhyeksi, haluat vain leikata lisää. Äiti sanoo aina, että lyhyet hiukset sopivat minulle parhaiten."
+},
   "2020": {
-    "Highlights": [],
-    "Spring": "07.02.2020 Katso, käytin yhä langallisia kuulokkeita. Vielä vuonna 2025 pidän tämän parin laatikossani.",
-    "Summer": "12.07.2020 Aloin asua itsenäisesti ja hoitaa omat kotityöni. Hän näyttää aika ylpeältä.",
-    "Autumn": "09.10.2020 Lensin yksin ✈️. Lattialla takanani on käsimatkatavaralaukkuni. Laukut pakattu, hän näyttää taas ylpeältä.",
-    "Winter": "27.12.2020 Otan harvoin selfieitä. Tämä on lempivioletti 💜 villapaitani. Klik 📷! Guangzhoun talvi, 17 °C, on tosi miellyttävä."
-  }
+  "Highlights": [],
+  "Spring": "07.02.2020 Hetkinen, johdolliset kuulokkeet?! Jep — ja tämä täsmälleen sama pari löytyy edelleen laatikostani.",
+  "Summer": "12.07.2020 Muutin uuteen kotiin. Minä, joka harvoin teen kotitöitä, joudun nyt oikeasti tekemään kotitöitä. Hän on aika ylpeä itsestään.",
+  "Autumn": "09.10.2020 Lentämässä yksin ✈️. Matkalaukkuni on siellä takanani maassa. Kaikki pakattu ja hän näyttää taas todella tyytyväiseltä itseensä.",
+  "Winter": "27.12.2020 Mun lempivioletti 💜 neule. Klik 📷! Guangzhoun talvi 17 asteessa, niin mukavaa."
+}
 }

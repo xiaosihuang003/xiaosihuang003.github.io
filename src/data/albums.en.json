@@ -1,49 +1,50 @@
 {
   "2025": {
-    "Highlights": [
-      "02.06.2025 Congrats to myself 🏆, today I graduated from the Software Engineering program at Tampere University of Applied Sciences. I did it!",
-      "02.06.2025 With one of my favorite teachers, Petteri Jekunen, who is very professional and has accompanied and supported us for four years 🫂.",
-      "02.06.2025 In the Software Engineering international student group, I was the only one awarded Best Student of the Year 2025 and a graduation scholarship. I am very grateful to TAMK for the support I received throughout my studies 💶.",
-      "02.06.2025 My classmates are truly outstanding. I hope everyone shines in their own fields in the future. Wishing you all every success ❤️ and a bright future 💎."
-    ],
-    "Spring": "02.2025 I submitted my thesis plan. This spring I was busy writing my bachelor's thesis. This cat is exactly my thesis-writing mood.",
-    "Summer": "06.06.2025 One of my favorite fruits: dragon fruit. If you live long term in the Nordics, you probably do not eat much dragon fruit, because it is a tropical fruit.",
-    "Autumn": "19.08.2025 I started my Data Science master's journey. There are many new students at Tampere University, and I already miss my TAMK bachelor classmates.",
-    "Winter": "?"
-  },
-  "2024": {
-    "Highlights": [],
-    "Spring": "20.03.2024 I dressed up and enjoyed a party with friends.",
-    "Summer": "06.07.2024 🇵🇹 Lisbon, Portugal, is one of my favorite cities. I soaked up so much sun that I got sunburned.",
-    "Autumn": "13.09.2024 🇨🇭 I visited the University of Zurich (UZH). Right across the street is ETH Zurich, Albert Einstein’s school.",
-    "Winter": "02.12.2024 So far, the South China Sea is the most southerly sea I have visited, close to the equator. 🌊 The waves were surging. This photo was taken by my mom."
-  },
-  "2023": {
-    "Highlights": [],
-    "Spring": "02.03.2023 It might have been my first formal party. Does my blue dress look nice?",
-    "Summer": "23.07.2023 A riot of blossoms.",
-    "Autumn": "30.09.2023 So funny: a giant planter and a tiny me.",
-    "Winter": "29.12.2023 Finnish winter: white snow, a white coat, white snow boots. I had fun with snow for a long time ❄️."
-  },
-  "2022": {
-    "Highlights": [],
-    "Spring": "04.03.2022 🇫🇮 Spring in Finland finally brought the sun. I was enjoying the sunshine ☀️, although Finnish spring feels colder than winter 🥶.",
-    "Summer": "07.07.2022 🇦🇹 Vienna is a city I have visited more than five times. I am not good at drawing or music 🎨🎵, but I love art and I enjoy it.",
-    "Autumn": "18.10.2022 The wind on my face, spring in the air.",
-    "Winter": "22.12.2022 This was my first time building a snowman ⛄️, not by myself but together with an international exchange student. When will I try an exchange program too? People say studying in Finland already makes me an international student, so I do not need an exchange, but it is still my little wish."
-  },
+  "Highlights": [
+    "02.06.2025 Congrats to myself 🏆, today I graduated from the Software Engineering program at Tampere University of Applied Sciences. I did it!",
+    "02.06.2025 One of my favorite teachers, Petteri Jekunen, so professional and by our side for four years.",
+    "02.06.2025 In the Software Engineering international student group, I was the only one awarded Best Student of the Year 2025 and a graduation scholarship. I am truly grateful to TAMK for the support throughout my studies.",
+    "02.06.2025 My classmates are truly outstanding. Four years of studying together brought so many precious memories. I hope everyone shines in their own field in the future. Wishing you all the very best ❤️ and a bright future 💎."
+  ],
+  "Spring": "02.2025 I submitted my bachelor's thesis plan. This whole semester I have been busy writing my thesis. This cat's expression is exactly how I feel writing it.",
+  "Summer": "06.06.2025 Dragon fruit is one of my favorite fruits. It comes in red, white and yellow. If you live long term in the Nordics, you may have never seen or tasted one, because it is a tropical fruit.",
+  "Autumn": "19.08.2025 I started my Data Science master's journey. There are so many new students at Tampere University. I already miss my TAMK classmates and teachers.",
+  "Winter": "?"
+},
+ "2024": {
+  "Highlights": [],
+  "Spring": "20.03.2024 Dressed up in evening wear and had a wonderful party with friends.",
+  "Summer": "06.07.2024 🇵🇹 Lisbon, Portugal is one of my favorite cities. I soaked up so much sun that I got sunburned.",
+  "Autumn": "13.09.2024 🇨🇭 I visited the University of Zurich (UZH). Right across the street is ETH Zürich, Albert Einstein's school.",
+  "Winter": "02.12.2024 So far, the South China Sea is the lowest latitude sea I have ever visited. 🌊 The waves were surging. This photo was taken by my mom."
+},
+ "2023": {
+  "Highlights": [],
+  "Spring": "02.03.2023 Attended a formal evening party, and I love this blue dress 👗.",
+  "Summer": "23.07.2023 A riot of blossoms.",
+  "Autumn": "30.09.2023 So funny, a giant planter and a tiny me.",
+  "Winter": "29.12.2023 This is Finnish winter! I put on my white coat and white snow boots and played in the white snow for two hours ❄️, lol."
+},
+ "2022": {
+  "Highlights": [],
+  "Spring": "04.03.2022 🇫🇮 Spring in Finland finally brought the sun. I was out enjoying the sunshine ☀️, though Finnish spring is somehow even colder than winter 🥶.",
+  "Summer": "07.07.2022 🇦🇹 Vienna is a city I have visited more than five times. In Paris you feel the romance 🌹, but in Vienna you just sink into the world of art 🎵.",
+  "Autumn": "18.10.2022 The autumn breeze on my face.",
+  "Winter": "22.12.2022 My first time building a snowman ⛄️, together with an international exchange student. When will I try an exchange program myself? People say studying in Finland already makes me an international student, so I don't need one, but it's still my little wish."
+},
   "2021": {
-    "Highlights": [],
-    "Spring": "02.04.2021 The green of spring is truly beautiful.",
-    "Summer": "11.08.2021 My dad said my hair was too long and that summer was too hot, so I should get a haircut. I said no, I like long hair.",
-    "Autumn": "01.09.2021 Yes, the weather was too hot, so I used my VIP membership card to get a haircut. I am very happy with this length. It is my favorite short ponytail and it looks energetic.",
-    "Winter": "22.10.2021 Haha, I got into haircuts. This is my mom’s favorite short hairstyle. She always says short hair suits me best. Personally I still prefer long hair, so I am growing it out again."
+  "Highlights": [],
+  "Spring": "02.04.2021 The green of spring, truly beautiful.",
+  "Summer": "11.08.2021 My dad said my hair was too long and asked if I wanted to cut it short since summer was so hot. I said no, I like long hair.",
+  "Autumn": "01.09.2021 Dad was right, it was way too hot. I couldn't take it anymore, so I finally used the family VIP membership card to get a haircut. I'm really happy with the length — this short ponytail takes me back to my school days.",
+  "Winter": "22.10.2021 Lol, once you go short you just keep cutting it shorter. Mum always says short hair suits me best."
   },
+  
   "2020": {
-    "Highlights": [],
-    "Spring": "07.02.2020 Look, I was still using wired earphones. Even now, I still keep this pair in my drawer.",
-    "Summer": "12.07.2020 Living independently meant doing my own chores. She looks very proud.",
-    "Autumn": "09.10.2020 Flying on my own ✈️. On the ground behind me is my carry-on suitcase. Bags packed, she looks proud again.",
-    "Winter": "27.12.2020 I rarely take selfies. This is my favorite purple 💜 sweater. Click 📷! Winter in Guangzhou at 17°C feels very comfortable."
-  }
+  "Highlights": [],
+  "Spring": "07.02.2020 Wait, wired earphones?! Yep — and I still have this exact pair sitting in my drawer.",
+  "Summer": "12.07.2020 Moved into my new place. Me, someone who rarely does chores, actually doing chores now. She's pretty proud of herself.",
+  "Autumn": "09.10.2020 Flying solo ✈️. My suitcase is right there on the ground behind me. Bags packed and she looks very pleased with herself again.",
+  "Winter": "27.12.2020 My favorite purple 💜 sweater. Click 📷! 17°C in Guangzhou winter, so comfortable."
+}
 }
